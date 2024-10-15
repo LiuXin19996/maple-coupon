@@ -1,4 +1,4 @@
-package com.fengxin.result;
+package com.fengxin.web;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -1,4 +1,4 @@
-package com.fengxin.result;
+package com.fengxin.web;
 
 import com.fengxin.errorcode.BaseErrorCode;
 import com.fengxin.exception.AbstractException;
