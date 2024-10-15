@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author FENGXIN
  * @date 2024/10/15
  * @project Default (Template) Project
- * @description
+ * @description 搜索系统
  **/
 @SpringBootApplication
 public class SearchApplication {

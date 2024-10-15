@@ -7,11 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author FENGXIN
  * @date 2024/10/15
  * @project Default (Template) Project
- * @description 结算系统
+ * @description 引擎系统 负责券锁定、核销、查看等功能
  **/
 @SpringBootApplication
-public class SettlementApplication {
-    public static void main (String[] args) {
-        SpringApplication.run(SettlementApplication.class, args);
+public class EngineApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(EngineApplication.class, args);
     }
 }
