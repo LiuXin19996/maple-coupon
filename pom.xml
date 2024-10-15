@@ -19,6 +19,7 @@
         <module>framework</module>
         <module>search</module>
         <module>settlement</module>
+        <module>merchant-admin</module>
     </modules>
     <packaging>pom</packaging>
 
