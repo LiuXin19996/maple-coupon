@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author FENGXIN
  * @date 2024/10/15
  * @project Default (Template) Project
- * @description 结算系统
+ * @description 结算服务 | 负责用户下单时订单金额计算功能 因和订单相关联，该服务流量较大
  **/
 @SpringBootApplication
 public class SettlementApplication {

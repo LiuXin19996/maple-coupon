@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author FENGXIN
  * @date 2024/10/15
  * @project Default (Template) Project
- * @description 分发服务启动类
+ * @description 分发服务 | 负责按批次分发用户优惠券，可提供应用弹框推送、站内信或短信通知等
  **/
 @SpringBootApplication
 public class DistributionApplication {
