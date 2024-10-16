@@ -55,6 +55,7 @@
         <easyexcel.version>4.0.1</easyexcel.version>
         <xxl-job.version>2.4.1</xxl-job.version>
         <elasticsearch-spring-boot-starter.version>2.6.12</elasticsearch-spring-boot-starter.version>
+        <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -171,6 +172,13 @@
                 <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
                 <version>${elasticsearch-spring-boot-starter.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
