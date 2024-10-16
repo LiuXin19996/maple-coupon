@@ -13,7 +13,7 @@ public class WebAutoConfiguration {
     /**
      * 构建全局异常拦截器组件 Bean
      */
-    @Bean
+    @Bean(name = "CouponGlobalExceptionHandler")
     public GlobalExceptionHandler globalExceptionHandler() {
         return new GlobalExceptionHandler();
     }
