@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
  * @description 优惠券优惠对象枚举
  **/
 @RequiredArgsConstructor
-public enum DiscountTargetEnum {
+public enum DiscountRangeEnum {
 
     /**
      * 商品专属优惠
@@ -34,7 +34,7 @@ public enum DiscountTargetEnum {
      * @return 对应的描述值，如果没有找到抛异常
      */
     public static String findValueByType(int type) {
-        for (DiscountTargetEnum target : DiscountTargetEnum.values()) {
+        for (DiscountRangeEnum target : DiscountRangeEnum.values()) {
             if (target.getType() == type) {
                 return target.getValue();
             }

@@ -33,7 +33,7 @@ public class SwaggerConfiguration implements ApplicationRunner {
     public OpenAPI openAPI() {
         return new OpenAPI ()
                 .info(new Info ()
-                        .title("牛券-商家后台管理系统")
+                        .title("Maple券-商家后台管理系统")
                         .description("创建优惠券、店家查看以及管理优惠券、创建优惠券发放批次等")
                         .version("v1.0.0")
                         // 设置 OpenAPI 文档的联系信息，包括联系人姓名为"xin.feng"，邮箱为"fx20031215@163.com"

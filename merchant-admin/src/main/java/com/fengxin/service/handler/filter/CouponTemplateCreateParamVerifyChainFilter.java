@@ -1,7 +1,7 @@
 package com.fengxin.service.handler.filter;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.fengxin.common.enums.DiscountTargetEnum;
+import com.fengxin.common.enums.DiscountRangeEnum;
 import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
 import com.fengxin.service.basic.chain.MerchantAdminAbstractChainHandler;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class CouponTemplateCreateParamVerifyChainFilter implements MerchantAdmin
     public void handler (CouponTemplateSaveReqDTO requestParam) {
         
         // 验证参数数据是否正确
-        if (ObjectUtil.equal(requestParam.getTarget(), DiscountTargetEnum.PRODUCT_SPECIFIC)) {
+        if (ObjectUtil.equal(requestParam.getTarget(), DiscountRangeEnum.PRODUCT_SPECIFIC)) {
             // 调用商品中台验证商品是否存在，如果不存在抛出异常
             // ......
         }

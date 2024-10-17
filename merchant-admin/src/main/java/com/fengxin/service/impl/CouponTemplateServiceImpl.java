@@ -1,28 +1,21 @@
 package com.fengxin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengxin.common.constant.MerchantAdminRedisConstant;
 import com.fengxin.common.context.UserContext;
 import com.fengxin.common.enums.CouponTemplateStatusEnum;
-import com.fengxin.common.enums.DiscountTargetEnum;
-import com.fengxin.common.enums.DiscountTypeEnum;
 import com.fengxin.dao.entity.CouponTemplateDO;
 import com.fengxin.dao.mapper.CouponTemplateMapper;
 import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
 import com.fengxin.dto.resp.CouponTemplateQueryRespDTO;
-import com.fengxin.exception.ClientException;
 import com.fengxin.service.CouponTemplateService;
 import com.fengxin.service.basic.chain.MerchantAdminChainContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.time.Instant;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -62,6 +55,6 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
                 ));
         String couponTemplateCacheKey = String.format(MerchantAdminRedisConstant.COUPON_TEMPLATE_KEY, couponTemplateDO.getId());
         stringRedisTemplate.opsForHash().putAll(couponTemplateCacheKey, actualCacheTargetMap);
-        
+        stringRedisTemplate.expireAt (couponTemplateCacheKey, Instant.from (requestParam.getValidEndTime ()));
     }
 }

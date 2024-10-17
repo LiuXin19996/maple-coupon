@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public final class MerchantAdminChainContext<T> implements ApplicationContextAware, CommandLineRunner {
     private ApplicationContext applicationContext;
+    // 存放责任链bean的容器
     private final Map<String, List<MerchantAdminAbstractChainHandler<T>>> abstractChainHandlerContainer = new ConcurrentHashMap<> ();
     
     public void handler(String mark, T requestParam) {
@@ -31,15 +32,17 @@ public final class MerchantAdminChainContext<T> implements ApplicationContextAwa
         if (CollUtil.isEmpty(handlers)) {
             throw new RuntimeException(String.format("[%s] Chain of Responsibility ID is undefined.", mark));
         }
+        // 执行责任链逻辑 这里体现链的是order排序 根据排序进行对象处理
         handlers.forEach(each -> each.handler(requestParam));
     }
+    
     @Override
     public void run (String... args) throws Exception {
-        // 从Spring IOC获取对应的责任链bean
+        // 从Spring IOC获取对应的责任链bean 填充入container
+        // 通过 applicationContext.getBeansOfType() 方法获取所有实现了 MerchantAdminAbstractChainHandler 的 bean。
         applicationContext.getBeansOfType(MerchantAdminAbstractChainHandler.class).forEach((beanName, bean) -> {
-            // 判断 Mark 是否已经存在抽象责任链容器中，如果已经存在直接向集合新增；如果不存在，创建 Mark 和对应的集合
-            // 通过 applicationContext.getBeansOfType() 方法获取所有实现了 MerchantAdminAbstractChainHandler 的 bean。
-            // 对于每个处理器，检查它的 mark 是否已经存在于 abstractChainHandlerContainer 中。如果不存在，创建一个新的列表。
+            // 根据mark分组责任链
+            // 判断 Mark 是否已经存在抽象责任链容器中，如果已经存在直接向集合新增；如果不存在，创建 Mark 和对应的责任链集合 每个mark对应一条责任链
             List<MerchantAdminAbstractChainHandler<T>> abstractChainHandlerContainerOrDefault = abstractChainHandlerContainer.getOrDefault (bean.mark () , new ArrayList<> ());
             abstractChainHandlerContainerOrDefault.add(bean);
             // 将处理器按 mark 进行归类，存入 abstractChainHandlerContainer

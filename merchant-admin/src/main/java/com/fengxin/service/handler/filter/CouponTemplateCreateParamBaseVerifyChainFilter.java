@@ -3,7 +3,7 @@ package com.fengxin.service.handler.filter;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
-import com.fengxin.common.enums.DiscountTargetEnum;
+import com.fengxin.common.enums.DiscountRangeEnum;
 import com.fengxin.common.enums.DiscountTypeEnum;
 import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
 import com.fengxin.exception.ClientException;
@@ -29,23 +29,26 @@ public class CouponTemplateCreateParamBaseVerifyChainFilter implements MerchantA
     @Override
     public void handler (CouponTemplateSaveReqDTO requestParam) {
         // 验证相关规则
-        boolean targetAnyMatch = Arrays.stream (DiscountTargetEnum.values ()).anyMatch
-                (discountTargetEnum -> discountTargetEnum.getType () == requestParam.getTarget ());
+        // 只要有一个符合就过关 不符合就违规
+        // 优惠范围
+        boolean targetAnyMatch = Arrays.stream (DiscountRangeEnum.values ()).anyMatch
+                (discountRangeEnum -> discountRangeEnum.getType () == requestParam.getTarget ());
         if (!targetAnyMatch) {
             // 此处已经基本能判断数据请求属于恶意攻击，可以上报风控中心进行封禁账号
             throw new ClientException("优惠对象值不存在");
         }
+        // 优惠类型
         boolean typeAnyMatch = Arrays.stream (DiscountTypeEnum.values ()).anyMatch
                 (discountTypeEnum -> discountTypeEnum.getType () == requestParam.getType ());
         if(!typeAnyMatch) {
             // 此处已经基本能判断数据请求属于恶意攻击，可以上报风控中心进行封禁账号
             throw new ClientException ("优惠类型不存在");
         }
-        if (ObjectUtil.equal(requestParam.getTarget(), DiscountTargetEnum.ALL_STORE_GENERAL)
+        if (ObjectUtil.equal(requestParam.getTarget(), DiscountRangeEnum.ALL_STORE_GENERAL)
                 && StrUtil.isNotEmpty(requestParam.getGoods())) {
             throw new ClientException("优惠券全店通用不可设置指定商品");
         }
-        if (ObjectUtil.equal(requestParam.getTarget(), DiscountTargetEnum.PRODUCT_SPECIFIC)
+        if (ObjectUtil.equal(requestParam.getTarget(), DiscountRangeEnum.PRODUCT_SPECIFIC)
                 && StrUtil.isEmpty(requestParam.getGoods())) {
             throw new ClientException("优惠券商品专属未设置指定商品");
         }
