@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
  **/
 @Data
 @Schema(description = "优惠券模板新增参数")
-
 public class CouponTemplateSaveReqDTO {
     /**
      * 优惠券名称
