@@ -17,7 +17,9 @@ public final class TableHashModShardingAlgorithm implements StandardShardingAlgo
     
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Long> shardingValue) {
+        // 店铺编号
         long id = shardingValue.getValue();
+        // 表数量
         int shardingCount = availableTargetNames.size();
         int mod = (int) hashShardingValue(id) % shardingCount;
         int index = 0;

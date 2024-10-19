@@ -27,7 +27,9 @@ public final class DBHashModShardingAlgorithm implements StandardShardingAlgorit
     
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Long> shardingValue) {
+        // 店铺编号
         long id = shardingValue.getValue();
+        // 数据库数量
         int dbSize = availableTargetNames.size();
         int mod = (int) hashShardingValue(id) % shardingCount / (shardingCount / dbSize);
         int index = 0;
