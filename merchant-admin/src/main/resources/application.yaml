@@ -8,7 +8,7 @@ spring:
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
   data:
     redis:
-      host: 122.51.165.51
+      host: 39.105.15.60
       port: 6379
       password: xWBbAP7d2tSGdnES
 
@@ -28,10 +28,15 @@ springdoc:
     - group: 'default'
       paths-to-match: '/**'
       packages-to-scan: com.fengxin
-
 knife4j:
   enable: true
   setting:
     language: zh_cn
-
+rocketmq:
+  name-server: 39.105.15.60:9876
+  producer:
+    group: mapleCoupon_merchant-admin-message-execute
+    send-message-timeout: 2000 # 发送超时时间
+    retry-times-when-send-failed: 1 # 同步发送重试次数
+    retry-times-when-send-async-failed: 1 # 异步发送重试次数
 
