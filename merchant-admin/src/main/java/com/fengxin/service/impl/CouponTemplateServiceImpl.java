@@ -1,16 +1,29 @@
 package com.fengxin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fengxin.common.constant.MerchantAdminRedisConstant;
 import com.fengxin.common.context.UserContext;
 import com.fengxin.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.dao.entity.CouponTemplateDO;
 import com.fengxin.dao.mapper.CouponTemplateMapper;
+import com.fengxin.dto.req.CouponTemplateNumberReqDTO;
+import com.fengxin.dto.req.CouponTemplatePageQueryReqDTO;
 import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
+import com.fengxin.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.dto.resp.CouponTemplateQueryRespDTO;
+import com.fengxin.exception.ClientException;
+import com.fengxin.exception.ServiceException;
 import com.fengxin.service.CouponTemplateService;
 import com.fengxin.service.basic.chain.MerchantAdminChainContext;
 import com.fengxin.util.MerchantAdminUtils;
@@ -24,7 +37,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.fengxin.common.enums.ChainBizMarkEnum.MERCHANT_ADMIN_CREATE_COUPON_TEMPLATE_KEY;
@@ -40,7 +55,6 @@ import static com.fengxin.common.enums.ChainBizMarkEnum.MERCHANT_ADMIN_CREATE_CO
 public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper, CouponTemplateDO> implements CouponTemplateService  {
     private final CouponTemplateMapper couponTemplateMapper;
     private final StringRedisTemplate stringRedisTemplate;
-    private final RedissonClient redissonClient;
     private final MerchantAdminChainContext merchantAdminChainContext;
     
     // 日志记录
@@ -89,6 +103,100 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         String couponTemplateCacheKey = String.format(MerchantAdminRedisConstant.COUPON_TEMPLATE_KEY, couponTemplateDO.getId());
         stringRedisTemplate.opsForHash().putAll(couponTemplateCacheKey, actualCacheTargetMap);
         stringRedisTemplate.expireAt (couponTemplateCacheKey, MerchantAdminUtils.formatDate (requestParam.getValidEndTime ()));
+    }
+    
+    @Override
+    public CouponTemplateQueryRespDTO findCouponTemplateById (String couponTemplateId) {
+        LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO>()
+                .eq(CouponTemplateDO::getShopNumber,UserContext.getShopNumber())
+                .eq(CouponTemplateDO::getId,couponTemplateId);
+        CouponTemplateDO couponTemplateDO = couponTemplateMapper.selectOne (queryWrapper);
+        return BeanUtil.toBean(couponTemplateDO, CouponTemplateQueryRespDTO.class);
+    }
+    
+    @Override
+    @LogRecord (
+            success = "增加发行量：{{#requestParam.number}}",
+            type = "CouponTemplate",
+            bizNo = "#{{#requestParam.couponTemplateId}}"
+    )
+    public void increaseNumberCouponTemplate (CouponTemplateNumberReqDTO requestParam) {
+        // 检验用户横向越权
+        LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
+                .eq(CouponTemplateDO::getId,requestParam.getCouponTemplateId())
+                .eq (CouponTemplateDO::getShopNumber,UserContext.getShopNumber());
+        CouponTemplateDO selectOne = couponTemplateMapper.selectOne (queryWrapper);
+        if (ObjectUtil.isNull(selectOne)) {
+            // 基本判定用户越权 可以上报中心进行风控
+            throw new ClientException ("优惠券模板异常，请检查您是否拥有此优惠券");
+        }
+        // 校验优惠券状态是否可用
+        if(ObjectUtil.equals (selectOne.getStatus(), CouponTemplateStatusEnum.ENDED.getValue ())){
+            throw new ClientException ("优惠券已截止");
+        }
+        // 记录原始数据
+        LogRecordContext.putVariable ("originalData", JSON.toJSONString(selectOne));
+        // 新增数据
+        int increase = baseMapper.increaseNumberCouponTemplate (UserContext.getShopNumber () , requestParam.getCouponTemplateId () , requestParam.getNumber ());
+        if (!SqlHelper.retBool (increase)) {
+            throw new ServiceException ("优惠券发行量新增失败");
+        }
+        // 设置redis缓存发行量
+        String couponTemplateCacheKey = String.format(MerchantAdminRedisConstant.COUPON_TEMPLATE_KEY, selectOne.getId ());
+        stringRedisTemplate.opsForHash ().increment (couponTemplateCacheKey, "stock", requestParam.getNumber ());
+    }
+    
+    @Override
+    @LogRecord (
+            success = "结束优惠券",
+            type = "CouponTemplate",
+            bizNo = "#{{couponTemplateId}}"
+    )
+    public void terminateCouponTemplate (String couponTemplateId) {
+        // 1.校验用户横向越权
+        LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
+                .eq(CouponTemplateDO::getId,couponTemplateId)
+                .eq (CouponTemplateDO::getShopNumber,UserContext.getShopNumber());
+        CouponTemplateDO selectOne = couponTemplateMapper.selectOne (queryWrapper);
+        if (ObjectUtil.isNull(selectOne)) {
+            // 基本判定用户越权 可以上报中心进行风控
+            throw new ClientException ("优惠券模板异常，请检查您是否拥有此优惠券");
+        }
+        // 2.校验优惠券状态是否可用
+        if(ObjectUtil.equals (selectOne.getStatus(), CouponTemplateStatusEnum.ENDED.getValue ())){
+            throw new ClientException ("优惠券已截止");
+        }
+        // 3.记录原始数据
+        LogRecordContext.putVariable ("originalData", JSON.toJSONString(selectOne));
+        
+        // 5.设置缓存优惠券结束
+        String couponTemplateCacheKey = String.format(MerchantAdminRedisConstant.COUPON_TEMPLATE_KEY, selectOne);
+        stringRedisTemplate.opsForHash ().put (couponTemplateCacheKey, "status",String.valueOf (CouponTemplateStatusEnum.ENDED.getValue ()));
+        // 4.修改优惠券结束状态
+        LambdaUpdateWrapper<CouponTemplateDO> updateWrapper = new LambdaUpdateWrapper<CouponTemplateDO> ()
+                .eq(CouponTemplateDO::getId,couponTemplateId)
+                .eq (CouponTemplateDO::getShopNumber,UserContext.getShopNumber());
+        CouponTemplateDO build = CouponTemplateDO.builder ()
+                .status (CouponTemplateStatusEnum.ENDED.getValue ())
+                .build ();
+        int update = couponTemplateMapper.update (build , updateWrapper);
+        if (!SqlHelper.retBool (update)) {
+            throw new ServiceException ("优惠券结束失败");
+        }
+        
+    }
+    
+    @Override
+    public IPage<CouponTemplatePageQueryRespDTO> pageQueryCouponTemplate (CouponTemplatePageQueryReqDTO requestParam) {
+        LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
+                .eq(CouponTemplateDO::getShopNumber,UserContext.getShopNumber())
+                .like (StrUtil.isNotBlank (requestParam.getName ()),CouponTemplateDO::getName,requestParam.getName())
+                .like (StrUtil.isNotBlank (requestParam.getGoods ()),CouponTemplateDO::getGoods,requestParam.getGoods ())
+                .eq(Objects.nonNull(requestParam.getType()), CouponTemplateDO::getType, requestParam.getType())
+                .eq(Objects.nonNull(requestParam.getTarget()), CouponTemplateDO::getTarget, requestParam.getTarget());
+        IPage<CouponTemplateDO> selectPage = couponTemplateMapper.selectPage(requestParam, queryWrapper);
+        // 转换成响应实体
+        return selectPage.convert (ea -> BeanUtil.toBean(ea,CouponTemplatePageQueryRespDTO.class));
     }
     
     

@@ -56,7 +56,9 @@ public class DuplicateSubmitAspect {
      * 获取重复提交注解
      */
     public DuplicateSubmit getDuplicateSubmit(ProceedingJoinPoint joinPoint) throws NoSuchMethodException {
+        // 获取方法签名（接口）
         MethodSignature signature = (MethodSignature) joinPoint.getSignature ();
+        // 获取实现类的方法
         Method declaredMethod = joinPoint.getTarget ().getClass ().getDeclaredMethod (signature.getName () , signature.getMethod ().getParameterTypes ());
         return declaredMethod.getAnnotation (DuplicateSubmit.class);
     }
