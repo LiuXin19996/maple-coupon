@@ -1,6 +1,8 @@
 package com.fengxin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.digest.DigestUtil;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengxin.common.constant.MerchantAdminRedisConstant;
 import com.fengxin.common.context.UserContext;
@@ -15,8 +17,12 @@ import com.fengxin.util.MerchantAdminUtils;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +40,7 @@ import static com.fengxin.common.enums.ChainBizMarkEnum.MERCHANT_ADMIN_CREATE_CO
 public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper, CouponTemplateDO> implements CouponTemplateService  {
     private final CouponTemplateMapper couponTemplateMapper;
     private final StringRedisTemplate stringRedisTemplate;
+    private final RedissonClient redissonClient;
     private final MerchantAdminChainContext merchantAdminChainContext;
     
     // 日志记录
@@ -83,4 +90,6 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         stringRedisTemplate.opsForHash().putAll(couponTemplateCacheKey, actualCacheTargetMap);
         stringRedisTemplate.expireAt (couponTemplateCacheKey, MerchantAdminUtils.formatDate (requestParam.getValidEndTime ()));
     }
+    
+    
 }

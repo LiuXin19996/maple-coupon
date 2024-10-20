@@ -1,6 +1,7 @@
 package com.fengxin.controller;
 
 import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
+import com.fengxin.idempotent.DuplicateSubmit;
 import com.fengxin.service.CouponTemplateService;
 import com.fengxin.web.Result;
 import com.fengxin.web.Results;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CouponTemplateController {
     private final CouponTemplateService couponTemplateService;
     
+    @DuplicateSubmit
     @Operation(summary = "商家创建优惠券模板")
     @PostMapping("/api/merchant-admin/coupon-template/create")
     public Result<Void> createCouponTemplate(@RequestBody CouponTemplateSaveReqDTO requestParam) {

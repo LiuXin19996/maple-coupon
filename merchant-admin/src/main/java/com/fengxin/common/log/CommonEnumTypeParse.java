@@ -45,9 +45,6 @@ public class CommonEnumTypeParse implements IParseFunction {
     }
     
     public String parseFunction (String enumClassName, String enumValue) {
-        if (enumClassName == null || enumValue == null) {
-            return null;
-        }
         if (DISCOUNT_TYPE_NAME.equals (enumClassName)) {
             log.info (enumClassName,DISCOUNT_TYPE_NAME);
             return DiscountTypeEnum.findValueByType (Integer.parseInt (enumValue));

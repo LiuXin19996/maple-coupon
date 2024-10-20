@@ -1,1 +1,2 @@
 com.fengxin.config.WebAutoConfiguration
+com.fengxin.config.IdempotentConfiguration
