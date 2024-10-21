@@ -35,8 +35,10 @@ knife4j:
 rocketmq:
   name-server: 39.105.15.60:9876
   producer:
-    group: mapleCoupon_merchant-admin-message-execute
+    group: mapleCoupon_merchant-admin-message-execute-producer
     send-message-timeout: 2000 # 发送超时时间
     retry-times-when-send-failed: 1 # 同步发送重试次数
     retry-times-when-send-async-failed: 1 # 异步发送重试次数
+  consumer:
+    group: mapleCoupon_merchant-admin-message-execute-consumer
 

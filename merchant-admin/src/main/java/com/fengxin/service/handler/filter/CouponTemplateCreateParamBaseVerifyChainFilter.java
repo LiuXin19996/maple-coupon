@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 
 import static com.fengxin.common.enums.ChainBizMarkEnum.MERCHANT_ADMIN_CREATE_COUPON_TEMPLATE_KEY;
 
@@ -52,8 +53,8 @@ public class CouponTemplateCreateParamBaseVerifyChainFilter implements MerchantA
                 && StrUtil.isEmpty(requestParam.getGoods())) {
             throw new ClientException("优惠券商品专属未设置指定商品");
         }
-        LocalDateTime now = LocalDateTime.now();
-        if (requestParam.getValidStartTime().isBefore (now)) {
+        Date now = new Date ();
+        if (requestParam.getValidStartTime().before (now)) {
             // 为了方便测试，不用关注这个时间，这里取消异常抛出
             // throw new ClientException("有效期开始时间不能早于当前时间");
         }

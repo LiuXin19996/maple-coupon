@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author FENGXIN
@@ -61,7 +62,7 @@ public class CouponTemplateSaveReqDTO {
             example = "2024-07-08 12:00:00",
             required = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime validStartTime;
+    private Date validStartTime;
     
     /**
      * 有效期结束时间
@@ -70,7 +71,7 @@ public class CouponTemplateSaveReqDTO {
             example = "2025-07-08 12:00:00",
             required = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime validEndTime;
+    private Date validEndTime;
     
     /**
      * 库存
