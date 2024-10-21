@@ -41,8 +41,8 @@ public class CouponTemplateTest {
                 .source(0) // 优惠券来源 0：店铺券 1：平台券
                 .target(1) // 优惠对象 0：商品专属 1：全店通用
                 .type(0) // 优惠类型 0：立减券 1：满减券 2：折扣券
-                .validStartTime(LocalDateTime.now ()) // 有效期开始时间
-                .validEndTime(LocalDateTime.now ()) // 有效期结束时间
+                .validStartTime(new Date ()) // 有效期开始时间
+                .validEndTime(new Date ()) // 有效期结束时间
                 .stock(10) // 库存
                 .receiveRule(receiveRule.toString()) // 领取规则
                 .consumeRule(consumeRule.toString()) // 消耗规则

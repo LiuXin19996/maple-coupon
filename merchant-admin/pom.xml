@@ -90,6 +90,14 @@
             <version>2.3.0</version>
         </dependency>
 
+        <!-- Mock 数据相关依赖 -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <scope>test</scope>
+            <version>1.0.2</version>
+        </dependency>
+
     </dependencies>
 
 
