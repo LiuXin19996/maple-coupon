@@ -23,7 +23,7 @@ gen
 */target/
 /.gitignore
 /.idea/
-
+tmp
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
