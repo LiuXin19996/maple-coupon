@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  * @author FENGXIN
  * @date 2024/10/22
  * @project feng-coupon
- * @description 延时队列消费者
+ * @description 延时队列消费者 刷新sendNum
  **/
 @Service
 @RequiredArgsConstructor

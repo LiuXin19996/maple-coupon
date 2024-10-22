@@ -1,17 +1,12 @@
 package com.fengxin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fengxin.common.constant.MerchantAdminRedisConstant;
@@ -19,6 +14,7 @@ import com.fengxin.common.context.UserContext;
 import com.fengxin.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.dao.entity.CouponTemplateDO;
 import com.fengxin.dao.mapper.CouponTemplateMapper;
+import com.fengxin.dto.mq.CouponTemplateDelayExecuteEvent;
 import com.fengxin.dto.req.CouponTemplateNumberReqDTO;
 import com.fengxin.dto.req.CouponTemplatePageQueryReqDTO;
 import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
@@ -26,26 +22,16 @@ import com.fengxin.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.exception.ClientException;
 import com.fengxin.exception.ServiceException;
+import com.fengxin.mq.producer.CouponTemplateDelayTerminalStatusProducer;
 import com.fengxin.service.CouponTemplateService;
 import com.fengxin.service.basic.chain.MerchantAdminChainContext;
-import com.fengxin.util.MerchantAdminUtils;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.common.message.MessageConst;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -65,8 +51,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     private final CouponTemplateMapper couponTemplateMapper;
     private final StringRedisTemplate stringRedisTemplate;
     private final MerchantAdminChainContext merchantAdminChainContext;
-    private final RocketMQTemplate rocketMQTemplate;
-    
+    private final CouponTemplateDelayTerminalStatusProducer couponTemplateDelayTerminalStatusProducer;
     private String merchantMQTopic = "merchant-admin-topic";
     
     // 日志记录
@@ -121,24 +106,12 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
           缓存到期自动删除
          */
         // 设置消息体
-        JSONObject messageBody = new JSONObject ();
-        messageBody.put("couponTemplateId", couponTemplateDO.getId());
-        messageBody.put("shopNumber", UserContext.getShopNumber());
-        // 结束时间戳
-        Long validEndStampTime = couponTemplateDO.getValidEndTime ().getTime ();
-        // 构建消息体
-        String messageKey = UUID.fastUUID ().toString ();
-        Message<JSONObject> message = MessageBuilder.withPayload (messageBody)
-                .setHeader (MessageConst.PROPERTY_KEYS , messageKey)
+        CouponTemplateDelayExecuteEvent couponTemplateDelayExecuteEvent = CouponTemplateDelayExecuteEvent.builder ()
+                .shopNumber (couponTemplateDO.getShopNumber ())
+                .couponTemplateId (couponTemplateDO.getId ())
+                .delayTime (requestParam.getValidEndTime ().getTime ())
                 .build ();
-        // 发送任意延时消息
-        SendResult sendResult;
-        try {
-            sendResult = rocketMQTemplate.syncSendDeliverTimeMills (merchantMQTopic,message, validEndStampTime);
-            log.info ("[生产者] 优惠券模板延时关闭 - 发送结果：{}，消息ID：{}，消息Keys：{}", sendResult.getSendStatus(), sendResult.getMsgId(), messageKey);
-        }catch (Throwable e) {
-            log.error ("[生产者] 优惠券模板延时关闭 - 消息发送失败，消息体：{}", couponTemplateDO.getId(), e);
-        }
+        couponTemplateDelayTerminalStatusProducer.sendMessage (couponTemplateDelayExecuteEvent);
     }
     
     @Override

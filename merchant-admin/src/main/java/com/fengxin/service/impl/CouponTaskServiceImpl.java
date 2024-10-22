@@ -11,9 +11,11 @@ import com.fengxin.common.enums.CouponTaskSendTypeEnum;
 import com.fengxin.common.enums.CouponTaskStatusEnum;
 import com.fengxin.dao.entity.CouponTaskDO;
 import com.fengxin.dao.mapper.CouponTaskMapper;
+import com.fengxin.dto.mq.CouponTaskExecuteEvent;
 import com.fengxin.dto.req.CouponTaskCreateReqDTO;
 import com.fengxin.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.exception.ClientException;
+import com.fengxin.mq.producer.CouponTemplateTaskProducer;
 import com.fengxin.service.CouponTaskService;
 import com.fengxin.service.CouponTemplateService;
 import com.fengxin.service.handler.excel.RowCountListener;
@@ -22,6 +24,7 @@ import org.redisson.api.RBlockingDeque;
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -40,7 +43,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
     private final CouponTemplateService couponTemplateService;
     private final CouponTaskMapper couponTaskMapper;
     private final RedissonClient redissonClient;
-    
+    private final CouponTemplateTaskProducer couponTemplateTaskProducer;
     // 线程池
     ExecutorService threadPoolExecutor = new ThreadPoolExecutor (
             Runtime.getRuntime ().availableProcessors (),
@@ -66,6 +69,8 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
                 .build ();
         couponTaskMapper.updateById (couponTaskId);
     }
+    
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void createCouponTask (CouponTaskCreateReqDTO requestParam) {
         // 验证参数非空
@@ -99,12 +104,16 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         JSONObject delayJsonObject = new JSONObject ();
         delayJsonObject.put ("couponTaskId",couponTaskDO.getId ());
         delayJsonObject.put ("fileAddress",requestParam.getFileAddress ());
-        // threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
+        threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
         
         // 防止应用宕机导致行数刷新失败 加一层延时队列兜底
         RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque ("COUPON_TASK_SEND_NUM_DELAY_QUEUE");
         RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue (couponTaskSendNumDelayQueue);
         // 20s后数据理论已经刷新完
         delayedQueue.offer (delayJsonObject, 20, TimeUnit.SECONDS);
+        
+        // 使用RocketMQ分发优惠券
+        CouponTaskExecuteEvent build = CouponTaskExecuteEvent.builder ().couponTaskId (couponTaskDO.getId ()).build ();
+        couponTemplateTaskProducer.sendMessage (build);
     }
 }
