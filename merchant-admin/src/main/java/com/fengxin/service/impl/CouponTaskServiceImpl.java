@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengxin.common.context.UserContext;
 import com.fengxin.common.enums.CouponTaskSendTypeEnum;
@@ -20,6 +20,11 @@ import com.fengxin.service.handler.excel.RowCountListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author FENGXIN
  * @date 2024/10/21
@@ -32,6 +37,31 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
     private final CouponTemplateService couponTemplateService;
     private final CouponTaskMapper couponTaskMapper;
     
+    // 线程池
+    ExecutorService threadPoolExecutor = new ThreadPoolExecutor (
+            Runtime.getRuntime ().availableProcessors (),
+            Runtime.getRuntime ().availableProcessors () << 1,
+            60,
+            TimeUnit.SECONDS,
+            new SynchronousQueue<> (),
+            new ThreadPoolExecutor.DiscardPolicy ()
+    );
+    
+    /**
+     * 线程池异步执行获取Excel行数
+     */
+    private void refreshCouponTaskExcelRows (JSONObject jsonObject) {
+        RowCountListener rowCountListener = new RowCountListener ();
+        EasyExcel.read (jsonObject.getString ("fileAddress"),rowCountListener).sheet ().doRead ();
+        int rowCount = rowCountListener.getRowCount ();
+        
+        // 刷新执行的行数
+        CouponTaskDO couponTaskId = CouponTaskDO.builder ()
+                .id (jsonObject.getLong ("couponTaskId"))
+                .sendNum (rowCount)
+                .build ();
+        couponTaskMapper.updateById (couponTaskId);
+    }
     @Override
     public void createCouponTask (CouponTaskCreateReqDTO requestParam) {
         // 验证参数非空
@@ -58,12 +88,13 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
                         // 定时任务 待执行
                         : CouponTaskStatusEnum.PENDING.getStatus ()
         );
-        // 获取excel行数
-        RowCountListener rowCountListener = new RowCountListener ();
-        EasyExcel.read (requestParam.getFileAddress (),rowCountListener).sheet ().doRead();
-        int rowCount = rowCountListener.getRowCount ();
-        // 发送后需要比对所有优惠券是否都已发放到用户账号 所以设置excel行数
-        couponTaskDO.setSendNum (rowCount);
+        
         couponTaskMapper.insert(couponTaskDO);
+        
+        // 刷新excel行数
+        JSONObject delayJsonObject = new JSONObject ();
+        delayJsonObject.put ("couponTaskId",couponTaskDO.getId ());
+        delayJsonObject.put ("fileAddress",requestParam.getFileAddress ());
+        threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
     }
 }
