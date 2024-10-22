@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengxin.common.context.UserContext;
 import com.fengxin.common.enums.CouponTaskSendTypeEnum;
@@ -18,6 +18,9 @@ import com.fengxin.service.CouponTaskService;
 import com.fengxin.service.CouponTemplateService;
 import com.fengxin.service.handler.excel.RowCountListener;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RBlockingDeque;
+import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
@@ -36,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponTaskDO> implements CouponTaskService {
     private final CouponTemplateService couponTemplateService;
     private final CouponTaskMapper couponTaskMapper;
+    private final RedissonClient redissonClient;
     
     // 线程池
     ExecutorService threadPoolExecutor = new ThreadPoolExecutor (
@@ -50,7 +54,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
     /**
      * 线程池异步执行获取Excel行数
      */
-    private void refreshCouponTaskExcelRows (JSONObject jsonObject) {
+    public void refreshCouponTaskExcelRows (JSONObject jsonObject) {
         RowCountListener rowCountListener = new RowCountListener ();
         EasyExcel.read (jsonObject.getString ("fileAddress"),rowCountListener).sheet ().doRead ();
         int rowCount = rowCountListener.getRowCount ();
@@ -95,6 +99,12 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         JSONObject delayJsonObject = new JSONObject ();
         delayJsonObject.put ("couponTaskId",couponTaskDO.getId ());
         delayJsonObject.put ("fileAddress",requestParam.getFileAddress ());
-        threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
+        // threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
+        
+        // 防止应用宕机导致行数刷新失败 加一层延时队列兜底
+        RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque ("COUPON_TASK_SEND_NUM_DELAY_QUEUE");
+        RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue (couponTaskSendNumDelayQueue);
+        // 20s后数据理论已经刷新完
+        delayedQueue.offer (delayJsonObject, 20, TimeUnit.SECONDS);
     }
 }
