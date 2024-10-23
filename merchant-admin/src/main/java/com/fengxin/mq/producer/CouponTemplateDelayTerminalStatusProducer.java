@@ -30,6 +30,7 @@ public class CouponTemplateDelayTerminalStatusProducer extends AbstractCommonSen
     @Override
     protected BaseSendExtendDTO buildBaseSendExtendParam (CouponTemplateDelayExecuteEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()
+                .keys (String.valueOf (messageSendEvent.getCouponTemplateId ()))
                 .eventName ("优惠券模板结束")
                 .topic ("merchant-admin-terminal-coupon-template-topic")
                 .delayTime (messageSendEvent.getDelayTime ())
@@ -40,7 +41,7 @@ public class CouponTemplateDelayTerminalStatusProducer extends AbstractCommonSen
     protected Message<?> buildMessage (CouponTemplateDelayExecuteEvent messageSendEvent , BaseSendExtendDTO baseSendExtendDTO) {
         String keys = StrUtil.isNotEmpty (baseSendExtendDTO.getKeys ()) ? baseSendExtendDTO.getKeys () : UUID.fastUUID ().toString ();
         return MessageBuilder
-                .withPayload (new MessageWrapper<> (keys,baseSendExtendDTO))
+                .withPayload (new MessageWrapper<> (keys,messageSendEvent))
                 .setHeader (MessageConst.PROPERTY_KEYS,keys)
                 .setHeader (MessageConst.PROPERTY_TAGS,baseSendExtendDTO.getTag ())
                 .build ();

@@ -34,6 +34,12 @@ public abstract class AbstractCommonSendProduceTemplate<T> {
      */
     protected abstract Message<?> buildMessage(T messageSendEvent, BaseSendExtendDTO baseSendExtendDTO);
     
+    /**
+     * 发送消息
+     *
+     * @param messageSendEvent message send 事件
+     * @return {@code SendResult }
+     */
     public SendResult sendMessage(T messageSendEvent) {
         BaseSendExtendDTO baseSendExtendDTO = buildBaseSendExtendParam (messageSendEvent);
         SendResult sendResult;

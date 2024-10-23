@@ -31,6 +31,7 @@ public class CouponTemplateTaskProducer extends AbstractCommonSendProduceTemplat
     @Override
     protected BaseSendExtendDTO buildBaseSendExtendParam (CouponTaskExecuteEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()
+                .keys (String.valueOf (messageSendEvent.getCouponTaskId ()))
                 .eventName ("优惠券推送")
                 .topic ("coupon_template_distribution_task_topic")
                 .sentTimeout (2000L)
