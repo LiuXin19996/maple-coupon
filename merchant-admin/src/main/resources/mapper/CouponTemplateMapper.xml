@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fengxin.dao.mapper.CouponTemplateMapper">
+<mapper namespace="com.fengxin.maplecoupon.merchantadmin.dao.mapper.CouponTemplateMapper">
     <!-- 增加优惠券模板发行量 -->
     <update id="increaseNumberCouponTemplate">
         UPDATE t_coupon_template

@@ -1,2 +1,2 @@
-com.fengxin.config.WebAutoConfiguration
-com.fengxin.config.IdempotentConfiguration
+com.fengxin.maplecoupon.engine.config.WebAutoConfiguration
+com.fengxin.maplecoupon.engine.config.IdempotentConfiguration

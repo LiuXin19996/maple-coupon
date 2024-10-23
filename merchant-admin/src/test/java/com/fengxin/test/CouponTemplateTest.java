@@ -2,9 +2,9 @@ package com.fengxin.test;
 
 import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson2.JSONObject;
-import com.fengxin.common.enums.CouponTemplateStatusEnum;
-import com.fengxin.dao.entity.CouponTemplateDO;
-import com.fengxin.service.CouponTemplateService;
+import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTemplateStatusEnum;
+import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTemplateDO;
+import com.fengxin.maplecoupon.merchantadmin.service.CouponTemplateService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

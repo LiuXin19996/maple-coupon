@@ -1,8 +1,8 @@
 package com.fengxin.test;
 
 import com.alibaba.fastjson2.JSON;
-import com.fengxin.controller.CouponTemplateController;
-import com.fengxin.dto.req.CouponTemplateSaveReqDTO;
+import com.fengxin.maplecoupon.merchantadmin.controller.CouponTemplateController;
+import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateSaveReqDTO;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

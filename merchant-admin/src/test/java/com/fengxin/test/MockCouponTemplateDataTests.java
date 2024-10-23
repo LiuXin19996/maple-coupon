@@ -2,8 +2,8 @@ package com.fengxin.test;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.RandomUtil;
-import com.fengxin.dao.entity.CouponTemplateDO;
-import com.fengxin.dao.mapper.CouponTemplateMapper;
+import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTemplateDO;
+import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
 import jodd.util.ThreadUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
