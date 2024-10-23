@@ -58,6 +58,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
      * 线程池异步执行获取Excel行数
      */
     public void refreshCouponTaskExcelRows (JSONObject jsonObject) {
+        // 读取Excel行数
         RowCountListener rowCountListener = new RowCountListener ();
         EasyExcel.read (jsonObject.getString ("fileAddress"),rowCountListener).sheet ().doRead ();
         int rowCount = rowCountListener.getRowCount ();
@@ -93,27 +94,30 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         couponTaskDO.setSendType (
                 ObjectUtil.equals (requestParam.getSendType (), CouponTaskSendTypeEnum.IMMEDIATE.getType ())
                         // 立即执行
-                        ? CouponTaskStatusEnum.IN_PROGRESS.getStatus ()
+                        ? CouponTaskSendTypeEnum.IMMEDIATE.getType ()
                         // 定时任务 待执行
-                        : CouponTaskStatusEnum.PENDING.getStatus ()
+                        : CouponTaskSendTypeEnum.SCHEDULED.getType ()
         );
         
         couponTaskMapper.insert(couponTaskDO);
         
-        // 刷新excel行数
+        // 线程异步刷新excel行数
         JSONObject delayJsonObject = new JSONObject ();
         delayJsonObject.put ("couponTaskId",couponTaskDO.getId ());
         delayJsonObject.put ("fileAddress",requestParam.getFileAddress ());
         threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
         
-        // 防止应用宕机导致行数刷新失败 加一层延时队列兜底
+        // 防止应用宕机导致行数刷新失败 加一层延时队列兜底刷新Excel行数
         RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque ("COUPON_TASK_SEND_NUM_DELAY_QUEUE");
         RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue (couponTaskSendNumDelayQueue);
         // 20s后数据理论已经刷新完
         delayedQueue.offer (delayJsonObject, 20, TimeUnit.SECONDS);
+        // 立即发送  定时发送使用XXL-job
+        if (ObjectUtil.equals (requestParam.getSendType (), CouponTaskSendTypeEnum.IMMEDIATE.getType ())) {
+            // 使用RocketMQ分发优惠券
+            CouponTaskExecuteEvent build = CouponTaskExecuteEvent.builder ().couponTaskId (couponTaskDO.getId ()).build ();
+            couponTemplateTaskProducer.sendMessage (build);
+        }
         
-        // 使用RocketMQ分发优惠券
-        CouponTaskExecuteEvent build = CouponTaskExecuteEvent.builder ().couponTaskId (couponTaskDO.getId ()).build ();
-        couponTemplateTaskProducer.sendMessage (build);
     }
 }
