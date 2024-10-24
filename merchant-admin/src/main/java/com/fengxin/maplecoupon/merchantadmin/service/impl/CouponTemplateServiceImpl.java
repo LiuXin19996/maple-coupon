@@ -14,7 +14,7 @@ import com.fengxin.maplecoupon.merchantadmin.common.context.UserContext;
 import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.merchantadmin.dao.mapper.CouponTemplateMapper;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.CouponTemplateDelayExecuteEvent;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.CouponTemplateDelayExecuteEvent;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateNumberReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplatePageQueryReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateSaveReqDTO;

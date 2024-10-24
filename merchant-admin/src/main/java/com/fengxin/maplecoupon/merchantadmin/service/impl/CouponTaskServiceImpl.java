@@ -8,9 +8,10 @@ import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengxin.maplecoupon.merchantadmin.common.context.UserContext;
 import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTaskSendTypeEnum;
+import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTaskStatusEnum;
 import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTaskDO;
 import com.fengxin.maplecoupon.merchantadmin.dao.mapper.CouponTaskMapper;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.CouponTaskExecuteEvent;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.CouponTaskExecuteEvent;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTaskCreateReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.exception.ClientException;
@@ -113,6 +114,12 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         delayedQueue.offer (delayJsonObject, 20, TimeUnit.SECONDS);
         // 立即发送  定时发送使用XXL-job
         if (ObjectUtil.equals (requestParam.getSendType (), CouponTaskSendTypeEnum.IMMEDIATE.getType ())) {
+            // 设置状态为发送中
+            CouponTaskDO taskDO = CouponTaskDO.builder ()
+                    .id (couponTaskDO.getId ())
+                    .status (CouponTaskStatusEnum.IN_PROGRESS.getStatus ())
+                    .build ();
+            couponTaskMapper.updateById(taskDO);
             // 使用RocketMQ分发优惠券
             CouponTaskExecuteEvent build = CouponTaskExecuteEvent.builder ().couponTaskId (couponTaskDO.getId ()).build ();
             couponTemplateTaskProducer.sendMessage (build);

@@ -7,7 +7,7 @@ import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTaskSendTypeEnum
 import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTaskStatusEnum;
 import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTaskDO;
 import com.fengxin.maplecoupon.merchantadmin.dao.mapper.CouponTaskMapper;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.CouponTaskExecuteEvent;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.CouponTaskExecuteEvent;
 import com.fengxin.maplecoupon.merchantadmin.mq.producer.CouponTemplateTaskProducer;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.merchantadmin.dto.mq;
+package com.fengxin.maplecoupon.distribution.mq.design;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

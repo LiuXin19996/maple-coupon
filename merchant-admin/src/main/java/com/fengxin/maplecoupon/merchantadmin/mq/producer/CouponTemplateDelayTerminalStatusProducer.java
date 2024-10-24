@@ -2,10 +2,10 @@ package com.fengxin.maplecoupon.merchantadmin.mq.producer;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.AbstractCommonSendProduceTemplate;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.BaseSendExtendDTO;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.CouponTemplateDelayExecuteEvent;
-import com.fengxin.maplecoupon.merchantadmin.dto.mq.MessageWrapper;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.AbstractCommonSendProduceTemplate;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.BaseSendExtendDTO;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.CouponTemplateDelayExecuteEvent;
+import com.fengxin.maplecoupon.merchantadmin.mq.design.MessageWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;

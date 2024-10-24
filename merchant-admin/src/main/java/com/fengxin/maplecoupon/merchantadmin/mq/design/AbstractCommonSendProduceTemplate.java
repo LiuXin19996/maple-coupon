@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.merchantadmin.dto.mq;
+package com.fengxin.maplecoupon.merchantadmin.mq.design;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
