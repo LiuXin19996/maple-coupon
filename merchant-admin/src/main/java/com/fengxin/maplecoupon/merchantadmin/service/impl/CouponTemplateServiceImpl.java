@@ -29,6 +29,7 @@ import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBloomFilter;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,9 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     private final StringRedisTemplate stringRedisTemplate;
     private final MerchantAdminChainContext merchantAdminChainContext;
     private final CouponTemplateDelayTerminalStatusProducer couponTemplateDelayTerminalStatusProducer;
+    private final RBloomFilter<String> couponTemplateQueryBloomFilter;
     private String merchantMQTopic = "merchant-admin-topic";
+    
     
     // 日志记录
     @LogRecord (
@@ -85,6 +88,9 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         couponTemplateDO.setStatus(CouponTemplateStatusEnum.ACTIVE.getValue ());
         couponTemplateDO.setShopNumber(UserContext.getShopNumber());
         couponTemplateMapper.insert(couponTemplateDO);
+        
+        // 添加入布隆过滤器
+        couponTemplateQueryBloomFilter.add (String.valueOf(couponTemplateDO.getId()));
         
         // 因为模板 ID 是运行中生成的，@LogRecord 默认拿不到，所以我们需要手动设置
         LogRecordContext.putVariable ("bizNo",couponTemplateDO.getId ());
