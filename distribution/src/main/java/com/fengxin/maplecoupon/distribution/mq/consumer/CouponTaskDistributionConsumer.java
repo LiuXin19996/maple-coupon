@@ -3,19 +3,18 @@ package com.fengxin.maplecoupon.distribution.mq.consumer;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fengxin.exception.ServiceException;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponTaskStatusEnum;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.distribution.dao.entity.CouponTaskDO;
 import com.fengxin.maplecoupon.distribution.dao.entity.CouponTaskExcelObject;
 import com.fengxin.maplecoupon.distribution.dao.entity.CouponTemplateDO;
+import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTaskFailMapper;
 import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTaskMapper;
 import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTemplateMapper;
-import com.fengxin.maplecoupon.distribution.dao.mapper.UserCouponMapper;
 import com.fengxin.maplecoupon.distribution.mq.design.CouponTaskExecuteEvent;
 import com.fengxin.maplecoupon.distribution.mq.design.MessageWrapper;
+import com.fengxin.maplecoupon.distribution.mq.producer.CouponExecuteDistributionProducer;
 import com.fengxin.maplecoupon.distribution.service.handler.excel.ReadExcelDistributionListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,7 @@ import org.springframework.stereotype.Component;
  * @author FENGXIN
  * @date 2024/10/22
  * @project feng-coupon
- * @description 优惠券分发消费者
+ * @description 优惠券分发消费者 只做进行 Excel 模板解析和前置校验
  **/
 @Component
 @RequiredArgsConstructor
@@ -40,8 +39,9 @@ import org.springframework.stereotype.Component;
 public class CouponTaskDistributionConsumer implements RocketMQListener<MessageWrapper<CouponTaskExecuteEvent>> {
     private final CouponTaskMapper couponTaskMapper;
     private final CouponTemplateMapper couponTemplateMapper;
-    private final UserCouponMapper userCouponMapper;
     private final StringRedisTemplate stringRedisTemplate;
+    private final CouponTaskFailMapper couponTaskFailMapper;
+    private final CouponExecuteDistributionProducer couponExecuteDistributionProducer;
     
     @Override
     public void onMessage (MessageWrapper<CouponTaskExecuteEvent> message) {
@@ -69,12 +69,11 @@ public class CouponTaskDistributionConsumer implements RocketMQListener<MessageW
         }
         // 开始分发消费
         ReadExcelDistributionListener readExcelDistributionListener = new ReadExcelDistributionListener (
-                couponTaskId ,
+                couponTaskDO ,
                 stringRedisTemplate ,
-                couponTaskMapper ,
                 couponTemplateDO ,
-                userCouponMapper ,
-                couponTemplateMapper
+                couponTaskFailMapper,
+                couponExecuteDistributionProducer
         );
         EasyExcel.read (couponTaskDO.getFileAddress (), CouponTaskExcelObject.class,readExcelDistributionListener).sheet ().doRead ();
     }

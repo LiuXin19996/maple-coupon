@@ -26,6 +26,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -118,6 +119,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
             CouponTaskDO taskDO = CouponTaskDO.builder ()
                     .id (couponTaskDO.getId ())
                     .status (CouponTaskStatusEnum.IN_PROGRESS.getStatus ())
+                    .sendTime (new Date ())
                     .build ();
             couponTaskMapper.updateById(taskDO);
             // 使用RocketMQ分发优惠券

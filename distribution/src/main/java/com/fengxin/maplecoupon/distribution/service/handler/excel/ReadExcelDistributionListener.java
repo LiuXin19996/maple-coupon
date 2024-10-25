@@ -1,31 +1,29 @@
 package com.fengxin.maplecoupon.distribution.service.handler.excel;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.lang.Singleton;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson2.JSON;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.fengxin.maplecoupon.distribution.common.enums.CouponSourceEnum;
-import com.fengxin.maplecoupon.distribution.common.enums.CouponStatusEnum;
-import com.fengxin.maplecoupon.distribution.common.enums.CouponTaskStatusEnum;
-import com.fengxin.maplecoupon.distribution.dao.entity.CouponTaskDO;
-import com.fengxin.maplecoupon.distribution.dao.entity.CouponTaskExcelObject;
-import com.fengxin.maplecoupon.distribution.dao.entity.CouponTemplateDO;
-import com.fengxin.maplecoupon.distribution.dao.entity.UserCouponDO;
-import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTaskMapper;
-import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTemplateMapper;
-import com.fengxin.maplecoupon.distribution.dao.mapper.UserCouponMapper;
+import com.fengxin.maplecoupon.distribution.dao.entity.*;
+import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTaskFailMapper;
+import com.fengxin.maplecoupon.distribution.mq.design.CouponTemplateDistributionEvent;
+import com.fengxin.maplecoupon.distribution.mq.producer.CouponExecuteDistributionProducer;
+import com.fengxin.maplecoupon.distribution.util.StockDecrementReturnCombinedUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.BatchExecutorException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 
-import java.util.Date;
+import java.util.Map;
 
+import static com.fengxin.maplecoupon.distribution.common.constant.DistributionRedisConstant.TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY;
+import static com.fengxin.maplecoupon.distribution.common.constant.DistributionRedisConstant.TEMPLATE_TASK_EXECUTE_PROGRESS_KEY;
 import static com.fengxin.maplecoupon.distribution.common.constant.EngineRedisConstant.COUPON_TEMPLATE_KEY;
-import static com.fengxin.maplecoupon.distribution.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY;
 
 /**
  * @author FENGXIN
@@ -36,67 +34,101 @@ import static com.fengxin.maplecoupon.distribution.common.constant.EngineRedisCo
 @RequiredArgsConstructor
 @Slf4j
 public class ReadExcelDistributionListener extends AnalysisEventListener<CouponTaskExcelObject> {
-    private final Long couponTaskId;
+    private final CouponTaskDO couponTaskDO;
     private final StringRedisTemplate stringRedisTemplate;
-    private final CouponTaskMapper couponTaskMapper;
     private final CouponTemplateDO couponTemplateDO;
-    private final UserCouponMapper userCouponMapper;
-    private final CouponTemplateMapper couponTemplateMapper;
+    private final CouponTaskFailMapper couponTaskFailMapper;
+    private final CouponExecuteDistributionProducer couponExecuteDistributionProducer;
+    
+    private int rowCount = 1;
+    private final static String STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH = "lua/stock_decrement_and_batch_save_user_record.lua";
+    private final static int BATCH_USER_COUPON_SIZE = 5000;
+    
     @Override
     public void invoke (CouponTaskExcelObject couponTaskExcelObject , AnalysisContext analysisContext) {
-        // 扣减缓存优惠券模板数量是否足够
-        long decrementStock = stringRedisTemplate.opsForHash ().increment (String.format (COUPON_TEMPLATE_KEY , couponTemplateDO.getId ()) , "stock" , -1);
-        if (decrementStock < 0){
-            log.error ("优惠券库存不足{}",decrementStock);
+        Long couponTaskId = couponTaskDO.getId ();
+        // 获取进度 如果已经执行过就跳过
+        String progressKey = String.format (TEMPLATE_TASK_EXECUTE_PROGRESS_KEY , couponTaskId);
+        String progress = stringRedisTemplate.opsForValue ().get (progressKey);
+        if (StrUtil.isNotBlank (progress) && Integer.parseInt(progress) >= rowCount) {
+            ++rowCount;
             return;
         }
-        // 扣减数据库优惠券模板数量
-        int decrement = couponTemplateMapper.decrementCouponTemplateStock (couponTemplateDO.getShopNumber () , couponTemplateDO.getId () , 1);
-        if (!SqlHelper.retBool (decrement)){
-            log.error ("优惠券库存不足{}",decrement);
-            return;
-        }
-        // 添加用户领券记录到数据库
-        Date date = new Date ();
-        DateTime validEndTime = DateUtil.offsetHour(date, JSON.parseObject(couponTemplateDO.getConsumeRule()).getInteger("validityPeriod"));
-        UserCouponDO userCouponDO = UserCouponDO.builder ()
-                .couponTemplateId (couponTemplateDO.getId ())
-                .userId (Long.valueOf (couponTaskExcelObject.getUserId ()))
-                .receiveCount (1)
-                .source (CouponSourceEnum.PLATFORM.getType ())
-                .status (CouponStatusEnum.EFFECTIVE.getType ())
-                .receiveTime (date)
-                .createTime (date)
-                .updateTime (date)
-                .validStartTime (date)
-                .validEndTime (validEndTime)
-                .delFlag (0)
+        
+        // 获取lua脚本 将脚本保存到Hutool单例容器 方便使用
+        DefaultRedisScript<Long> luaScript = Singleton.get (STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH , () -> {
+            DefaultRedisScript<Long> redisScript = new DefaultRedisScript<> ();
+            redisScript.setScriptSource (new ResourceScriptSource (new ClassPathResource (STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH)));
+            redisScript.setResultType (Long.class);
+            return redisScript;
+        });
+        
+        // 执行 LUA 脚本进行扣减库存以及增加 Redis 用户领券记录
+        String couponTemplateIdKey = String.format (COUPON_TEMPLATE_KEY , couponTemplateDO.getId ());
+        String userSetKey = String.format (TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY , couponTaskId);
+        Map<Object, Object> userRowNumMap = MapUtil.builder ()
+                .put ("userId" , couponTaskExcelObject.getUserId ())
+                .put ("rowNum" , rowCount + 1)
                 .build ();
-        try {
-            userCouponMapper.insert (userCouponDO);
-        } catch (BatchExecutorException bee) {
-            log.error ("用户优惠券不可重复领取优惠券");
+        Long executeResult = stringRedisTemplate.execute (luaScript , ListUtil.of (couponTemplateIdKey , userSetKey) , JSON.toJSONString (userRowNumMap));
+        // firstField 为 false 说明优惠券已经没有库存了
+        if (!StockDecrementReturnCombinedUtil.extractFirstField (executeResult)){
+            // 保存进度到缓存
+            stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
+            ++rowCount;
+            // 保存失败原因到数据库
+            Map<Object, Object> failMap = MapUtil.builder ()
+                    .put ("rowNum" , rowCount + 1)
+                    .put ("cause" , "优惠券库存不足")
+                    .build ();
+            CouponTaskFailDO failDO = CouponTaskFailDO.builder ()
+                    .batchId (couponTaskId)
+                    .jsonObject (JSON.toJSONString (failMap))
+                    .build ();
+            couponTaskFailMapper.insert (failDO);
             return;
         }
-        // 添加优惠券到用户已领取的 Redis 优惠券列表中
-        String cacheUserCouponTemplateList = String.format (USER_COUPON_TEMPLATE_LIST_KEY , couponTaskExcelObject.getUserId ());
-        String cacheUserCouponTemplate = StrUtil.builder ()
-                .append (couponTemplateDO.getId ())
-                .append ("-")
-                .append (userCouponDO.getId ())
-                .toString ();
-        // 将领券时间作为 Score 值，这样用户在查询时可以按时间倒序显示领取记录
-        stringRedisTemplate.opsForZSet ().add (cacheUserCouponTemplateList,cacheUserCouponTemplate,date.getTime());
+        // 获取执行后的用户set行数 未达到分发数量则保存进度到缓存 继续下一条记录执行
+        int batchSize = StockDecrementReturnCombinedUtil.extractSecondField ((executeResult.intValue ()));
+        if (batchSize < BATCH_USER_COUPON_SIZE){
+            stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
+            ++rowCount;
+            return;
+        }
+        // 分发
+        CouponTemplateDistributionEvent couponTemplateDistributionEvent = CouponTemplateDistributionEvent.builder ()
+                .couponTemplateId (couponTemplateDO.getId ())
+                .shopNumber (couponTaskDO.getShopNumber ())
+                .couponTaskId (couponTaskId)
+                .couponTaskBatchId (couponTaskDO.getBatchId ())
+                .notifyType (couponTaskDO.getNotifyType ())
+                .phone (couponTaskExcelObject.getPhone ())
+                .mail (couponTaskExcelObject.getMail ())
+                .userId (couponTaskExcelObject.getUserId ())
+                .batchUserSetSize (batchSize)
+                .couponTemplateConsumeRule (couponTemplateDO.getConsumeRule ())
+                // 正在解析
+                .distributionEndFlag (Boolean.FALSE)
+                .build ();
+        couponExecuteDistributionProducer.sendMessage (couponTemplateDistributionEvent);
+        // 保存进度
+        stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
+        ++rowCount;
     }
     
     @Override
     public void doAfterAllAnalysed (AnalysisContext analysisContext) {
-        // 确保所有用户都已经接到优惠券后，设置优惠券推送任务完成时间
-        CouponTaskDO couponTaskDO = CouponTaskDO.builder()
-                .id(couponTaskId)
-                .status(CouponTaskStatusEnum.SUCCESS.getStatus())
-                .completionTime(new Date())
-                .build();
-        couponTaskMapper.updateById(couponTaskDO);
+        //  Excel 读取到最后可能没满足 5000 批量也需要发送消息队列
+        CouponTemplateDistributionEvent couponTemplateDistributionEvent = CouponTemplateDistributionEvent.builder ()
+                .couponTemplateId (couponTemplateDO.getId ())
+                .shopNumber (couponTaskDO.getShopNumber ())
+                .couponTaskId (couponTaskDO.getId ())
+                .couponTaskBatchId (couponTaskDO.getBatchId ())
+                .notifyType (couponTaskDO.getNotifyType ())
+                .couponTemplateConsumeRule (couponTemplateDO.getConsumeRule ())
+                // 解析完成
+                .distributionEndFlag (Boolean.TRUE)
+                .build ();
+        couponExecuteDistributionProducer.sendMessage (couponTemplateDistributionEvent);
     }
 }
