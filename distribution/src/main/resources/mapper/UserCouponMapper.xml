@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengxin.maplecoupon.distribution.dao.mapper.UserCouponMapper">
+    <insert id="batchSaveUserCouponList" parameterType="java.util.List">
+        INSERT INTO t_user_coupon (
+        user_id,
+        coupon_template_id,
+        receive_time,
+        receive_count,
+        valid_start_time,
+        valid_end_time,
+        use_time,
+        row_num,
+        source,
+        status,
+        create_time,
+        update_time,
+        del_flag
+        ) VALUES
+        <foreach collection="userCouponList" item="item" separator=",">
+            (
+            #{item.userId},
+            #{item.couponTemplateId},
+            #{item.receiveTime},
+            #{item.receiveCount},
+            #{item.validStartTime},
+            #{item.validEndTime},
+            #{item.useTime},
+            #{item.rowNum},
+            #{item.source},
+            #{item.status},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.delFlag}
+            )
+        </foreach>
+    </insert>
+</mapper>

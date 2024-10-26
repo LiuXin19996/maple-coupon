@@ -38,6 +38,11 @@ public class UserCouponDO  {
     private Long couponTemplateId;
     
     /**
+     * 行号
+     */
+    private Integer rowNum;
+    
+    /**
      * 领取时间
      */
     private Date receiveTime;

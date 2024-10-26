@@ -42,7 +42,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
     
     private int rowCount = 1;
     private final static String STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH = "lua/stock_decrement_and_batch_save_user_record.lua";
-    private final static int BATCH_USER_COUPON_SIZE = 5000;
+    private final static int BATCH_USER_COUPON_SIZE = 5;
     
     @Override
     public void invoke (CouponTaskExcelObject couponTaskExcelObject , AnalysisContext analysisContext) {
@@ -78,7 +78,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
             ++rowCount;
             // 保存失败原因到数据库
             Map<Object, Object> failMap = MapUtil.builder ()
-                    .put ("rowNum" , rowCount + 1)
+                    .put ("rowNum" , rowCount)
                     .put ("cause" , "优惠券库存不足")
                     .build ();
             CouponTaskFailDO failDO = CouponTaskFailDO.builder ()
