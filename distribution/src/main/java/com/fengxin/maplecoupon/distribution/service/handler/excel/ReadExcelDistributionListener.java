@@ -62,7 +62,6 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
             redisScript.setResultType (Long.class);
             return redisScript;
         });
-        
         // 执行 LUA 脚本进行扣减库存以及增加 Redis 用户领券记录
         String couponTemplateIdKey = String.format (COUPON_TEMPLATE_KEY , couponTemplateDO.getId ());
         String userSetKey = String.format (TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY , couponTaskId);
@@ -82,7 +81,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
                     .put ("cause" , "优惠券库存不足")
                     .build ();
             CouponTaskFailDO failDO = CouponTaskFailDO.builder ()
-                    .batchId (couponTaskId)
+                    .batchId (couponTaskDO.getBatchId ())
                     .jsonObject (JSON.toJSONString (failMap))
                     .build ();
             couponTaskFailMapper.insert (failDO);
