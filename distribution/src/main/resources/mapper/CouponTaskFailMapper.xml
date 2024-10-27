@@ -10,8 +10,8 @@
         ) VALUES
         <foreach collection="couponTaskFailDOList" item="item" separator=",">
             (
-            #{item.batchId},
-            #{item.jsonObject}
+                #{item.batchId},
+                #{item.jsonObject}
             )
         </foreach>
     </insert>
