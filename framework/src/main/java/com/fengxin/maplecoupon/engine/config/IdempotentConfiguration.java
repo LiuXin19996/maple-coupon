@@ -1,9 +1,12 @@
 package com.fengxin.maplecoupon.engine.config;
 
+import com.fengxin.idempotent.DuplicateMQConsume;
+import com.fengxin.idempotent.DuplicateMQConsumeAspect;
 import com.fengxin.idempotent.DuplicateSubmitAspect;
 import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * @author FENGXIN
@@ -22,5 +25,16 @@ public class IdempotentConfiguration {
     @Bean
     public DuplicateSubmitAspect duplicateSubmitAspect(RedissonClient redissonClient) {
         return new DuplicateSubmitAspect (redissonClient);
+    }
+    
+    /**
+     * 防止消费者重复消费
+     *
+     * @param stringRedisTemplate stringRedisTemplate
+     * @return {@code DuplicateMQConsumeAspect }
+     */
+    @Bean
+    public DuplicateMQConsumeAspect duplicateMQConsumeAspect(StringRedisTemplate stringRedisTemplate) {
+        return new DuplicateMQConsumeAspect (stringRedisTemplate);
     }
 }

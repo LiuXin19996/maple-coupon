@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fengxin.idempotent.DuplicateMQConsume;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponTaskStatusEnum;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.distribution.dao.entity.CouponTaskDO;
@@ -43,13 +44,18 @@ public class CouponTaskDistributionConsumer implements RocketMQListener<MessageW
     private final CouponTaskFailMapper couponTaskFailMapper;
     private final CouponExecuteDistributionProducer couponExecuteDistributionProducer;
     
+    @DuplicateMQConsume (
+            keyPrefix = "mapleCoupon_idempotent:",
+            key = "#messageWrapper.message.couponTaskId",
+            timeout = 120
+    )
     @Override
-    public void onMessage (MessageWrapper<CouponTaskExecuteEvent> message) {
+    public void onMessage (MessageWrapper<CouponTaskExecuteEvent> messageWrapper) {
         // 日志
-        log.info ("[消费者] 优惠券推送任务执行 消息体:{}",message.getMessage ());
+        log.info ("[消费者] 优惠券推送任务执行 消息体:{}",messageWrapper.getMessage ());
         
         // 校验推送任务状态是否正常
-        CouponTaskExecuteEvent couponTaskExecuteEvent = message.getMessage ();
+        CouponTaskExecuteEvent couponTaskExecuteEvent = messageWrapper.getMessage ();
         Long couponTaskId = couponTaskExecuteEvent.getCouponTaskId ();
         CouponTaskDO couponTaskDO = couponTaskMapper.selectById (couponTaskId);
         if (ObjectUtil.isNotNull (couponTaskDO) && ObjectUtil.notEqual (couponTaskDO.getStatus (), CouponTaskStatusEnum.IN_PROGRESS.getStatus ())) {
