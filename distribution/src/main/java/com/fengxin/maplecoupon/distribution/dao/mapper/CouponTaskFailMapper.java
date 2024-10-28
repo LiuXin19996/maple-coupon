@@ -14,5 +14,10 @@ import java.util.List;
  **/
 public interface CouponTaskFailMapper extends BaseMapper<CouponTaskFailDO> {
     
+    /**
+     * 插入批处理
+     *
+     * @param couponTaskFailDOList Coupon 任务失败 dolist
+     */
     void insertBatch(@Param ("couponTaskFailDOList") List<CouponTaskFailDO> couponTaskFailDOList);
 }
