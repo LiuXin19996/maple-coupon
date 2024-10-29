@@ -27,7 +27,6 @@ public class UserCouponDelayCloseProducer extends AbstractCommonSendProduceTempl
         super (rocketMQTemplate);
     }
     
-    
     @Override
     protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponDelayCloseEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()

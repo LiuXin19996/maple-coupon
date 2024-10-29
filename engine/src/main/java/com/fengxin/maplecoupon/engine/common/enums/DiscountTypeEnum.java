@@ -39,7 +39,7 @@ public enum DiscountTypeEnum {
      * @return 对应的描述值，如果没有找到抛异常
      */
     public static String findValueByType(int type) {
-        for (com.fengxin.maplecoupon.merchantadmin.common.enums.DiscountTypeEnum target : com.fengxin.maplecoupon.merchantadmin.common.enums.DiscountTypeEnum.values()) {
+        for (DiscountTypeEnum target : values()) {
             if (target.getType() == type) {
                 return target.getValue();
             }

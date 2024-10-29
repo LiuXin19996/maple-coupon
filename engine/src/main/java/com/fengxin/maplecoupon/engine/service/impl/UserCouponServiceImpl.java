@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -62,6 +63,8 @@ public class UserCouponServiceImpl implements UserCouponService {
     private final UserCouponMapper userCouponMapper;
     private final UserCouponDelayCloseProducer userCouponDelayCloseProducer;
     private static final String STOCK_DECREMENT_AND_SAVE_USER_RECEIVE_PATH = "lua/stock_decrement_and_save_user_receive.lua";
+    @Value ("one-coupon.user-coupon-list.save-cache.type")
+    private String userCouponListSaveCacheType;
     @Override
     public void redeemUserCoupon (CouponTemplateRedeemReqDTO requestParam) {
         // 校验优惠券是否存在缓存 存在数据 且在有效期
@@ -125,39 +128,42 @@ public class UserCouponServiceImpl implements UserCouponService {
                         .validStartTime (couponTemplateById.getValidEndTime ())
                         .build ();
                 userCouponMapper.insert (userCouponDO);
-                // 添加用户领取优惠券模板缓存记录
-                String userCouponListCacheKey = String.format(EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY, UserContext.getUserId());
-                String userCouponItemCacheKey = StrUtil.builder()
-                        .append(requestParam.getCouponTemplateId())
-                        .append("_")
-                        .append(userCouponDO.getId())
-                        .toString();
-                stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, now.getTime());
-                // 防止Redis宕机 造成数据丢失
-                Double score;
-                try {
-                    score = stringRedisTemplate.opsForZSet ().score (userCouponListCacheKey,userCouponItemCacheKey);
-                    // 插入失败 再插入一次
-                    if (ObjectUtil.isNull (score)){
-                        // 如果这里还是失败 做不到万无一失 只能增加成功的概率
+                // 接触强依赖canal配置 在该流程下操作
+                if (StrUtil.equals (userCouponListSaveCacheType,"direct")){
+                    // 添加用户领取优惠券模板缓存记录
+                    String userCouponListCacheKey = String.format(EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY, UserContext.getUserId());
+                    String userCouponItemCacheKey = StrUtil.builder()
+                            .append(requestParam.getCouponTemplateId())
+                            .append("_")
+                            .append(userCouponDO.getId())
+                            .toString();
+                    stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, now.getTime());
+                    // 防止Redis宕机 造成数据丢失
+                    Double score;
+                    try {
+                        score = stringRedisTemplate.opsForZSet ().score (userCouponListCacheKey,userCouponItemCacheKey);
+                        // 插入失败 再插入一次
+                        if (ObjectUtil.isNull (score)){
+                            // 如果这里还是失败 做不到万无一失 只能增加成功的概率
+                            stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, now.getTime());
+                        }
+                    }catch (Throwable e){
+                        log.warn("查询Redis用户优惠券记录为空或抛异常，可能Redis宕机或主从复制数据丢失，基础错误信息：{}", e.getMessage());
+                        // 如果直接抛异常大概率 Redis 宕机了，所以应该写个延时队列向 Redis 重试放入值。为了避免代码复杂性，这里直接写新增，大家知道最优解决方案即可
                         stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, now.getTime());
                     }
-                }catch (Throwable e){
-                    log.warn("查询Redis用户优惠券记录为空或抛异常，可能Redis宕机或主从复制数据丢失，基础错误信息：{}", e.getMessage());
-                    // 如果直接抛异常大概率 Redis 宕机了，所以应该写个延时队列向 Redis 重试放入值。为了避免代码复杂性，这里直接写新增，大家知道最优解决方案即可
-                    stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, now.getTime());
-                }
-                // 发送延时消息 结束用户优惠券
-                UserCouponDelayCloseEvent userCouponDelayCloseEvent = UserCouponDelayCloseEvent.builder ()
-                        .userCouponId (userCouponDO.getId ())
-                        .couponTemplateId (Long.valueOf (requestParam.getCouponTemplateId ()))
-                        .userId (userCouponDO.getUserId ())
-                        .delayDateTime (validityPeriod.getTime ())
-                        .build ();
-                SendResult sendResult = userCouponDelayCloseProducer.sendMessage (userCouponDelayCloseEvent);
-                // 发送消息失败解决方案简单且高效的逻辑之一：打印日志并报警，通过日志搜集并重新投递
-                if (ObjectUtil.notEqual(sendResult.getSendStatus().name(), "SEND_OK")) {
-                    log.warn("发送优惠券关闭延时队列失败，消息参数：{}", JSON.toJSONString(userCouponDelayCloseEvent));
+                    // 发送延时消息 结束用户优惠券
+                    UserCouponDelayCloseEvent userCouponDelayCloseEvent = UserCouponDelayCloseEvent.builder ()
+                            .userCouponId (userCouponDO.getId ())
+                            .couponTemplateId (Long.valueOf (requestParam.getCouponTemplateId ()))
+                            .userId (userCouponDO.getUserId ())
+                            .delayDateTime (validityPeriod.getTime ())
+                            .build ();
+                    SendResult sendResult = userCouponDelayCloseProducer.sendMessage (userCouponDelayCloseEvent);
+                    // 发送消息失败解决方案简单且高效的逻辑之一：打印日志并报警，通过日志搜集并重新投递
+                    if (ObjectUtil.notEqual(sendResult.getSendStatus().name(), "SEND_OK")) {
+                        log.warn("发送优惠券关闭延时队列失败，消息参数：{}", JSON.toJSONString(userCouponDelayCloseEvent));
+                    }
                 }
             } catch (Throwable ex) {
                 status.setRollbackOnly();

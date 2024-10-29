@@ -1,8 +1,8 @@
 package com.fengxin.maplecoupon.engine.common.log;
 
 import cn.hutool.core.util.StrUtil;
-import com.fengxin.maplecoupon.merchantadmin.common.enums.DiscountTargetEnum;
-import com.fengxin.maplecoupon.merchantadmin.common.enums.DiscountTypeEnum;
+import com.fengxin.maplecoupon.engine.common.enums.DiscountTargetEnum;
+import com.fengxin.maplecoupon.engine.common.enums.DiscountTypeEnum;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
