@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.engine.config;
+package com.fengxin.config;
 
 import com.fengxin.idempotent.DuplicateMQConsume;
 import com.fengxin.idempotent.DuplicateMQConsumeAspect;
