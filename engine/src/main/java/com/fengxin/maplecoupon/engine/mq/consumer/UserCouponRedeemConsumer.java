@@ -26,6 +26,7 @@ import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -48,6 +49,7 @@ public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper
     private final UserCouponMapper userCouponMapper;
     private final UserCouponDelayCloseProducer userCouponDelayCloseProducer;
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void onMessage (MessageWrapper<UserCouponRedeemEvent> message) {
         // 打印日志
         log.info ("[消费者] 用户优惠券延时结束执行 消息体: {}" , JSON.toJSONString (message));

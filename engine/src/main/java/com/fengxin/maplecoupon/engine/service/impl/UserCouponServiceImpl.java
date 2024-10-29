@@ -1,46 +1,30 @@
 package com.fengxin.maplecoupon.engine.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fengxin.exception.ServiceException;
-import com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant;
 import com.fengxin.maplecoupon.engine.common.context.UserContext;
 import com.fengxin.maplecoupon.engine.common.enums.RedisStockDecrementErrorEnum;
-import com.fengxin.maplecoupon.engine.common.enums.UserCouponStatusEnum;
-import com.fengxin.maplecoupon.engine.dao.entity.UserCouponDO;
-import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
-import com.fengxin.maplecoupon.engine.dao.mapper.UserCouponMapper;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRedeemReqDTO;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
-import com.fengxin.maplecoupon.engine.mq.design.UserCouponDelayCloseEvent;
 import com.fengxin.maplecoupon.engine.mq.design.UserCouponRedeemEvent;
-import com.fengxin.maplecoupon.engine.mq.producer.UserCouponDelayCloseProducer;
 import com.fengxin.maplecoupon.engine.mq.producer.UserCouponRedeemProducer;
 import com.fengxin.maplecoupon.engine.service.CouponTemplateService;
 import com.fengxin.maplecoupon.engine.service.UserCouponService;
 import com.fengxin.maplecoupon.engine.util.StockDecrementReturnCombinedUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -60,14 +44,9 @@ import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant
 public class UserCouponServiceImpl implements UserCouponService {
     private final CouponTemplateService couponTemplateService;
     private final StringRedisTemplate stringRedisTemplate;
-    private final TransactionTemplate transactionTemplate;
-    private final CouponTemplateMapper couponTemplateMapper;
-    private final UserCouponMapper userCouponMapper;
-    private final UserCouponDelayCloseProducer userCouponDelayCloseProducer;
     private final UserCouponRedeemProducer userCouponRedeemProducer;
     private static final String STOCK_DECREMENT_AND_SAVE_USER_RECEIVE_PATH = "lua/stock_decrement_and_save_user_receive.lua";
-    @Value ("one-coupon.user-coupon-list.save-cache.type")
-    private String userCouponListSaveCacheType;
+
     @Override
     public void redeemUserCoupon (CouponTemplateRedeemReqDTO requestParam) {
         // 校验优惠券是否存在缓存 存在数据 且在有效期
@@ -94,7 +73,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         String limitPerPerson = receiveRule.getString ("limitPerPerson");
         String couponTemplateKey = String.format (COUPON_TEMPLATE_KEY , requestParam.getCouponTemplateId ());
         String userCouponTemplateKey = String.format (USER_COUPON_TEMPLATE_LIMIT_KEY , UserContext.getUserId () , requestParam.getCouponTemplateId ());
-        Long executeResult = stringRedisTemplate.execute (
+        long executeResult = stringRedisTemplate.execute (
                 defaultRedisScript ,
                 List.of (couponTemplateKey , userCouponTemplateKey) ,
                 String.valueOf (couponTemplateById.getValidEndTime ().getTime ()) ,
