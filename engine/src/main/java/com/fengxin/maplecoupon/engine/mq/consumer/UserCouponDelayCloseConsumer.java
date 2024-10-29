@@ -27,8 +27,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener (
-        topic = "user_coupon_template_redemption_close_execute_topic",
-        consumerGroup = "user_coupon_template_redemption_close_consumer"
+        topic = "user-coupon-template_redemption_close_execute_topic",
+        consumerGroup = "user-coupon-template_redemption_close_consumer"
 )
 @Slf4j(topic = "UserCouponDelayCloseConsumer")
 public class UserCouponDelayCloseConsumer implements RocketMQListener<MessageWrapper<UserCouponDelayCloseEvent>> {

@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fengxin.maplecoupon.engine.mq.design.AbstractCommonSendProduceTemplate;
 import com.fengxin.maplecoupon.engine.mq.design.BaseSendExtendDTO;
 import com.fengxin.maplecoupon.engine.mq.design.MessageWrapper;
-import com.fengxin.maplecoupon.engine.mq.design.UserCouponDelayCloseEvent;
+import com.fengxin.maplecoupon.engine.mq.design.UserCouponRedeemEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -15,31 +15,30 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author FENGXIN
- * @date 2024/10/28
+ * @date 2024/10/29
  * @project feng-coupon
- * @description 设置用户优惠券结束延时消息发送者
+ * @description 用户优惠券兑换发送者
  **/
 @Slf4j
 @Component
-public class UserCouponDelayCloseProducer extends AbstractCommonSendProduceTemplate<UserCouponDelayCloseEvent> {
+public class UserCouponRedeemProducer extends AbstractCommonSendProduceTemplate<UserCouponRedeemEvent> {
     
-    public UserCouponDelayCloseProducer (RocketMQTemplate rocketMQTemplate) {
+    public UserCouponRedeemProducer (RocketMQTemplate rocketMQTemplate) {
         super (rocketMQTemplate);
     }
     
     @Override
-    protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponDelayCloseEvent messageSendEvent) {
+    protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponRedeemEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()
-                .eventName ("用户优惠券延时结束执行")
-                .topic ("user-coupon-template_redemption_close_execute_topic")
-                .keys (UUID.fastUUID ().toString () + messageSendEvent.getUserCouponId ())
+                .eventName ("用户优惠券兑换落库和Redis")
+                .topic ("user-coupon-template_redemption_sync_execute_topic")
+                .keys (UUID.fastUUID () + messageSendEvent.getUserId ())
                 .sentTimeout (2000L)
-                .delayTime (messageSendEvent.getDelayDateTime ())
                 .build ();
     }
     
     @Override
-    protected Message<?> buildMessage (UserCouponDelayCloseEvent messageSendEvent , BaseSendExtendDTO baseSendExtendDTO) {
+    protected Message<?> buildMessage (UserCouponRedeemEvent messageSendEvent , BaseSendExtendDTO baseSendExtendDTO) {
         String keys = StrUtil.isEmpty (baseSendExtendDTO.getKeys ()) ? UUID.fastUUID ().toString () : baseSendExtendDTO.getKeys ();
         return MessageBuilder
                 .withPayload (new MessageWrapper (keys,messageSendEvent))
