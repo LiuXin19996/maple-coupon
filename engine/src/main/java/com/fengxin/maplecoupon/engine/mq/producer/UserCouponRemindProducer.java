@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fengxin.maplecoupon.engine.mq.design.AbstractCommonSendProduceTemplate;
 import com.fengxin.maplecoupon.engine.mq.design.BaseSendExtendDTO;
 import com.fengxin.maplecoupon.engine.mq.design.MessageWrapper;
-import com.fengxin.maplecoupon.engine.mq.design.UserCouponRedeemEvent;
+import com.fengxin.maplecoupon.engine.mq.design.UserCouponRemindEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -15,31 +15,32 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author FENGXIN
- * @date 2024/10/29
+ * @date 2024/10/30
  * @project feng-coupon
- * @description 用户优惠券兑换发送者
+ * @description 用户优惠券提醒发送者
  **/
 @Slf4j
 @Component
-public class UserCouponRedeemProducer extends AbstractCommonSendProduceTemplate<UserCouponRedeemEvent> {
+public class UserCouponRemindProducer extends AbstractCommonSendProduceTemplate<UserCouponRemindEvent> {
     
-    public UserCouponRedeemProducer (RocketMQTemplate rocketMQTemplate) {
+    public UserCouponRemindProducer (RocketMQTemplate rocketMQTemplate) {
         super (rocketMQTemplate);
     }
     
     @Override
-    protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponRedeemEvent messageSendEvent) {
+    protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponRemindEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()
-                .eventName ("用户优惠券兑换落库和Redis")
-                .topic ("user-coupon-template_redemption_async_execute_topic")
+                .eventName ("用户优惠券提醒执行")
                 .keys (UUID.fastUUID () + messageSendEvent.getUserId ())
+                .topic ("user-coupon-template_remind_async_execute_topic")
                 .sentTimeout (2000L)
+                .delayTime (messageSendEvent.getDelayTime ())
                 .build ();
     }
     
     @Override
-    protected Message<?> buildMessage (UserCouponRedeemEvent messageSendEvent , BaseSendExtendDTO baseSendExtendDTO) {
-        String keys = StrUtil.isEmpty (baseSendExtendDTO.getKeys ()) ? UUID.fastUUID ().toString () : baseSendExtendDTO.getKeys ();
+    protected Message<?> buildMessage (UserCouponRemindEvent messageSendEvent , BaseSendExtendDTO baseSendExtendDTO) {
+        String keys = StrUtil.isEmpty (baseSendExtendDTO.getKeys ()) ? UUID.fastUUID () + messageSendEvent.getUserId () : baseSendExtendDTO.getKeys ();
         return MessageBuilder
                 .withPayload (new MessageWrapper (keys,messageSendEvent))
                 .setHeader (MessageConst.PROPERTY_KEYS,keys)

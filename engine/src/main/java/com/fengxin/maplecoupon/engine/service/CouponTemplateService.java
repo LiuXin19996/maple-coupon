@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
 
 
@@ -22,4 +23,11 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
      * @return {@code CouponTemplateQueryRespDTO }
      */
     CouponTemplateQueryRespDTO findCouponTemplateById (CouponTemplateQueryReqDTO requestParam);
+    
+    /**
+     * 创建优惠券提醒
+     *
+     * @param requestParam 请求参数
+     */
+    void createCouponRemind (CouponTemplateRemindTimeReqDTO requestParam);
 }
