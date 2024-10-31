@@ -1,12 +1,18 @@
 package com.fengxin.maplecoupon.engine.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author FENGXIN
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "优惠券模板查询请求参数实体")
 public class CouponTemplateQueryReqDTO {
 

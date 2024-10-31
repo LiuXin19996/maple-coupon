@@ -24,10 +24,4 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
      */
     CouponTemplateQueryRespDTO findCouponTemplateById (CouponTemplateQueryReqDTO requestParam);
     
-    /**
-     * 创建优惠券提醒
-     *
-     * @param requestParam 请求参数
-     */
-    void createCouponRemind (CouponTemplateRemindTimeReqDTO requestParam);
 }

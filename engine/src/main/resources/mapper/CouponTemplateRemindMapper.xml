@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateRemindMapper">
+  <resultMap id="BaseResultMap" type="com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO">
+    <!--@mbg.generated-->
+    <!--@Table t_coupon_template_remind-->
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <id column="coupon_template_id" jdbcType="BIGINT" property="couponTemplateId" />
+    <result column="information" jdbcType="BIGINT" property="information" />
+    <result column="shop_number" jdbcType="BIGINT" property="shopNumber" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    user_id, coupon_template_id, information, shop_number, start_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_coupon_template_remind
+    where user_id = #{userId,jdbcType=BIGINT}
+      and coupon_template_id = #{couponTemplateId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    <!--@mbg.generated-->
+    delete from t_coupon_template_remind
+    where user_id = #{userId,jdbcType=BIGINT}
+      and coupon_template_id = #{couponTemplateId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO">
+    <!--@mbg.generated-->
+    insert into t_coupon_template_remind (user_id, coupon_template_id, information, 
+      shop_number, start_time)
+    values (#{userId,jdbcType=BIGINT}, #{couponTemplateId,jdbcType=BIGINT}, #{information,jdbcType=BIGINT}, 
+      #{shopNumber,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO">
+    <!--@mbg.generated-->
+    insert into t_coupon_template_remind
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="couponTemplateId != null">
+        coupon_template_id,
+      </if>
+      <if test="information != null">
+        information,
+      </if>
+      <if test="shopNumber != null">
+        shop_number,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="couponTemplateId != null">
+        #{couponTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="information != null">
+        #{information,jdbcType=BIGINT},
+      </if>
+      <if test="shopNumber != null">
+        #{shopNumber,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO">
+    <!--@mbg.generated-->
+    update t_coupon_template_remind
+    <set>
+      <if test="information != null">
+        information = #{information,jdbcType=BIGINT},
+      </if>
+      <if test="shopNumber != null">
+        shop_number = #{shopNumber,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+      and coupon_template_id = #{couponTemplateId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO">
+    <!--@mbg.generated-->
+    update t_coupon_template_remind
+    set information = #{information,jdbcType=BIGINT},
+      shop_number = #{shopNumber,jdbcType=BIGINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=BIGINT}
+      and coupon_template_id = #{couponTemplateId,jdbcType=BIGINT}
+  </update>
+</mapper>

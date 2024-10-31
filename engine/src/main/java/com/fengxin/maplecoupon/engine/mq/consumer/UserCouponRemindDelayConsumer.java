@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * @author FENGXIN
  * @date 2024/10/30
  * @project feng-coupon
- * @description
+ * @description 提醒用户优惠券消费者
  **/
 @Slf4j
 @Component

@@ -1,11 +1,11 @@
 package com.fengxin.maplecoupon.engine.service.handler.service.impl;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
 import com.fengxin.maplecoupon.engine.common.enums.CouponRemindTypeEnum;
 import com.fengxin.maplecoupon.engine.mq.design.UserCouponRemindEvent;
 import com.fengxin.maplecoupon.engine.mq.producer.UserCouponRemindProducer;
+import com.fengxin.maplecoupon.engine.service.UserCouponService;
 import com.fengxin.maplecoupon.engine.service.handler.dto.CouponTemplateRemindDTO;
 import com.fengxin.maplecoupon.engine.service.handler.service.RemindUserCouponTemplate;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +37,7 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
     private final StringRedisTemplate stringRedisTemplate;
     private final SendAppMessageRemindCouponTemplate sendAppMessageRemindCouponTemplate;
     private final SendEmailMessageRemindCouponTemplate sendEmailMessageRemindCouponTemplate;
+    private final UserCouponService userCouponService;
     // 线程池并行处理 提高效率
     private final ExecutorService executorService = new ThreadPoolExecutor(
             Runtime.getRuntime ().availableProcessors () << 1 ,
@@ -50,6 +51,10 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
     
     @Override
     public void executeRemindUserCoupon (CouponTemplateRemindDTO couponTemplateRemindDTO) {
+        if (userCouponService.isCanalRemind (couponTemplateRemindDTO)){
+            log.info ("用户[{}]已经取消优惠券{}的预约提醒",couponTemplateRemindDTO.getUserId (),couponTemplateRemindDTO.getCouponTemplateId ());
+            return;
+        }
         RBlockingDeque<Object> blockingDeque = redissonClient.getBlockingDeque (REDIS_BLOCKING_DEQUE);
         RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue (blockingDeque);
         // redis延时队列key

@@ -1,12 +1,17 @@
 package com.fengxin.maplecoupon.engine.controller;
 
+import com.fengxin.idempotent.DuplicateSubmit;
+import com.fengxin.maplecoupon.engine.common.context.UserContext;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRedeemReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindCancelReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
 import com.fengxin.maplecoupon.engine.service.UserCouponService;
 import com.fengxin.web.Result;
 import com.fengxin.web.Results;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,4 +35,25 @@ public class UserCouponController {
         return Results.success();
     }
     
+    @DuplicateSubmit(message = "请勿短时间内重复提交相同的修改信息")
+    @Operation(summary = "设置优惠券提醒时间")
+    @PostMapping("/api/engine/coupon-template-remind/create")
+    public Result<Void> createCouponRemind(@RequestBody CouponTemplateRemindTimeReqDTO requestParam) {
+        userCouponService.createCouponRemind(requestParam);
+        return Results.success();
+    }
+    
+    // @Operation(summary = "查询优惠券预约提醒")
+    // @GetMapping("/api/engine/coupon-template-remind/list")
+    // public Result<List<CouponTemplateRemindQueryRespDTO>> listCouponRemind() {
+    //     return Results.success(userCouponService.listCouponRemind(new CouponTemplateRemindQueryReqDTO(UserContext.getUserId())));
+    // }
+    
+    @Operation(summary = "取消优惠券预约提醒")
+    @DuplicateSubmit(message = "请勿短时间内重复提交取消预约提醒请求")
+    @PostMapping("/api/engine/coupon-template-remind/cancel")
+    public Result<Void> cancelCouponRemind(@RequestBody CouponTemplateRemindCancelReqDTO requestParam) {
+        userCouponService.cancelCouponRemind(requestParam);
+        return Results.success();
+    }
 }

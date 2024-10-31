@@ -1,6 +1,7 @@
 package com.fengxin.maplecoupon.engine.controller;
 
 import com.fengxin.idempotent.DuplicateSubmit;
+import com.fengxin.maplecoupon.engine.common.context.UserContext;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
 
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
@@ -34,13 +35,6 @@ public class CouponTemplateController {
         return Results.success(couponTemplateService.findCouponTemplateById(requestParam));
     }
     
-    @DuplicateSubmit(message = "请勿重复提交相同的修改信息")
-    @Operation(summary = "设置优惠券提醒时间")
-    @PostMapping("/api/engine/coupon-template-remind/create")
-    public Result<Void> createCouponRemind(@RequestBody CouponTemplateRemindTimeReqDTO requestParam) {
-        couponTemplateService.createCouponRemind(requestParam);
-        return Results.success();
-    }
     
     
 }
