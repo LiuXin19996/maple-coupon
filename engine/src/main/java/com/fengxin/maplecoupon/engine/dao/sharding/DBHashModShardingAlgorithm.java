@@ -1,5 +1,6 @@
 package com.fengxin.maplecoupon.engine.dao.sharding;
 
+import cn.hutool.core.lang.Singleton;
 import lombok.Getter;
 import org.apache.shardingsphere.infra.util.exception.ShardingSpherePreconditions;
 import org.apache.shardingsphere.sharding.api.sharding.standard.PreciseShardingValue;
@@ -27,9 +28,7 @@ public final class DBHashModShardingAlgorithm implements StandardShardingAlgorit
     
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Long> shardingValue) {
-        // 店铺编号
         long id = shardingValue.getValue();
-        // 数据库数量
         int dbSize = availableTargetNames.size();
         int mod = (int) hashShardingValue(id) % shardingCount / (shardingCount / dbSize);
         int index = 0;
@@ -52,6 +51,7 @@ public final class DBHashModShardingAlgorithm implements StandardShardingAlgorit
     public void init(Properties props) {
         this.props = props;
         shardingCount = getShardingCount(props);
+        Singleton.put(this);
     }
     
     private int getShardingCount(final Properties props) {
@@ -59,8 +59,13 @@ public final class DBHashModShardingAlgorithm implements StandardShardingAlgorit
         return Integer.parseInt(props.getProperty(SHARDING_COUNT_KEY));
     }
     
+    public int getShardingMod(long id, int availableTargetSize) {
+        return (int) hashShardingValue(id) % shardingCount / (shardingCount / availableTargetSize);
+    }
+    
     private long hashShardingValue(final Comparable<?> shardingValue) {
         return Math.abs((long) shardingValue.hashCode());
     }
+    
 }
 

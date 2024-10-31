@@ -7,6 +7,8 @@ import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
 
+import java.util.List;
+
 
 /**
  * @author FENGXIN
@@ -24,4 +26,12 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
      */
     CouponTemplateQueryRespDTO findCouponTemplateById (CouponTemplateQueryReqDTO requestParam);
     
+    /**
+     * 按 ID 和商店编号列出优惠券模板
+     *
+     * @param couponTemplateIdList 优惠券模板 ID 列表
+     * @param shopNumberList       店铺编号一览
+     * @return {@code List<CouponTemplateDO> }
+     */
+    List<CouponTemplateDO> listCouponTemplateByIdAndShopNumber (List<Long> couponTemplateIdList , List<Long> shopNumberList);
 }

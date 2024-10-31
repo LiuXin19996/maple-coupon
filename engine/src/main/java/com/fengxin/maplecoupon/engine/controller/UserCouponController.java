@@ -4,7 +4,9 @@ import com.fengxin.idempotent.DuplicateSubmit;
 import com.fengxin.maplecoupon.engine.common.context.UserContext;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRedeemReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindCancelReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindQueryReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
+import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateRemindQueryRespDTO;
 import com.fengxin.maplecoupon.engine.service.UserCouponService;
 import com.fengxin.web.Result;
 import com.fengxin.web.Results;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author FENGXIN
@@ -43,11 +47,11 @@ public class UserCouponController {
         return Results.success();
     }
     
-    // @Operation(summary = "查询优惠券预约提醒")
-    // @GetMapping("/api/engine/coupon-template-remind/list")
-    // public Result<List<CouponTemplateRemindQueryRespDTO>> listCouponRemind() {
-    //     return Results.success(userCouponService.listCouponRemind(new CouponTemplateRemindQueryReqDTO(UserContext.getUserId())));
-    // }
+    @Operation(summary = "查询优惠券预约提醒")
+    @GetMapping("/api/engine/coupon-template-remind/list")
+    public Result<List<CouponTemplateRemindQueryRespDTO>> listCouponRemind() {
+        return Results.success(userCouponService.listCouponRemind(new CouponTemplateRemindQueryReqDTO (UserContext.getUserId())));
+    }
     
     @Operation(summary = "取消优惠券预约提醒")
     @DuplicateSubmit(message = "请勿短时间内重复提交取消预约提醒请求")

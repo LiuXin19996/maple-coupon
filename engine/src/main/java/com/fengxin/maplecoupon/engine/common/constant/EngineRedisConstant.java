@@ -36,8 +36,9 @@ public final class EngineRedisConstant {
     /**
      * 检查用户是否已提醒 Key
      */
-    public static final String COUPON_REMIND_CHECK_KEY = "one-coupon_engine:coupon-remind-check:%s_%s_%d_%d";
+    public static final String COUPON_REMIND_CHECK_KEY = "maple-coupon_engine:coupon-remind-check:%s_%s_%d_%d";
     
     
+    public static final String USER_COUPON_REMIND_KEY = "maple-coupon_engine:coupon-remind:%s";
     
 }

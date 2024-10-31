@@ -1,11 +1,13 @@
 package com.fengxin.maplecoupon.engine.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -17,11 +19,9 @@ import com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateRemindMapper;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRedeemReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindCancelReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.*;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
+import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateRemindQueryRespDTO;
 import com.fengxin.maplecoupon.engine.mq.design.UserCouponRedeemEvent;
 import com.fengxin.maplecoupon.engine.mq.design.UserCouponRemindEvent;
 import com.fengxin.maplecoupon.engine.mq.producer.UserCouponRedeemProducer;
@@ -40,12 +40,13 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
-import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant.COUPON_TEMPLATE_KEY;
-import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIMIT_KEY;
+import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant.*;
 
 /**
  * @author FENGXIN
@@ -208,6 +209,8 @@ public class UserCouponServiceImpl implements UserCouponService {
                 throw new ClientException ("取消预约提醒失败，请重试");
             }
         }
+        // 移除取消的消息
+        stringRedisTemplate.delete (String.format (USER_COUPON_REMIND_KEY , UserContext.getUserId ()));
         // 添加取消提醒到布隆过滤器
         cancelRemindBloomFilter.add (String.format (requestParam.getCouponTemplateId () , UserContext.getUserId () , requestParam.getRemindTime () , requestParam.getType ()));
     }
@@ -229,6 +232,44 @@ public class UserCouponServiceImpl implements UserCouponService {
         // 取消了预约 只取消了该时间点
         Long canalRemindTime = SetUserCouponTemplateRemindTimeUtil.calculateRemindTime (requestParam.getRemindTime () , requestParam.getType ());
         return (canalRemindTime & couponTemplateRemindDO.getInformation ()) == 0L;
+    }
+    
+    @Override
+    public List<CouponTemplateRemindQueryRespDTO> listCouponRemind (CouponTemplateRemindQueryReqDTO requestParam) {
+        // 查询缓存的预约信息
+        String cacheRemind = stringRedisTemplate.opsForValue ().get (String.format (USER_COUPON_REMIND_KEY , requestParam.getUserId ()));
+        if (StrUtil.isNotBlank (cacheRemind)){
+            return JSON.parseArray (cacheRemind,CouponTemplateRemindQueryRespDTO.class);
+        }
+        // 查出预约信息
+        List<CouponTemplateRemindQueryRespDTO> result = new ArrayList<> ();
+        LambdaQueryWrapper<CouponTemplateRemindDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateRemindDO> ()
+                .eq (CouponTemplateRemindDO::getUserId,requestParam.getUserId ());
+        List<CouponTemplateRemindDO> couponTemplateRemindList = couponTemplateRemindDOMapper.selectList (queryWrapper);
+        if (CollUtil.isEmpty (couponTemplateRemindList)){
+            return result;
+        }
+        // 根据优惠券id和店铺id查询优惠券信息
+        List<Long> couponTemplateIdList = couponTemplateRemindList.stream ()
+                .map (CouponTemplateRemindDO::getCouponTemplateId)
+                .toList ();
+        List<Long> shopNumberList = couponTemplateRemindList.stream ()
+                .map (CouponTemplateRemindDO::getShopNumber)
+                .toList ();
+        List<CouponTemplateDO> couponTemplateDOList = couponTemplateService.listCouponTemplateByIdAndShopNumber (couponTemplateIdList , shopNumberList);
+        result = BeanUtil.copyToList (couponTemplateDOList,CouponTemplateRemindQueryRespDTO.class);
+        // 填充提醒时间和类型
+        result.forEach (
+                        each -> couponTemplateRemindList.stream ()
+                        .filter (n ->
+                                n.getCouponTemplateId ().equals (each.getId ()))
+                        .findFirst ()
+                        .ifPresent (n ->
+                                SetUserCouponTemplateRemindTimeUtil.
+                                fillRemindInformation (each,n.getInformation ()))
+        );
+        stringRedisTemplate.opsForValue().set(String.format(USER_COUPON_REMIND_KEY, requestParam.getUserId()), JSON.toJSONString(result), 1, TimeUnit.MINUTES);
+        return result;
     }
     
 }

@@ -15,6 +15,7 @@ import com.fengxin.maplecoupon.engine.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateRemindMapper;
+import com.fengxin.maplecoupon.engine.dao.sharding.DBShardingUtil;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
@@ -32,10 +33,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -139,5 +137,50 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
             }
         }
         return BeanUtil.mapToBean (cacheCouponTemplateMap,CouponTemplateQueryRespDTO.class,false, CopyOptions.create ());
+    }
+    
+    @Override
+    public List<CouponTemplateDO> listCouponTemplateByIdAndShopNumber (List<Long> couponTemplateIdList , List<Long> shopNumberList) {
+        // 获取每个分库下的店铺编号
+        Map<Integer, List<Long>> couponDatabase = splitCouponDatabase (shopNumberList);
+        List<CouponTemplateDO> result = new ArrayList<> ();
+        // 对每个数据库查询
+            for (Map.Entry<Integer, List<Long>> entry : couponDatabase.entrySet ()) {
+            List<Long> shopNumberByDatabase = entry.getValue ();
+            List<CouponTemplateDO> couponTemplateDOList = queryListByDatabase (couponTemplateIdList , shopNumberByDatabase);
+            result.addAll (couponTemplateDOList);
+        }
+        return result;
+    }
+    
+    /**
+     * 拆分优惠券数据库
+     *
+     * @param shopNumberList 店铺编号一览
+     * @return {@code Map<Integer,List<Long>> }
+     */
+    public Map<Integer,List<Long>> splitCouponDatabase(List<Long> shopNumberList){
+        Map<Integer,List<Long>> result = new HashMap<> ();
+        for (Long shopNumber : shopNumberList) {
+            int database = DBShardingUtil.doCouponSharding (shopNumber);
+            // 添加shopNumber到对应数据库索引的列表里
+            result.computeIfAbsent (database,n -> new ArrayList<> ())
+                    .add (shopNumber);
+        }
+        return result;
+    }
+    
+    /**
+     * 按数据库查询列表
+     *
+     * @param couponTemplateIdList 优惠券模板 ID 列表
+     * @param shopNumberList       店铺编号一览
+     * @return {@code List<CouponTemplateDO> }
+     */
+    public List<CouponTemplateDO> queryListByDatabase(List<Long> couponTemplateIdList , List<Long> shopNumberList){
+        LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
+                .in (CouponTemplateDO::getId,couponTemplateIdList)
+                .in (CouponTemplateDO::getShopNumber,shopNumberList);
+        return couponTemplateMapper.selectList (queryWrapper);
     }
 }

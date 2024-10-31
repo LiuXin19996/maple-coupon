@@ -2,8 +2,12 @@ package com.fengxin.maplecoupon.engine.service;
 
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRedeemReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindCancelReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindQueryReqDTO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
+import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateRemindQueryRespDTO;
 import com.fengxin.maplecoupon.engine.service.handler.dto.CouponTemplateRemindDTO;
+
+import java.util.List;
 
 /**
  * @author FENGXIN
@@ -40,4 +44,6 @@ public interface UserCouponService{
      * @return boolean
      */
     boolean isCanalRemind(CouponTemplateRemindDTO requestParam);
+    
+    List<CouponTemplateRemindQueryRespDTO> listCouponRemind (CouponTemplateRemindQueryReqDTO requestParam);
 }
