@@ -30,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY;
+
 /**
  * @author FENGXIN
  * @date 2024/10/29
@@ -76,11 +78,11 @@ public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper
                 .receiveTime (now)
                 .status (UserCouponStatusEnum.UNUSED.getCode ())
                 .validStartTime (now)
-                .validStartTime (couponTemplateById.getValidEndTime ())
+                .validEndTime (couponTemplateById.getValidEndTime ())
                 .build ();
         userCouponMapper.insert (userCouponDO);
         // 添加用户领取优惠券模板缓存记录
-        String userCouponListCacheKey = String.format(EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY, UserContext.getUserId());
+        String userCouponListCacheKey = String.format(USER_COUPON_TEMPLATE_LIST_KEY, userId);
         String userCouponItemCacheKey = StrUtil.builder()
                 .append(requestParam.getCouponTemplateId())
                 .append("_")

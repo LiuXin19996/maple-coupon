@@ -502,7 +502,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                     String userCouponItemCacheKey = StrUtil.builder()
                             .append(selectOne.getCouponTemplateId())
                             .append("_")
-                            .append(userCouponDO.getId())
+                            .append(selectOne.getId())
                             .toString();
                     stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, selectOne.getReceiveTime ().getTime());
                 } catch (Throwable e) {

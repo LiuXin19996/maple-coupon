@@ -1,6 +1,8 @@
 package com.fengxin.maplecoupon.engine.dao.entity;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("t_coupon_settlement")
 public class CouponSettlementDO {
     /**
     * ID
