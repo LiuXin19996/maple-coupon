@@ -145,7 +145,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         Map<Integer, List<Long>> couponDatabase = splitCouponDatabase (shopNumberList);
         List<CouponTemplateDO> result = new ArrayList<> ();
         // 对每个数据库查询
-            for (Map.Entry<Integer, List<Long>> entry : couponDatabase.entrySet ()) {
+        for (Map.Entry<Integer, List<Long>> entry : couponDatabase.entrySet ()) {
             List<Long> shopNumberByDatabase = entry.getValue ();
             List<CouponTemplateDO> couponTemplateDOList = queryListByDatabase (couponTemplateIdList , shopNumberByDatabase);
             result.addAll (couponTemplateDOList);
@@ -157,7 +157,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
      * 拆分优惠券数据库
      *
      * @param shopNumberList 店铺编号一览
-     * @return {@code Map<Integer,List<Long>> }
+     * @return {@code Map<Integer,List<Long>> 数据库编号 shopNums}
      */
     public Map<Integer,List<Long>> splitCouponDatabase(List<Long> shopNumberList){
         Map<Integer,List<Long>> result = new HashMap<> ();

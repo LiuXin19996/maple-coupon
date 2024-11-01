@@ -1,9 +1,6 @@
 package com.fengxin.maplecoupon.engine.service;
 
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRedeemReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindCancelReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindQueryReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
+import com.fengxin.maplecoupon.engine.dto.req.*;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateRemindQueryRespDTO;
 import com.fengxin.maplecoupon.engine.service.handler.dto.CouponTemplateRemindDTO;
 
@@ -45,5 +42,32 @@ public interface UserCouponService{
      */
     boolean isCanalRemind(CouponTemplateRemindDTO requestParam);
     
+    /**
+     * 优惠券提醒列表
+     *
+     * @param requestParam 请求参数
+     * @return {@code List<CouponTemplateRemindQueryRespDTO> }
+     */
     List<CouponTemplateRemindQueryRespDTO> listCouponRemind (CouponTemplateRemindQueryReqDTO requestParam);
+    
+    /**
+     * 创建付款记录
+     *
+     * @param requestParam 请求参数
+     */
+    void createPaymentRecord (CouponCreatePaymentReqDTO requestParam);
+    
+    /**
+     * 处理付款
+     *
+     * @param requestParam 请求参数
+     */
+    void processPayment (CouponProcessPaymentReqDTO requestParam);
+    
+    /**
+     * 办理退款
+     *
+     * @param requestParam 请求参数
+     */
+    void processRefund (CouponProcessRefundReqDTO requestParam);
 }

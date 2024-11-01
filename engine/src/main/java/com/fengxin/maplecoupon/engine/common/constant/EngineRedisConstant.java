@@ -14,12 +14,12 @@ public final class EngineRedisConstant {
     public static final String COUPON_TEMPLATE_KEY = "maple-coupon_engine:template:%s";
     
     /**
-     * 优惠券分布式🔒
+     * 优惠券分布式🔒 Key
      */
     public static final String LOCK_COUPON_TEMPLATE_KEY = "lock:maple-coupon_engine:template:%s";
     
     /**
-     * 优惠券缓存空值
+     * 优惠券缓存空值 Key
      */
     public static final String EMPTY_COUPON_TEMPLATE_KEY = "empty:maple-coupon_engine:%s";
     
@@ -38,7 +38,13 @@ public final class EngineRedisConstant {
      */
     public static final String COUPON_REMIND_CHECK_KEY = "maple-coupon_engine:coupon-remind-check:%s_%s_%d_%d";
     
-    
+    /**
+     * 用户优惠券提醒 Key
+     */
     public static final String USER_COUPON_REMIND_KEY = "maple-coupon_engine:coupon-remind:%s";
     
+    /**
+     * 锁定优惠券结算分布式🔒 Key
+     */
+    public static final String LOCK_COUPON_SETTLEMENT_KEY = "lock:maple-coupon_engine:settlement:%s";
 }

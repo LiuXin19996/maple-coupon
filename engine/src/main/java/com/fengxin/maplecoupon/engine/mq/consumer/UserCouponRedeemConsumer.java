@@ -40,7 +40,7 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener (
-        topic = "user-coupon-template_redemption_sync_execute_topic",
+        topic = "user-coupon-template_redemption_async_execute_topic",
         consumerGroup = "user-coupon-template_redemption_consumer"
 )
 public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper<UserCouponRedeemEvent>> {
@@ -52,7 +52,7 @@ public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper
     @Transactional(rollbackFor = Exception.class)
     public void onMessage (MessageWrapper<UserCouponRedeemEvent> message) {
         // 打印日志
-        log.info ("[消费者] 用户优惠券延时结束执行 消息体: {}" , JSON.toJSONString (message));
+        log.info ("[消费者] 用户优惠券兑换执行 消息体: {}" , JSON.toJSONString (message));
         UserCouponRedeemEvent userCouponRedeemEvent = message.getMessage ();
         CouponTemplateQueryRespDTO couponTemplateById = userCouponRedeemEvent.getCouponTemplate ();
         CouponTemplateRedeemReqDTO requestParam = userCouponRedeemEvent.getRequestParam ();
