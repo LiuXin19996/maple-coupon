@@ -14,6 +14,7 @@ import com.fengxin.maplecoupon.settlement.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.maplecoupon.settlement.dto.resp.QueryCouponsDetailRespDTO;
 import com.fengxin.maplecoupon.settlement.dto.resp.QueryCouponsRespDTO;
 import com.fengxin.maplecoupon.settlement.service.CouponQueryService;
+import io.reactivex.rxjava3.core.Completable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisCallback;
@@ -21,10 +22,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,10 +42,123 @@ import static com.fengxin.maplecoupon.settlement.common.constant.EngineRedisCons
 public class CouponQueryServiceImpl implements CouponQueryService {
     private final RedisDistributedProperties redisDistributedProperties;
     private final StringRedisTemplate stringRedisTemplate;
+    // 在本次的业务场景中，属于是 CPU 密集型任务，设置 CPU 的核心数即可
+    private final ExecutorService executorService = new ThreadPoolExecutor (
+            Runtime.getRuntime().availableProcessors(),
+            Runtime.getRuntime().availableProcessors(),
+            9999,
+            TimeUnit.SECONDS,
+            new SynchronousQueue<> (),
+            new ThreadPoolExecutor.CallerRunsPolicy()
+    );
     
     @Override
     public QueryCouponsRespDTO listQueryUserCoupons (QueryCouponsReqDTO requestParam) {
-        return null;
+        // 查询缓存优惠券id
+        Set<String> cacheCouponTemplateIdList = stringRedisTemplate.opsForZSet ().range (
+                String.format (USER_COUPON_TEMPLATE_LIST_KEY , UserContext.getUserId ()) , 0 , -1);
+        // 根据优惠券id构建缓存优惠券key
+        List<String> cacheCouponTemplateKeyList = cacheCouponTemplateIdList.stream ()
+                .map (each -> StrUtil.split (each , "_").get (0))
+                .map (each -> redisDistributedProperties.getPrefix() + String.format (COUPON_TEMPLATE_KEY , each))
+                .toList ();
+        // 使用Pipeline批量查询缓存优惠券json
+        List<Object> couponTemplateList = stringRedisTemplate.executePipelined ((RedisCallback<String>) connection -> {
+            cacheCouponTemplateKeyList.forEach (each -> connection.hashCommands ().hGetAll (each.getBytes ()));
+            // 结束回调函数
+            return null;
+        });
+        // 数据转换
+        List<CouponTemplateQueryRespDTO> couponTemplateQueryRespDTOList = couponTemplateList.stream()
+                .map(item -> BeanUtil.toBean (item,CouponTemplateQueryRespDTO.class))
+                .toList ();
+        // 按照商品券和店铺券分类 方便计算折扣
+        Map<Boolean, List<CouponTemplateQueryRespDTO>> couponTemplateByGoods = couponTemplateQueryRespDTOList.stream ()
+                .collect (Collectors.partitioningBy (coupon -> StrUtil.isEmpty (coupon.getGoods ())));
+        List<CouponTemplateQueryRespDTO> emptyGoodsList = couponTemplateByGoods.get (true);
+        List<CouponTemplateQueryRespDTO> hasGoodsList = couponTemplateByGoods.get (false);
+        // 计算店铺券折扣金额
+        List<QueryCouponsDetailRespDTO> availableCouponList = Collections.synchronizedList (new ArrayList<> ());
+        List<QueryCouponsDetailRespDTO> notAvailableCouponList = Collections.synchronizedList (new ArrayList<> ());
+        // 计算店铺券
+        CompletableFuture<Void> emptyGoodsTasks  = CompletableFuture.allOf (
+                emptyGoodsList.stream ()
+                        .map (each -> CompletableFuture.runAsync (() -> {
+                            QueryCouponsDetailRespDTO couponsDetailRespDTO = BeanUtil.toBean (each , QueryCouponsDetailRespDTO.class);
+                            JSONObject consume = JSON.parseObject (couponsDetailRespDTO.getConsumeRule ());
+                            calculateCouponTemplateAmount (couponsDetailRespDTO , consume , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
+                        } , executorService))
+                        .toArray (CompletableFuture[]::new)
+        );
+        // 计算商品券
+        CompletableFuture<Void> notEmptyGoodsTasks = CompletableFuture.allOf (
+                hasGoodsList.stream ()
+                        .map (each -> CompletableFuture.runAsync (() -> {
+                            Map<String, QueryCouponGoodsReqDTO> goodsMap = requestParam.getGoodsList ().stream ()
+                                    .collect (Collectors.toMap (QueryCouponGoodsReqDTO::getGoodsNumber ,
+                                            Function.identity () ,
+                                            (exist , replace) -> exist));
+                            QueryCouponsDetailRespDTO couponsDetailRespDTO = BeanUtil.toBean (each , QueryCouponsDetailRespDTO.class);
+                            JSONObject consume = JSON.parseObject (couponsDetailRespDTO.getConsumeRule ());
+                            BigDecimal maximumDiscountAmount = consume.getBigDecimal ("maximumDiscountAmount");
+                            // 从请求参数里的商品编号校验是否有该商品的优惠券可用
+                            QueryCouponGoodsReqDTO couponGoodsReqDTO = goodsMap.get (each.getGoods ());
+                            if (ObjectUtil.isNull (couponGoodsReqDTO)) {
+                                notAvailableCouponList.add (couponsDetailRespDTO);
+                            }
+                            calculateCouponTemplateAmount (couponsDetailRespDTO , consume , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
+                        } , executorService))
+                        .toArray (CompletableFuture[]::new)
+        );
+        // 等待两个任务完成
+        CompletableFuture.allOf (emptyGoodsTasks,notEmptyGoodsTasks)
+                .thenRun (() -> availableCouponList.sort ((c1, c2) -> c2.getCouponAmount ().compareTo (c1.getCouponAmount ())))
+                .join ();
+        return QueryCouponsRespDTO.builder ()
+                .availableCouponList (availableCouponList)
+                .notAvailableCouponList (notAvailableCouponList)
+                .build ();
+    }
+    
+    public void calculateCouponTemplateAmount(QueryCouponsDetailRespDTO couponsDetailRespDTO,
+                                              JSONObject consume,
+                                              List<QueryCouponsDetailRespDTO> availableCouponList,
+                                              List<QueryCouponsDetailRespDTO> notAvailableCouponList,
+                                              BigDecimal orderAmount){
+            BigDecimal maximumDiscountAmount = consume.getBigDecimal("maximumDiscountAmount");
+            switch (couponsDetailRespDTO.getType ()){
+                case 0:
+                    // 立减券
+                    couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
+                    availableCouponList.add (couponsDetailRespDTO);
+                    break;
+                case 1:
+                    // 满减券
+                    if (orderAmount.compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
+                        couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
+                        availableCouponList.add (couponsDetailRespDTO);
+                    }else {
+                        notAvailableCouponList.add (couponsDetailRespDTO);
+                    }
+                    break;
+                case 2:
+                    // 折扣券
+                    if (orderAmount.compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
+                        BigDecimal discountRate = consume.getBigDecimal ("discountRate");
+                        BigDecimal multiply = orderAmount.multiply (discountRate);
+                        if (multiply.compareTo (maximumDiscountAmount) >= 0 ){
+                            couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
+                        }else {
+                            couponsDetailRespDTO.setCouponAmount (multiply);
+                        }
+                        availableCouponList.add (couponsDetailRespDTO);
+                    }else {
+                        notAvailableCouponList.add (couponsDetailRespDTO);
+                    }
+                    break;
+                default:
+                    throw new ClientException ("无效的优惠券类型");
+            }
     }
     
     @Override
