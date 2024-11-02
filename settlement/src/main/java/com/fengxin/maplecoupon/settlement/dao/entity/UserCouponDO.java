@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.distribution.dao.entity;
+package com.fengxin.maplecoupon.settlement.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -12,50 +12,45 @@ import java.util.Date;
 
 /**
  * @author FENGXIN
- * @date 2024/10/16
+ * @date 2024/10/19
  * @project feng-coupon
- * @description 优惠券模板实体
+ * @description 用户优惠券数据库持久层实体
  **/
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@TableName("t_coupon_template")
-public class CouponTemplateDO {
+@AllArgsConstructor
+@Builder
+@TableName("t_user_coupon")
+public class UserCouponDO {
     /**
      * id
      */
     private Long id;
     
     /**
-     * 店铺编号
+     * 用户id
      */
-    private Long shopNumber;
+    private Long userId;
     
     /**
-     * 优惠券名称
+     * 优惠券模板id
      */
-    private String name;
+    private Long couponTemplateId;
     
     /**
-     * 优惠券来源 0：店铺券 1：平台券
+     * 行号
      */
-    private Integer source;
+    private Integer rowNum;
     
     /**
-     * 优惠对象 0：商品专属 1：全店通用
+     * 领取时间
      */
-    private Integer target;
+    private Date receiveTime;
     
     /**
-     * 优惠商品编码
+     * 领取次数
      */
-    private String goods;
-    
-    /**
-     * 优惠类型 0：立减券 1：满减券 2：折扣券
-     */
-    private Integer type;
+    private Integer receiveCount;
     
     /**
      * 有效期开始时间
@@ -68,22 +63,17 @@ public class CouponTemplateDO {
     private Date validEndTime;
     
     /**
-     * 库存
+     * 使用时间
      */
-    private Integer stock;
+    private Date useTime;
     
     /**
-     * 领取规则
+     * 券来源 0：领券中心 1：平台发放 2：店铺领取
      */
-    private String receiveRule;
+    private Integer source;
     
     /**
-     * 消耗规则
-     */
-    private String consumeRule;
-    
-    /**
-     * 优惠券状态 0：生效中 1：已结束
+     * 状态 0：未使用 1：锁定 2：已使用 3：已过期 4：已撤回
      */
     private Integer status;
     
@@ -105,4 +95,5 @@ public class CouponTemplateDO {
     @TableField(fill = FieldFill.INSERT)
     private Integer delFlag;
 
+    
 }

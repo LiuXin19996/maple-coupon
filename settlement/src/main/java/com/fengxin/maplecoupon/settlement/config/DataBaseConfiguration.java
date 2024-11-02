@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.engine.config;
+package com.fengxin.maplecoupon.settlement.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

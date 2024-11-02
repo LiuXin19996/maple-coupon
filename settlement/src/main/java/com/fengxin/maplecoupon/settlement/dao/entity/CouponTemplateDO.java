@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.distribution.dao.entity;
+package com.fengxin.maplecoupon.settlement.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

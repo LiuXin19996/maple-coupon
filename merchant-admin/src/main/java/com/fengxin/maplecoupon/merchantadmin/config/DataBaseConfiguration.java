@@ -8,7 +8,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author FENGXIN
@@ -42,14 +42,14 @@ public class DataBaseConfiguration {
         
         @Override
         public void insertFill(MetaObject metaObject) {
-            strictInsertFill(metaObject, "createTime", LocalDateTime.class , LocalDateTime.now ());
-            strictInsertFill(metaObject, "updateTime", LocalDateTime.class , LocalDateTime.now ());
+            strictInsertFill(metaObject, "createTime", Date::new,Date.class);
+            strictInsertFill(metaObject, "updateTime",Date::new,Date.class);
             strictInsertFill(metaObject, "delFlag", () -> 0, Integer.class);
         }
         
         @Override
         public void updateFill(MetaObject metaObject) {
-            strictInsertFill(metaObject, "updateTime", LocalDateTime.class , LocalDateTime.now ());
+            strictInsertFill(metaObject, "updateTime", Date::new,Date.class);
         }
     }
     
