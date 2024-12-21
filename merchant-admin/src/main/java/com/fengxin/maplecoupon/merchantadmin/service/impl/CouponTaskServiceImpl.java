@@ -126,6 +126,5 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
             CouponTaskExecuteEvent build = CouponTaskExecuteEvent.builder ().couponTaskId (couponTaskDO.getId ()).build ();
             couponTemplateTaskProducer.sendMessage (build);
         }
-        
     }
 }

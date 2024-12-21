@@ -75,9 +75,9 @@ public class CouponTaskDistributionConsumer implements RocketMQListener<MessageW
         }
         // 开始分发消费
         ReadExcelDistributionListener readExcelDistributionListener = new ReadExcelDistributionListener (
-                couponTaskDO ,
-                stringRedisTemplate ,
-                couponTemplateDO ,
+                couponTaskDO,
+                stringRedisTemplate,
+                couponTemplateDO,
                 couponTaskFailMapper,
                 couponExecuteDistributionProducer
         );

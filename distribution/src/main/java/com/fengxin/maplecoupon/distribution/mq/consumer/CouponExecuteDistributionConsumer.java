@@ -71,7 +71,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
     private final CouponTaskMapper couponTaskMapper;
     
     private static final String BATCH_SAVE_USER_COUPON_LUA_PATH = "lua/batch_save_user_coupon.lua";
-    private static final Integer BATCH_SAVE_USER_COUPON_SIZE = 5;
+    private static final Integer BATCH_SAVE_USER_COUPON_SIZE = 5000;
     private final String excelPath = Paths.get("").toAbsolutePath() + "/tmp";
     @Override
     public void onMessage (MessageWrapper<CouponTemplateDistributionEvent> message) {
@@ -152,8 +152,6 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 }
                 
             }
-            
-            
             // 用户都已经接收到优惠券 设置结束时间
             CouponTaskDO couponTaskDO = CouponTaskDO.builder ()
                     .id (couponTemplateDistributionEvent.getCouponTaskId ())

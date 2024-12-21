@@ -14,7 +14,6 @@ import com.fengxin.maplecoupon.settlement.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.maplecoupon.settlement.dto.resp.QueryCouponsDetailRespDTO;
 import com.fengxin.maplecoupon.settlement.dto.resp.QueryCouponsRespDTO;
 import com.fengxin.maplecoupon.settlement.service.CouponQueryService;
-import io.reactivex.rxjava3.core.Completable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisCallback;
@@ -24,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -91,6 +92,10 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                         .toArray (CompletableFuture[]::new)
         );
         // 计算商品券
+        AtomicReference<Double> d = new AtomicReference<> ();
+        hasGoodsList.forEach (each -> {
+            d.getAndSet (each.getStock () + 1.0);
+        });
         CompletableFuture<Void> notEmptyGoodsTasks = CompletableFuture.allOf (
                 hasGoodsList.stream ()
                         .map (each -> CompletableFuture.runAsync (() -> {
@@ -125,40 +130,44 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                                               List<QueryCouponsDetailRespDTO> availableCouponList,
                                               List<QueryCouponsDetailRespDTO> notAvailableCouponList,
                                               BigDecimal orderAmount){
-            BigDecimal maximumDiscountAmount = consume.getBigDecimal("maximumDiscountAmount");
-            switch (couponsDetailRespDTO.getType ()){
-                case 0:
-                    // 立减券
+        if (ObjectUtil.isNull (consume)){
+            notAvailableCouponList.add (couponsDetailRespDTO);
+            return;
+        }
+        BigDecimal maximumDiscountAmount = consume.getBigDecimal("maximumDiscountAmount");
+        switch (couponsDetailRespDTO.getType ()){
+            case 0:
+                // 立减券
+                couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
+                availableCouponList.add (couponsDetailRespDTO);
+                break;
+            case 1:
+                // 满减券
+                if (orderAmount.compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
                     couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
                     availableCouponList.add (couponsDetailRespDTO);
-                    break;
-                case 1:
-                    // 满减券
-                    if (orderAmount.compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
+                }else {
+                    notAvailableCouponList.add (couponsDetailRespDTO);
+                }
+                break;
+            case 2:
+                // 折扣券
+                if (orderAmount.compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
+                    BigDecimal discountRate = consume.getBigDecimal ("discountRate");
+                    BigDecimal multiply = orderAmount.multiply (discountRate);
+                    if (multiply.compareTo (maximumDiscountAmount) >= 0 ){
                         couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
-                        availableCouponList.add (couponsDetailRespDTO);
                     }else {
-                        notAvailableCouponList.add (couponsDetailRespDTO);
+                        couponsDetailRespDTO.setCouponAmount (multiply);
                     }
-                    break;
-                case 2:
-                    // 折扣券
-                    if (orderAmount.compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
-                        BigDecimal discountRate = consume.getBigDecimal ("discountRate");
-                        BigDecimal multiply = orderAmount.multiply (discountRate);
-                        if (multiply.compareTo (maximumDiscountAmount) >= 0 ){
-                            couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
-                        }else {
-                            couponsDetailRespDTO.setCouponAmount (multiply);
-                        }
-                        availableCouponList.add (couponsDetailRespDTO);
-                    }else {
-                        notAvailableCouponList.add (couponsDetailRespDTO);
-                    }
-                    break;
-                default:
-                    throw new ClientException ("无效的优惠券类型");
-            }
+                    availableCouponList.add (couponsDetailRespDTO);
+                }else {
+                    notAvailableCouponList.add (couponsDetailRespDTO);
+                }
+                break;
+            default:
+                throw new ClientException ("无效的优惠券类型");
+        }
     }
     
     @Override
@@ -192,6 +201,10 @@ public class CouponQueryServiceImpl implements CouponQueryService {
         emptyGoodsList.forEach (each -> {
             QueryCouponsDetailRespDTO couponsDetailRespDTO = BeanUtil.toBean (each , QueryCouponsDetailRespDTO.class);
             JSONObject consume = JSON.parseObject (couponsDetailRespDTO.getConsumeRule ());
+            if (ObjectUtil.isNull (consume)){
+                notAvailableCouponList.add (couponsDetailRespDTO);
+                return;
+            }
             BigDecimal maximumDiscountAmount = consume.getBigDecimal("maximumDiscountAmount");
             switch (each.getType ()){
                 case 0:

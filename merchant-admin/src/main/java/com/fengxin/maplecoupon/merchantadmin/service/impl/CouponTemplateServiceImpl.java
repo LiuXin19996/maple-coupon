@@ -14,6 +14,7 @@ import com.fengxin.maplecoupon.merchantadmin.common.context.UserContext;
 import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.merchantadmin.dao.mapper.CouponTemplateMapper;
+import com.fengxin.maplecoupon.merchantadmin.dto.req.TerminateCouponTemplateReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.mq.design.CouponTemplateDelayExecuteEvent;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateNumberReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplatePageQueryReqDTO;
@@ -32,7 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,11 +54,9 @@ import static com.fengxin.maplecoupon.merchantadmin.common.enums.ChainBizMarkEnu
 public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper, CouponTemplateDO> implements CouponTemplateService  {
     private final CouponTemplateMapper couponTemplateMapper;
     private final StringRedisTemplate stringRedisTemplate;
-    private final MerchantAdminChainContext merchantAdminChainContext;
+    private final MerchantAdminChainContext<CouponTemplateSaveReqDTO> merchantAdminChainContext;
     private final CouponTemplateDelayTerminalStatusProducer couponTemplateDelayTerminalStatusProducer;
     private final RBloomFilter<String> couponTemplateQueryBloomFilter;
-    private String merchantMQTopic = "merchant-admin-topic";
-    
     
     // 日志记录
     @LogRecord (
@@ -86,7 +87,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         // 新增优惠券模板信息到数据库
         CouponTemplateDO couponTemplateDO = BeanUtil.toBean(requestParam, CouponTemplateDO.class);
         couponTemplateDO.setStatus(CouponTemplateStatusEnum.ACTIVE.getValue ());
-        couponTemplateDO.setShopNumber(UserContext.getShopNumber());
+        couponTemplateDO.setShopNumber(1810714735922956666L);
         couponTemplateMapper.insert(couponTemplateDO);
         
         // 添加入布隆过滤器
@@ -131,10 +132,11 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     
     @Override
     @LogRecord (
-            success = "增加发行量：{{#requestParam.number}}",
+            success = "增加 {{#requestParam.couponTemplateId}} 发行量：{{#requestParam.number}}",
             type = "CouponTemplate",
-            bizNo = "#{{#requestParam.couponTemplateId}}"
+            bizNo = "{{#requestParam.couponTemplateId}}"
     )
+    @Transactional(rollbackFor = Exception.class)
     public void increaseNumberCouponTemplate (CouponTemplateNumberReqDTO requestParam) {
         // 检验用户横向越权
         LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
@@ -163,14 +165,15 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     
     @Override
     @LogRecord (
-            success = "结束优惠券",
+            success = "结束优惠券：{{#requestParam.couponTemplateId}}",
             type = "CouponTemplate",
-            bizNo = "#{{couponTemplateId}}"
+            bizNo = "{{#requestParam.couponTemplateId}}"
     )
-    public void terminateCouponTemplate (String couponTemplateId) {
+    @Transactional(rollbackFor = Exception.class)
+    public void terminateCouponTemplate (TerminateCouponTemplateReqDTO requestParam) {
         // 1.校验用户横向越权
         LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
-                .eq(CouponTemplateDO::getId,couponTemplateId)
+                .eq(CouponTemplateDO::getId,requestParam.getCouponTemplateId ())
                 .eq (CouponTemplateDO::getShopNumber,UserContext.getShopNumber());
         CouponTemplateDO selectOne = couponTemplateMapper.selectOne (queryWrapper);
         if (ObjectUtil.isNull(selectOne)) {
@@ -183,13 +186,12 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         }
         // 3.记录原始数据
         LogRecordContext.putVariable ("originalData", JSON.toJSONString(selectOne));
-        
-        // 5.设置缓存优惠券结束
+        // 4.设置缓存优惠券结束
         String couponTemplateCacheKey = String.format(MerchantAdminRedisConstant.COUPON_TEMPLATE_KEY, selectOne);
         stringRedisTemplate.opsForHash ().put (couponTemplateCacheKey, "status",String.valueOf (CouponTemplateStatusEnum.ENDED.getValue ()));
-        // 4.修改优惠券结束状态
+        // 5.修改优惠券结束状态
         LambdaUpdateWrapper<CouponTemplateDO> updateWrapper = new LambdaUpdateWrapper<CouponTemplateDO> ()
-                .eq(CouponTemplateDO::getId,couponTemplateId)
+                .eq(CouponTemplateDO::getId,requestParam.getCouponTemplateId ())
                 .eq (CouponTemplateDO::getShopNumber,UserContext.getShopNumber());
         CouponTemplateDO build = CouponTemplateDO.builder ()
                 .status (CouponTemplateStatusEnum.ENDED.getValue ())

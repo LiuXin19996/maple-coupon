@@ -3,6 +3,7 @@ package com.fengxin.maplecoupon.merchantadmin.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateNumberReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplatePageQueryReqDTO;
+import com.fengxin.maplecoupon.merchantadmin.dto.req.TerminateCouponTemplateReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateSaveReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.resp.CouponTemplateQueryRespDTO;
@@ -13,10 +14,7 @@ import com.fengxin.web.Results;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author FENGXIN
@@ -60,8 +58,8 @@ public class CouponTemplateController {
     
     @Operation(summary = "结束优惠券模板")
     @PostMapping("/api/merchant-admin/coupon-template/terminate")
-    public Result<Void> terminateCouponTemplate(String couponTemplateId) {
-        couponTemplateService.terminateCouponTemplate(couponTemplateId);
+    public Result<Void> terminateCouponTemplate(@RequestBody TerminateCouponTemplateReqDTO requestParam) {
+        couponTemplateService.terminateCouponTemplate(requestParam);
         return Results.success();
     }
     

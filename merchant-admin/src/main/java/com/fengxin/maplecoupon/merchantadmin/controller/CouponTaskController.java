@@ -26,7 +26,7 @@ public class CouponTaskController {
     private final CouponTaskService couponTaskService;
     
     @Operation(summary = "创建优惠券推送任务")
-    @DuplicateSubmit(message = "请勿短时间内重复提交优惠券推送任务")
+    // @DuplicateSubmit(message = "请勿短时间内重复提交优惠券推送任务")
     @PostMapping("/api/merchant-admin/coupon-task/create")
     public Result<Void> createCouponTask(@RequestBody CouponTaskCreateReqDTO requestParam) {
         couponTaskService.createCouponTask(requestParam);

@@ -6,6 +6,7 @@ import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateNumberReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplatePageQueryReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.req.CouponTemplateSaveReqDTO;
+import com.fengxin.maplecoupon.merchantadmin.dto.req.TerminateCouponTemplateReqDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.maplecoupon.merchantadmin.dto.resp.CouponTemplateQueryRespDTO;
 
@@ -44,7 +45,7 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
      *
      * @param couponTemplateId 优惠券模板 ID
      */
-    void terminateCouponTemplate (String couponTemplateId);
+    void terminateCouponTemplate (TerminateCouponTemplateReqDTO requestParam);
     
     IPage<CouponTemplatePageQueryRespDTO> pageQueryCouponTemplate (CouponTemplatePageQueryReqDTO requestParam);
 }
