@@ -78,6 +78,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         // 验证参数非空
         // 验证参数格式正确
         // 验证参数依赖 比如选择定时发送，发送时间是否不为空等
+        
         // 查询是否存在优惠券
         CouponTemplateQueryRespDTO couponTemplateById = couponTemplateService.findCouponTemplateById (requestParam.getCouponTemplateId ());
         if(ObjectUtil.isEmpty (couponTemplateById)){
@@ -109,7 +110,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
         
         // 防止应用宕机导致行数刷新失败 加一层延时队列兜底刷新Excel行数
-        RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque ("COUPON_TASK_SEND_NUM_DELAY_QUEUE");
+        RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque ("COUPON_TASK_SEND_FLUSH_EXCEL_NUM_DELAY_QUEUE");
         RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue (couponTaskSendNumDelayQueue);
         // 20s后数据理论已经刷新完
         delayedQueue.offer (delayJsonObject, 20, TimeUnit.SECONDS);
