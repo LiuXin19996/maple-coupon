@@ -22,7 +22,7 @@ public final class ExcelGenerateTests {
     /**
      * 写入优惠券推送示例 Excel 的数据，自行控制即可
      */
-    private final int writeNum = 5;
+    private final int writeNum = 1000000;
     private final Faker faker = new Faker(Locale.CHINA);
     private final String excelPath = Paths.get("").toAbsolutePath().getParent() + "/tmp";
 

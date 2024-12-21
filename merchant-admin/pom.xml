@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fengxin</groupId>
-        <artifactId>feng-coupon</artifactId>
+        <artifactId>maple-coupon</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>feng-merchant-admin</artifactId>
+    <artifactId>maple-merchant-admin</artifactId>
 
     <dependencies>
         <dependency>
@@ -24,7 +24,7 @@
         <!-- 枫券基础架构组件包相关依赖 -->
         <dependency>
             <groupId>com.fengxin</groupId>
-            <artifactId>feng-framework</artifactId>
+            <artifactId>maple-framework</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

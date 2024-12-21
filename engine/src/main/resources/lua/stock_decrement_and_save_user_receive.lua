@@ -7,8 +7,8 @@
 -- ARGV[2]: 用户领取上限 (limit)
 
 local function combineFields(firstField, secondField)
-    -- 确定 SECOND_FIELD_BITS 为 14，因为 secondField 最大为 9999
-    local SECOND_FIELD_BITS = 14
+    -- 确定 SECOND_FIELD_BITS 为 16，因为 secondField 最大为 65535
+    local SECOND_FIELD_BITS = 16
 
     -- 根据 firstField 的实际值，计算其对应的二进制表示
     -- 由于 firstField 的范围是0-2，我们可以直接使用它的值
