@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @project feng-coupon
  * @description 优惠券推送任务执行状态
  **/
+@Getter
 @RequiredArgsConstructor
 public enum CouponTaskStatusEnum {
     /**
@@ -36,7 +37,6 @@ public enum CouponTaskStatusEnum {
      */
     CANAL(4);
     
-    @Getter
     private final int status;
     
 }

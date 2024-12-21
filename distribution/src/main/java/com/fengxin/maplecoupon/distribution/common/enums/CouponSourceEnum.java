@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @project feng-coupon
  * @description 优惠券来源枚举类
  **/
+@Getter
 @RequiredArgsConstructor
 public enum CouponSourceEnum {
     /**
@@ -21,7 +22,6 @@ public enum CouponSourceEnum {
      */
     PLATFORM(1);
     
-    @Getter
     private final int type;
 
 }

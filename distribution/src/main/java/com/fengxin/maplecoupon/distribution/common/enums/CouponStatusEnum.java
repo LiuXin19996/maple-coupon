@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @project feng-coupon
  * @description 优惠券使用状态枚举类
  **/
+@Getter
 @RequiredArgsConstructor
 public enum CouponStatusEnum {
     /**
@@ -21,7 +22,6 @@ public enum CouponStatusEnum {
      */
     ENDED(1);
     
-    @Getter
     private final int type;
     
 }
