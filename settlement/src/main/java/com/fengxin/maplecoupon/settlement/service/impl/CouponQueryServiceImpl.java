@@ -32,7 +32,7 @@ import static com.fengxin.maplecoupon.settlement.common.constant.EngineRedisCons
 import static com.fengxin.maplecoupon.settlement.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY;
 
 /**
- * 优惠券查询服务实现
+ * 结算---->可用 / 不可用优惠券查询服务实现
  *
  * @author fengxin
  * @date 2024-11-02
@@ -175,6 +175,9 @@ public class CouponQueryServiceImpl implements CouponQueryService {
         // 查询缓存优惠券id
         Set<String> cacheCouponTemplateIdList = stringRedisTemplate.opsForZSet ().range (
                 String.format (USER_COUPON_TEMPLATE_LIST_KEY , UserContext.getUserId ()) , 0 , -1);
+        if (ObjectUtil.isEmpty (cacheCouponTemplateIdList)){
+            return null;
+        }
         // 根据优惠券id构建缓存优惠券key
         List<String> cacheCouponTemplateKeyList = cacheCouponTemplateIdList.stream ()
                 .map (each -> StrUtil.split (each , "_").get (0))
@@ -186,7 +189,7 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             // 结束回调函数
             return null;
         });
-        // 数据转换
+        // 转换实体
         List<CouponTemplateQueryRespDTO> couponTemplateQueryRespDTOList = couponTemplateList.stream()
                 .map(item -> BeanUtil.toBean (item,CouponTemplateQueryRespDTO.class))
                 .toList ();
@@ -195,9 +198,10 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                 .collect (Collectors.partitioningBy (coupon -> StrUtil.isEmpty (coupon.getGoods ())));
         List<CouponTemplateQueryRespDTO> emptyGoodsList = couponTemplateByGoods.get (true);
         List<CouponTemplateQueryRespDTO> hasGoodsList = couponTemplateByGoods.get (false);
-        // 计算店铺券折扣金额
+        // 优惠券列表
         List<QueryCouponsDetailRespDTO> availableCouponList = new ArrayList<> ();
         List<QueryCouponsDetailRespDTO> notAvailableCouponList = new ArrayList<> ();
+        // 计算店铺券折扣金额
         emptyGoodsList.forEach (each -> {
             QueryCouponsDetailRespDTO couponsDetailRespDTO = BeanUtil.toBean (each , QueryCouponsDetailRespDTO.class);
             JSONObject consume = JSON.parseObject (couponsDetailRespDTO.getConsumeRule ());
@@ -209,8 +213,12 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             switch (each.getType ()){
                 case 0:
                     // 立减券
-                    couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
-                    availableCouponList.add (couponsDetailRespDTO);
+                    if (requestParam.getOrderAmount ().compareTo (maximumDiscountAmount) < 0){
+                        notAvailableCouponList.add (couponsDetailRespDTO);
+                    }else {
+                        couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
+                        availableCouponList.add (couponsDetailRespDTO);
+                    }
                     break;
                 case 1:
                     // 满减券
@@ -225,11 +233,11 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                     // 折扣券
                     if (requestParam.getOrderAmount ().compareTo (consume.getBigDecimal ("termsOfUse")) >= 0){
                         BigDecimal discountRate = consume.getBigDecimal ("discountRate");
-                        BigDecimal multiply = requestParam.getOrderAmount ().multiply (discountRate);
-                        if (multiply.compareTo (maximumDiscountAmount) >= 0 ){
+                        BigDecimal multiplyResult = requestParam.getOrderAmount ().multiply (discountRate);
+                        if (multiplyResult.compareTo (maximumDiscountAmount) >= 0 ){
                             couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
                         }else {
-                            couponsDetailRespDTO.setCouponAmount (multiply);
+                            couponsDetailRespDTO.setCouponAmount (multiplyResult);
                         }
                         availableCouponList.add (couponsDetailRespDTO);
                     }else {
@@ -243,6 +251,7 @@ public class CouponQueryServiceImpl implements CouponQueryService {
         // 计算商品专属折扣金额
         Map<String, QueryCouponGoodsReqDTO> goodsMap = requestParam.getGoodsList ().stream ()
                 .collect (Collectors.toMap (QueryCouponGoodsReqDTO::getGoodsNumber ,
+                        // 如果遇到重复的商品编号，保留第一个出现的商品对象
                         Function.identity () ,
                         (exist , replace) -> exist));
         hasGoodsList.forEach (each -> {
@@ -257,8 +266,12 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             switch (each.getType ()){
                 case 0:
                     // 立减券
-                    couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
-                    availableCouponList.add (couponsDetailRespDTO);
+                    if (requestParam.getOrderAmount ().compareTo (maximumDiscountAmount) < 0){
+                        notAvailableCouponList.add (couponsDetailRespDTO);
+                    }else {
+                        couponsDetailRespDTO.setCouponAmount (maximumDiscountAmount);
+                        availableCouponList.add (couponsDetailRespDTO);
+                    }
                     break;
                 case 1:
                     // 满减券
@@ -289,7 +302,8 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             }
         });
         // 按照从大到小排序
-        availableCouponList.sort ((c1,c2) -> c2.getCouponAmount ().compareTo (c1.getCouponAmount ()));
+        availableCouponList.sort ((c1,c2) ->
+                c2.getCouponAmount ().compareTo (c1.getCouponAmount ()));
         return QueryCouponsRespDTO.builder ()
                 .availableCouponList (availableCouponList)
                 .notAvailableCouponList (notAvailableCouponList)
