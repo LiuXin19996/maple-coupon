@@ -105,7 +105,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
                 .userId (couponTaskExcelObject.getUserId ())
                 .batchUserSetSize (batchSize)
                 .couponTemplateConsumeRule (couponTemplateDO.getConsumeRule ())
-                // 正在解析
+                // 分发未到最后一批
                 .distributionEndFlag (Boolean.FALSE)
                 .build ();
         couponExecuteDistributionProducer.sendMessage (couponTemplateDistributionEvent);
@@ -124,7 +124,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
                 .couponTaskBatchId (couponTaskDO.getBatchId ())
                 .notifyType (couponTaskDO.getNotifyType ())
                 .couponTemplateConsumeRule (couponTemplateDO.getConsumeRule ())
-                // 解析完成
+                // 分发到最后一批
                 .distributionEndFlag (Boolean.TRUE)
                 .build ();
         couponExecuteDistributionProducer.sendMessage (couponTemplateDistributionEvent);
