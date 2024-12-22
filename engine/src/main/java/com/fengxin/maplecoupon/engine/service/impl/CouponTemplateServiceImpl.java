@@ -46,9 +46,8 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     
     @Override
     public CouponTemplateQueryRespDTO findCouponTemplateById (CouponTemplateQueryReqDTO requestParam) {
-        
         // Redis缓存 解决缓存击穿
-        // 预热缓存key
+        // 缓存key
         String cacheCouponTemplateKey = String.format (COUPON_TEMPLATE_KEY, requestParam.getCouponTemplateId());
         String lockCouponTemplateKey = String.format (LOCK_COUPON_TEMPLATE_KEY, requestParam.getCouponTemplateId());
         String emptyCouponTemplateKey = String.format (EMPTY_COUPON_TEMPLATE_KEY,requestParam.getCouponTemplateId ());
@@ -59,11 +58,11 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
             if (!couponTemplateQueryBloomFilter.contains (requestParam.getCouponTemplateId())) {
                 throw new ServiceException ("优惠券模板不存在");
             }
-            // 如果布隆过滤器存在值 查询是否有空值 防止数据库删除了优惠券模板而布隆过滤器还存在
+            // 如果布隆过滤器存在值 查询是否有空值 防止数据库删除了优惠券模板但布隆过滤器还存在
             if (stringRedisTemplate.hasKey (emptyCouponTemplateKey)) {
                 throw new ServiceException ("优惠券模板不存在");
             }
-            // 获取分布式🔒
+            // 分布式🔒 这里用户需要真实数据 必须保证数据正确 所以采用lock()
             RLock lock = redissonClient.getLock (lockCouponTemplateKey);
             lock.lock ();
             try {
@@ -87,7 +86,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
                     if (ObjectUtil.isEmpty (couponTemplateDO)) {
                         // 设置缓存空值
                         stringRedisTemplate.opsForValue ().set (emptyCouponTemplateKey,"",30, TimeUnit.MINUTES);
-                        throw new ServiceException ("商品不存在");
+                        throw new ServiceException ("优惠券模板不存在");
                     }
                     
                     // 放入redis缓存
