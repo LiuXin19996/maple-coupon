@@ -13,6 +13,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TEMPLATE_TERMINAL_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/22
@@ -32,7 +34,7 @@ public class CouponTemplateDelayTerminalStatusProducer extends AbstractCommonSen
         return BaseSendExtendDTO.builder ()
                 .keys (String.valueOf (messageSendEvent.getCouponTemplateId ()))
                 .eventName ("优惠券模板结束")
-                .topic ("merchant-admin-terminal-coupon-template-topic")
+                .topic (COUPON_TEMPLATE_TERMINAL_TOPIC)
                 .delayTime (messageSendEvent.getDelayTime ())
                 .build ();
     }

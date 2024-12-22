@@ -32,6 +32,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TASK_SEND_NUM_FLUSH_EXCEL_DELAY_QUEUE;
+
 /**
  * @author FENGXIN
  * @date 2024/10/21
@@ -110,7 +112,7 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
         threadPoolExecutor.execute (()-> refreshCouponTaskExcelRows (delayJsonObject));
         
         // 防止应用宕机导致行数刷新失败 加一层延时队列兜底刷新Excel行数
-        RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque ("COUPON_TASK_SEND_FLUSH_EXCEL_NUM_DELAY_QUEUE");
+        RBlockingDeque<Object> couponTaskSendNumDelayQueue = redissonClient.getBlockingDeque (COUPON_TASK_SEND_NUM_FLUSH_EXCEL_DELAY_QUEUE);
         RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue (couponTaskSendNumDelayQueue);
         // 20s后数据理论已经刷新完
         delayedQueue.offer (delayJsonObject, 20, TimeUnit.SECONDS);

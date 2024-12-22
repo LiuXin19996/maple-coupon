@@ -12,6 +12,9 @@ import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TEMPLATE_TERMINAL_CONSUMER_GROUP;
+import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TEMPLATE_TERMINAL_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/21
@@ -21,8 +24,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener(
-        topic = "merchant-admin-terminal-coupon-template-topic",
-        consumerGroup = "mapleCoupon_merchant-admin-message-execute-consumer"
+        topic = COUPON_TEMPLATE_TERMINAL_TOPIC,
+        consumerGroup = COUPON_TEMPLATE_TERMINAL_CONSUMER_GROUP
 )
 @Slf4j(topic = "MerchantTerminalStatusConsumer")
 public class MerchantTerminalStatusConsumer implements RocketMQListener<MessageWrapper<CouponTemplateDelayExecuteEvent>> {

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Executors;
 
+import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TASK_SEND_NUM_DELAY_QUEUE;
+import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TASK_SEND_NUM_FLUSH_EXCEL_DELAY_QUEUE;
+
 /**
  * @author FENGXIN
  * @date 2024/10/22
@@ -26,7 +29,7 @@ public class CouponTaskSendNumDelayConsumer implements CommandLineRunner {
     private final CouponTaskMapper couponTaskMapper;
     private final CouponTaskServiceImpl couponTaskService;
     @Override
-    public void run (String... args) throws Exception {
+    public void run (String... args) {
         // 执行线程池刷新sendNum
         Executors.newSingleThreadExecutor (
                 runnable -> {
@@ -36,17 +39,15 @@ public class CouponTaskSendNumDelayConsumer implements CommandLineRunner {
                     return thread;
                 }
         ).execute (() -> {
-            RBlockingQueue<JSONObject> couponTaskSendNumDelayQueue = redissonClient.getBlockingQueue ("COUPON_TASK_SEND_NUM_DELAY_QUEUE");
+            RBlockingQueue<JSONObject> couponTaskSendNumDelayQueue = redissonClient.getBlockingQueue (COUPON_TASK_SEND_NUM_FLUSH_EXCEL_DELAY_QUEUE);
             String couponTaskId = null;
             try {
                 while (true) {
                     JSONObject take = couponTaskSendNumDelayQueue.take ();
                     couponTaskId = take.getString ("couponTaskId");
-                    if (take != null) {
-                        CouponTaskDO couponTaskDO = couponTaskMapper.selectById (couponTaskId);
-                        if (couponTaskDO.getSendNum () == null) {
-                            couponTaskService.refreshCouponTaskExcelRows (take);
-                        }
+                    CouponTaskDO couponTaskDO = couponTaskMapper.selectById (couponTaskId);
+                    if (couponTaskDO.getSendNum () == null) {
+                        couponTaskService.refreshCouponTaskExcelRows (take);
                     }
                 }
             } catch (Throwable e) {
