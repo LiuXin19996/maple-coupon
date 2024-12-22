@@ -24,19 +24,21 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.distribution.common.constant.RocketMQConstant.*;
+
 /**
  * @author FENGXIN
  * @date 2024/10/22
  * @project feng-coupon
  * @description 优惠券分发消费者 只做进行 Excel 模板解析和前置校验
  **/
+@Slf4j(topic = "CouponTaskDistributionConsumer")
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener(
-        topic = "coupon_template_distribution_task_topic",
-        consumerGroup = "mapleCoupon_distribution-message-execute-consumer"
+        topic = COUPON_TASK_DISTRIBUTION_TOPIC,
+        consumerGroup = COUPON_TASK_DISTRIBUTION_CONSUMER_GROUP
 )
-@Slf4j(topic = "CouponTaskDistributionConsumer")
 public class CouponTaskDistributionConsumer implements RocketMQListener<MessageWrapper<CouponTaskExecuteEvent>> {
     private final CouponTaskMapper couponTaskMapper;
     private final CouponTemplateMapper couponTemplateMapper;

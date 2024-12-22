@@ -47,6 +47,7 @@ import java.util.*;
 
 import static com.fengxin.maplecoupon.distribution.common.constant.DistributionRedisConstant.TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY;
 import static com.fengxin.maplecoupon.distribution.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY;
+import static com.fengxin.maplecoupon.distribution.common.constant.RocketMQConstant.*;
 
 /**
  * @author FENGXIN
@@ -58,8 +59,8 @@ import static com.fengxin.maplecoupon.distribution.common.constant.EngineRedisCo
 @RequiredArgsConstructor
 @Component
 @RocketMQMessageListener (
-        topic = "coupon_template_distribution_execute_topic",
-        consumerGroup = "mapleCoupon_distribution-message-distribution-execute-consumer"
+        topic = COUPON_EXECUTE_DISTRIBUTION_TOPIC,
+        consumerGroup = COUPON_EXECUTE_DISTRIBUTION_CONSUMER_GROUP
 )
 public class CouponExecuteDistributionConsumer implements RocketMQListener<MessageWrapper<CouponTemplateDistributionEvent>> {
     
@@ -301,6 +302,13 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
         }
     }
     
+    /**
+     * 获取 Coupon 分发任务失败集合
+     *
+     * @param maxId             最大 ID
+     * @param couponTaskBatchId Coupon 任务批处理 ID
+     * @return {@code List<CouponTaskFailDO> }
+     */
     public List<CouponTaskFailDO> getCouponTaskFailDOList (Long maxId,Long couponTaskBatchId) {
         LambdaQueryWrapper<CouponTaskFailDO> queryWrapper = new LambdaQueryWrapper <CouponTaskFailDO> ()
                 .eq (CouponTaskFailDO::getBatchId , couponTaskBatchId)
