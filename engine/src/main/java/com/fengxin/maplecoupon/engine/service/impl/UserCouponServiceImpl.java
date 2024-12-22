@@ -322,6 +322,7 @@ public class UserCouponServiceImpl implements UserCouponService {
             BigDecimal discountAmount;
             if (couponTemplateById.getTarget ().equals (0)){
                 // 商品专属券
+                // 优惠券指定商品编号校验
                 Optional<CouponCreatePaymentGoodsReqDTO> paymentGoodsDTO = requestParam.getGoodsList ().stream ()
                         .filter (each -> couponTemplateById.getGoods ().equals (each.getGoodsNumber ()))
                         .findFirst ();
@@ -331,13 +332,14 @@ public class UserCouponServiceImpl implements UserCouponService {
                 // 计算折扣金额
                 CouponCreatePaymentGoodsReqDTO couponCreatePaymentGoodsReqDTO = paymentGoodsDTO.get ();
                 BigDecimal maximumDiscountAmount = consumeRuleDO.getBigDecimal ("maximumDiscountAmount");
+                // 校验折扣后金额是否正确
                 if (!couponCreatePaymentGoodsReqDTO.getGoodsAmount ().subtract (maximumDiscountAmount).equals (couponCreatePaymentGoodsReqDTO.getGoodsPayableAmount ())){
                     throw new ClientException ("商品折扣金额异常");
                 }
                 discountAmount = maximumDiscountAmount;
             }else {
                 // 店铺通用券
-                // 检查店铺编号是否一致
+                // 检查商品是否可用于当前店铺
                 if (couponTemplateById.getSource () == 0 && !StrUtil.equals (requestParam.getShopNumber (),couponTemplateById.getShopNumber ())){
                     throw new ClientException ("该优惠券不可以在当前店铺使用哦~");
                 }
@@ -370,7 +372,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                         throw new ClientException ("无效的优惠券类型");
                 }
             }
-            // 计算最终应该的折扣金额
+            // 计算折扣后的金额
             BigDecimal actualPaymentAmount = requestParam.getOrderAmount ().subtract (discountAmount);
             if (actualPaymentAmount.compareTo (requestParam.getPayableAmount ()) != 0){
                 throw new ClientException ("折扣后的金额不一致");
@@ -432,7 +434,10 @@ public class UserCouponServiceImpl implements UserCouponService {
                             .build ();
                     int settlementUpdate = couponSettlementMapper.update (couponSettlementDO , settlementUpdateWrapper);
                     if (!SqlHelper.retBool (settlementUpdate)){
-                        log.error ("优惠券结算已支付状态设置失败 用户优惠券id{}",requestParam.getCouponId ());
+                        log.error ("优惠券结算已支付状态设置失败 用户优惠券id: {} 用户结算单id: {} 用户订单id: {}",
+                                requestParam.getCouponId (),
+                                couponSettlementDO.getId (),
+                                couponSettlementDO.getOrderId ());
                         throw new ServiceException ("优惠券结算已支付状态设置失败");
                     }
                     LambdaUpdateWrapper<UserCouponDO> userCouponUpdateWrapper = new LambdaUpdateWrapper<UserCouponDO> ()
@@ -444,7 +449,10 @@ public class UserCouponServiceImpl implements UserCouponService {
                             .build ();
                     int userCouponUpdate = userCouponMapper.update (userCouponDO , userCouponUpdateWrapper);
                     if (!SqlHelper.retBool (userCouponUpdate)){
-                        log.error ("用户优惠券已使用状态设置失败 用户优惠券id{}",requestParam.getCouponId ());
+                        log.error ("用户优惠券已使用状态设置失败 用户优惠券id: {} 用户结算单id: {} 用户订单id: {}",
+                                requestParam.getCouponId (),
+                                couponSettlementDO.getId (),
+                                couponSettlementDO.getOrderId ());
                         throw new ServiceException ("用户优惠券已使用状态设置失败");
                     }
                 } catch (Throwable e) {
@@ -478,7 +486,10 @@ public class UserCouponServiceImpl implements UserCouponService {
                             .build ();
                     int settlementUpdate = couponSettlementMapper.update (couponSettlementDO , settlementUpdateWrapper);
                     if (!SqlHelper.retBool (settlementUpdate)){
-                        log.error ("优惠券已退款状态设置失败 用户优惠券id{}",requestParam.getCouponId ());
+                        log.error ("优惠券已退款状态设置失败 用户优惠券id: {} 用户结算单id: {} 用户订单id: {}",
+                                requestParam.getCouponId (),
+                                couponSettlementDO.getId (),
+                                couponSettlementDO.getOrderId ());
                         throw new ServiceException ("优惠券已退款状态设置失败");
                     }
                     LambdaUpdateWrapper<UserCouponDO> userCouponUpdateWrapper = new LambdaUpdateWrapper<UserCouponDO> ()
@@ -490,7 +501,10 @@ public class UserCouponServiceImpl implements UserCouponService {
                             .build ();
                     int userCouponUpdate = userCouponMapper.update (userCouponDO , userCouponUpdateWrapper);
                     if (!SqlHelper.retBool (userCouponUpdate)){
-                        log.error ("用户优惠券未使用状态设置失败 用户优惠券id{}",requestParam.getCouponId ());
+                        log.error ("用户优惠券未使用状态设置失败 用户优惠券id: {} 用户结算单id: {} 用户订单id: {}",
+                                requestParam.getCouponId (),
+                                couponSettlementDO.getId (),
+                                couponSettlementDO.getOrderId ());
                         throw new ServiceException ("用户优惠券未使用状态设置失败");
                     }
                     // 将用户优惠券放入缓存 重新使用
@@ -504,7 +518,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                             .append("_")
                             .append(selectOne.getId())
                             .toString();
-                    stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, selectOne.getReceiveTime ().getTime());
+                    stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, selectOne.getValidEndTime ().getTime());
                 } catch (Throwable e) {
                     log.error("退款优惠券结算单失败", e);
                     status.setRollbackOnly();
