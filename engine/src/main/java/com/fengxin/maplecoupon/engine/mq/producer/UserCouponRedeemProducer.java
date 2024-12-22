@@ -13,6 +13,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_ASYNC_REDEEM_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/29
@@ -23,15 +25,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserCouponRedeemProducer extends AbstractCommonSendProduceTemplate<UserCouponRedeemEvent> {
     
-    public UserCouponRedeemProducer (RocketMQTemplate rocketMQTemplate) {
-        super (rocketMQTemplate);
+    public UserCouponRedeemProducer (RocketMQTemplate rocketMqTemplate) {
+        super (rocketMqTemplate);
     }
     
     @Override
     protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponRedeemEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()
-                .eventName ("用户优惠券兑换落库和Redis")
-                .topic ("user-coupon-template_redemption_async_execute_topic")
+                .eventName ("用户优惠券异步保存到数据库和Redis")
+                .topic (USER_COUPON_ASYNC_REDEEM_TOPIC)
                 .keys (UUID.fastUUID () + messageSendEvent.getUserId ())
                 .sentTimeout (2000L)
                 .build ();

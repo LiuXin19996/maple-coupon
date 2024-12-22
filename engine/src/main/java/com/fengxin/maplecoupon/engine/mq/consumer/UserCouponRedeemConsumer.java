@@ -7,8 +7,6 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fengxin.exception.ServiceException;
-import com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant;
-import com.fengxin.maplecoupon.engine.common.context.UserContext;
 import com.fengxin.maplecoupon.engine.common.enums.UserCouponStatusEnum;
 import com.fengxin.maplecoupon.engine.dao.entity.UserCouponDO;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
@@ -31,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY;
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_ASYNC_REDEEM_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_ASYNC_REDEEM_TOPIC;
 
 /**
  * @author FENGXIN
@@ -42,8 +42,8 @@ import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener (
-        topic = "user-coupon-template_redemption_async_execute_topic",
-        consumerGroup = "user-coupon-template_redemption_consumer"
+        topic = USER_COUPON_ASYNC_REDEEM_TOPIC,
+        consumerGroup = USER_COUPON_ASYNC_REDEEM_CONSUMER
 )
 public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper<UserCouponRedeemEvent>> {
     private final StringRedisTemplate stringRedisTemplate;

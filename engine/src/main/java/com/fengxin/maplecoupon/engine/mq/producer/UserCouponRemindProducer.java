@@ -13,6 +13,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_REMIND_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/30
@@ -23,8 +25,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserCouponRemindProducer extends AbstractCommonSendProduceTemplate<UserCouponRemindEvent> {
     
-    public UserCouponRemindProducer (RocketMQTemplate rocketMQTemplate) {
-        super (rocketMQTemplate);
+    public UserCouponRemindProducer (RocketMQTemplate rocketMqTemplate) {
+        super (rocketMqTemplate);
     }
     
     @Override
@@ -32,7 +34,7 @@ public class UserCouponRemindProducer extends AbstractCommonSendProduceTemplate<
         return BaseSendExtendDTO.builder ()
                 .eventName ("用户优惠券提醒执行")
                 .keys (UUID.fastUUID () + messageSendEvent.getUserId ())
-                .topic ("user-coupon-template_remind_async_execute_topic")
+                .topic (USER_COUPON_REMIND_TOPIC)
                 .sentTimeout (2000L)
                 .delayTime (messageSendEvent.getDelayTime ())
                 .build ();

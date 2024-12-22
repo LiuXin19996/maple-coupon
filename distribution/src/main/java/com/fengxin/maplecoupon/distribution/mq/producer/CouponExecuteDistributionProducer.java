@@ -23,8 +23,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CouponExecuteDistributionProducer extends AbstractCommonSendProduceTemplate<CouponTemplateDistributionEvent> {
     
-    public CouponExecuteDistributionProducer (RocketMQTemplate rocketMQTemplate) {
-        super (rocketMQTemplate);
+    public CouponExecuteDistributionProducer (RocketMQTemplate rocketMqTemplate) {
+        super (rocketMqTemplate);
     }
     
     @Override

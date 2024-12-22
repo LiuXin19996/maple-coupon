@@ -20,6 +20,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Map;
 
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_CANAL_BINLOG_SYNC_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_CANAL_BINLOG_SYNC_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/29
@@ -28,8 +31,8 @@ import java.util.Map;
  **/
 @RequiredArgsConstructor
 @RocketMQMessageListener (
-        topic = "maple-coupon_canal_engine-service_common-sync_topic-maple",
-        consumerGroup = "maple-coupon_canal_engine-service_common-sync_consumer"
+        topic = USER_COUPON_CANAL_BINLOG_SYNC_TOPIC,
+        consumerGroup = USER_COUPON_CANAL_BINLOG_SYNC_CONSUMER
 )
 @Slf4j
 public class CanalBinlogSyncUserCouponConsumer implements RocketMQListener<CanalBinlogEvent> {

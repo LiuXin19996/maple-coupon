@@ -25,8 +25,8 @@ import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQCons
 @Component
 public class CouponTemplateDelayTerminalStatusProducer extends AbstractCommonSendProduceTemplate<CouponTemplateDelayExecuteEvent> {
 
-    public CouponTemplateDelayTerminalStatusProducer (RocketMQTemplate rocketMQTemplate) {
-        super (rocketMQTemplate);
+    public CouponTemplateDelayTerminalStatusProducer (RocketMQTemplate rocketMqTemplate) {
+        super (rocketMqTemplate);
     }
     
     @Override

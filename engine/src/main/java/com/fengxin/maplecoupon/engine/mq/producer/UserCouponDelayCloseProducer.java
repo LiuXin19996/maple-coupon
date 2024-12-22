@@ -13,6 +13,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_DELAY_CLOSE_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/28
@@ -23,15 +25,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserCouponDelayCloseProducer extends AbstractCommonSendProduceTemplate<UserCouponDelayCloseEvent> {
     
-    public UserCouponDelayCloseProducer (RocketMQTemplate rocketMQTemplate) {
-        super (rocketMQTemplate);
+    public UserCouponDelayCloseProducer (RocketMQTemplate rocketMqTemplate) {
+        super (rocketMqTemplate);
     }
     
     @Override
     protected BaseSendExtendDTO buildBaseSendExtendParam (UserCouponDelayCloseEvent messageSendEvent) {
         return BaseSendExtendDTO.builder ()
-                .eventName ("用户优惠券延时结束执行")
-                .topic ("user-coupon-template_redemption_close_execute_topic")
+                .eventName ("用户优惠券到期结束")
+                .topic (USER_COUPON_DELAY_CLOSE_TOPIC)
                 .keys (UUID.fastUUID ().toString () + messageSendEvent.getUserCouponId ())
                 .sentTimeout (2000L)
                 .delayTime (messageSendEvent.getDelayDateTime ())

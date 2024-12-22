@@ -18,6 +18,9 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_DELAY_CLOSE_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_DELAY_CLOSE_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/28
@@ -27,8 +30,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener (
-        topic = "user-coupon-template_redemption_close_execute_topic",
-        consumerGroup = "user-coupon-template_redemption_close_consumer"
+        topic = USER_COUPON_DELAY_CLOSE_TOPIC,
+        consumerGroup = USER_COUPON_DELAY_CLOSE_CONSUMER
 )
 @Slf4j(topic = "UserCouponDelayCloseConsumer")
 public class UserCouponDelayCloseConsumer implements RocketMQListener<MessageWrapper<UserCouponDelayCloseEvent>> {
@@ -48,7 +51,7 @@ public class UserCouponDelayCloseConsumer implements RocketMQListener<MessageWra
                 .toString();
         Long removed = stringRedisTemplate.opsForZSet().remove(userCouponListCacheKey, userCouponItemCacheKey);
         if (removed == null || removed == 0L) {
-            log.error ("删除缓存用户优惠券失败 重试消费");
+            log.error ("删除缓存用户优惠券 {} 失败 重试消费", event.getUserCouponId());
             return;
         }
         
@@ -62,6 +65,6 @@ public class UserCouponDelayCloseConsumer implements RocketMQListener<MessageWra
                 .eq(UserCouponDO::getStatus, UserCouponStatusEnum.UNUSED.getCode())
                 .eq(UserCouponDO::getCouponTemplateId, event.getCouponTemplateId());
         userCouponMapper.update(userCouponDO, updateWrapper);
-        log.info ("[消费者] 用户优惠券延时结束 消费完成");
+        log.info ("[消费者] 用户优惠券 {} 延时结束 消费完成", event.getUserCouponId());
     }
 }

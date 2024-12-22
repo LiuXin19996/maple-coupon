@@ -17,7 +17,7 @@ import org.springframework.messaging.Message;
 @RequiredArgsConstructor
 @Slf4j(topic = "CommonSendProduceTemplate")
 public abstract class AbstractCommonSendProduceTemplate<T> {
-    private final RocketMQTemplate rocketMQTemplate;
+    private final RocketMQTemplate rocketMqTemplate;
     
     /**
      * 构建消息相关参数
@@ -52,13 +52,13 @@ public abstract class AbstractCommonSendProduceTemplate<T> {
             
             // 发送延迟消息
             if (ObjectUtil.isNotNull (baseSendExtendDTO.getDelayTime ())){
-                sendResult = rocketMQTemplate.syncSendDeliverTimeMills (
+                sendResult = rocketMqTemplate.syncSendDeliverTimeMills (
                         destinationString.toString (),
                         buildMessage (messageSendEvent,baseSendExtendDTO),
                         baseSendExtendDTO.getDelayTime ()
                 );
             }else {
-                sendResult = rocketMQTemplate.syncSend (
+                sendResult = rocketMqTemplate.syncSend (
                         destinationString.toString (),
                         buildMessage (messageSendEvent,baseSendExtendDTO),
                         baseSendExtendDTO.getSentTimeout ()

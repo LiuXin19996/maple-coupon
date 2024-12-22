@@ -12,6 +12,9 @@ import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_REMIND_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_REMIND_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/30
@@ -22,8 +25,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener (
-        topic = "user-coupon-template_remind_async_execute_topic",
-        consumerGroup = "user-coupon-template_remind_consumer"
+        topic = USER_COUPON_REMIND_TOPIC,
+        consumerGroup = USER_COUPON_REMIND_CONSUMER
 )
 public class UserCouponRemindDelayConsumer implements RocketMQListener<MessageWrapper<UserCouponRemindEvent>> {
     private final RemindUserCouponTemplate remindUserCouponTemplate;
