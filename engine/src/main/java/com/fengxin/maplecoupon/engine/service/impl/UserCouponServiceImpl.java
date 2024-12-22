@@ -71,7 +71,6 @@ public class UserCouponServiceImpl implements UserCouponService {
     private final UserCouponRedeemProducer userCouponRedeemProducer;
     private final CouponTemplateRemindMapper couponTemplateRemindDOMapper;
     private final UserCouponRemindProducer userCouponRemindProducer;
-    private final CouponTemplateMapper couponTemplateMapper;
     private final RBloomFilter<String> cancelRemindBloomFilter;
     private final RedissonClient redissonClient;
     private static final String STOCK_DECREMENT_AND_SAVE_USER_RECEIVE_PATH = "lua/stock_decrement_and_save_user_receive.lua";
@@ -84,7 +83,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         // 校验优惠券是否存在缓存 存在数据 且在有效期
         CouponTemplateQueryRespDTO couponTemplateById = couponTemplateService.findCouponTemplateById (BeanUtil.toBean (requestParam , CouponTemplateQueryReqDTO.class));
         if (ObjectUtil.isNull (couponTemplateById)){
-            throw new ServiceException ("兑换目标优惠券不存在" + requestParam.toString ());
+            throw new ServiceException ("优惠券 " + requestParam.getCouponTemplateId () + " 不存在" );
         }
         Date now = new Date ();
         boolean isIn = DateUtil.isIn (now , couponTemplateById.getValidStartTime () , couponTemplateById.getValidEndTime ());
@@ -131,29 +130,26 @@ public class UserCouponServiceImpl implements UserCouponService {
     @Override
     public void createCouponRemind (CouponTemplateRemindTimeReqDTO requestParam) {
         // 校验优惠券是否存在
-        LambdaQueryWrapper<CouponTemplateDO> templateDOLambdaQueryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
-                .eq (CouponTemplateDO::getId,Long.parseLong (requestParam.getCouponTemplateId ()))
-                .eq (CouponTemplateDO::getShopNumber,Long.parseLong (requestParam.getShopNumber ()));
-        CouponTemplateDO couponTemplateDO = couponTemplateMapper.selectOne (templateDOLambdaQueryWrapper);
-        if (ObjectUtil.isNull (couponTemplateDO)){
-            throw new ServiceException ("优惠券不存在");
+        CouponTemplateQueryRespDTO couponTemplateById = couponTemplateService.findCouponTemplateById (BeanUtil.toBean (requestParam , CouponTemplateQueryReqDTO.class));
+        if (ObjectUtil.isNull (couponTemplateById)){
+            throw new ServiceException ("优惠券 " + requestParam.getCouponTemplateId () + " 不存在" );
         }
         // 查询提醒信息
-        LambdaQueryWrapper<CouponTemplateRemindDO> templateRemindDOLambdaQueryWrapper = new LambdaQueryWrapper<CouponTemplateRemindDO> ()
+        LambdaQueryWrapper<CouponTemplateRemindDO> remindTemplateQueryWrapper = new LambdaQueryWrapper<CouponTemplateRemindDO> ()
                 .eq (CouponTemplateRemindDO::getCouponTemplateId,requestParam.getCouponTemplateId ())
                 .eq (CouponTemplateRemindDO::getShopNumber,requestParam.getShopNumber ());
-        CouponTemplateRemindDO couponTemplateRemindDO = couponTemplateRemindDOMapper.selectOne (templateRemindDOLambdaQueryWrapper);
-        // 没提醒过 创建提醒
+        CouponTemplateRemindDO couponTemplateRemindDO = couponTemplateRemindDOMapper.selectOne (remindTemplateQueryWrapper);
+        // 无提醒 创建提醒
         if (ObjectUtil.isNull (couponTemplateRemindDO)){
             CouponTemplateRemindDO templateRemindDO = CouponTemplateRemindDO.builder ()
                     .couponTemplateId (Long.valueOf (requestParam.getCouponTemplateId ()))
                     .shopNumber (Long.valueOf (requestParam.getShopNumber ()))
                     .information (SetUserCouponTemplateRemindTimeUtil.calculateRemindTime (requestParam.getRemindTime () , requestParam.getType ()))
-                    .startTime (couponTemplateDO.getValidStartTime ())
+                    .startTime (couponTemplateById.getValidStartTime ())
                     .userId (Long.parseLong (UserContext.getUserId ()))
                     .build ();
             couponTemplateRemindDOMapper.insert (templateRemindDO);
-        }// 提醒过 更新提醒时间
+        }// 有提醒 更新提醒时间
         else {
             Long information = couponTemplateRemindDO.getInformation ();
             Long remindTime = SetUserCouponTemplateRemindTimeUtil.calculateRemindTime (requestParam.getRemindTime () , requestParam.getType ());
@@ -161,7 +157,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                 throw new ClientException ("该提醒时间已经有啦~");
             }
             couponTemplateRemindDO.setInformation (remindTime ^ information);
-            couponTemplateRemindDOMapper.update (couponTemplateRemindDO,templateRemindDOLambdaQueryWrapper);
+            couponTemplateRemindDOMapper.update (couponTemplateRemindDO,remindTemplateQueryWrapper);
         }
         
         // MQ发送任意延时信息 提醒用户
@@ -172,11 +168,10 @@ public class UserCouponServiceImpl implements UserCouponService {
                 .contact (UserContext.getUserId ())
                 .type (requestParam.getType ())
                 .remindTime (requestParam.getRemindTime ())
-                .startTime (couponTemplateDO.getValidStartTime ())
-                .delayTime (DateUtil.offsetMinute (couponTemplateDO.getValidStartTime () , -requestParam.getRemindTime ()).getTime ())
+                .startTime (couponTemplateById.getValidStartTime ())
+                .delayTime (DateUtil.offsetMinute (couponTemplateById.getValidStartTime () , -requestParam.getRemindTime ()).getTime ())
                 .build ();
         userCouponRemindProducer.sendMessage (userCouponRemindEvent);
-        
     }
     
     @Override
@@ -186,6 +181,9 @@ public class UserCouponServiceImpl implements UserCouponService {
                 requestParam.getShopNumber (),
                 requestParam.getCouponTemplateId ()
         ));
+        if (ObjectUtil.isNull (couponTemplateById)){
+            throw new ServiceException ("优惠券不存在" + requestParam.getCouponTemplateId ());
+        }
         // 模板存在
         if (couponTemplateById.getValidStartTime ().before (new Date ())){
             throw new ClientException ("无法取消已经开始的优惠券");
@@ -213,6 +211,7 @@ public class UserCouponServiceImpl implements UserCouponService {
             // 已经取消了全部提醒 删除提醒模板
             if (couponTemplateRemindDOMapper.delete (couponTemplateRemindLambdaQueryWrapper) == 0){
                 throw new ClientException ("取消预约提醒失败，请重试");
+                // TODO 延时重试
             }
         }else {
             // 还有部分提醒 更新提醒模板
@@ -261,7 +260,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         if (CollUtil.isEmpty (couponTemplateRemindList)){
             return result;
         }
-        // 根据优惠券id和店铺id查询优惠券信息
+        // 根据优惠券id和店铺id查询优惠券信息 优惠券分库分表 整合返回
         List<Long> couponTemplateIdList = couponTemplateRemindList.stream ()
                 .map (CouponTemplateRemindDO::getCouponTemplateId)
                 .toList ();
@@ -280,6 +279,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                                 SetUserCouponTemplateRemindTimeUtil.
                                 fillRemindInformation (each,n.getInformation ()))
         );
+        // 查询预约信息不会很频繁 用户只关心提醒动作 因此缓存时间设置1分钟 优化缓存压力
         stringRedisTemplate.opsForValue().set(String.format(USER_COUPON_REMIND_KEY, requestParam.getUserId()), JSON.toJSONString(result), 1, TimeUnit.MINUTES);
         return result;
     }

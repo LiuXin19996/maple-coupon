@@ -100,7 +100,8 @@ public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper
             }
         }catch (Throwable e){
             log.warn("查询Redis用户优惠券记录为空或抛异常，可能Redis宕机或主从复制数据丢失，基础错误信息：{}", e.getMessage());
-            // 如果直接抛异常大概率 Redis 宕机了，所以应该写个延时队列向 Redis 重试放入值。为了避免代码复杂性，这里直接写新增，知道最优解决方案即可
+            // 如果直接抛异常大概率 Redis 宕机了，所以应该写个延时队列向 Redis 重试放入值。为了避免代码复杂性，这里暂时直接写新增
+            // TODO 未来会重构成延时队列
             stringRedisTemplate.opsForZSet().add(userCouponListCacheKey, userCouponItemCacheKey, now.getTime());
         }
         // 发送延时消息 结束用户优惠券

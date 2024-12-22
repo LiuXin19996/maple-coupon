@@ -28,8 +28,18 @@ public class SetUserCouponTemplateRemindTimeUtil {
      */
     private static final int TIME_INTERVAL = 5;
     
+    /**
+     * 优惠券提醒类型数量
+     */
     private static final int REMIND_TYPE_COUNT = CouponRemindTypeEnum.values ().length;
     
+    /**
+     * 计算提醒时间
+     *
+     * @param remindTime 提醒时间
+     * @param type       类型
+     * @return {@code Long }
+     */
     public static Long calculateRemindTime(Integer remindTime, Integer type){
         if (remindTime > TIME_INTERVAL * NEXT_TYPE_BITS){
             throw new ClientException ("预约提醒的时间不能早于开票前" + TIME_INTERVAL * NEXT_TYPE_BITS + "分钟");
@@ -38,6 +48,12 @@ public class SetUserCouponTemplateRemindTimeUtil {
         return 1L << (type * NEXT_TYPE_BITS + remindTime / TIME_INTERVAL - 1);
     }
     
+    /**
+     * 填充提醒信息
+     *
+     * @param remindQueryRespDTO remind 查询 resp dto
+     * @param information        信息
+     */
     public static void fillRemindInformation(CouponTemplateRemindQueryRespDTO remindQueryRespDTO, Long information){
         List<Date> remindTimeList = new ArrayList<> ();
         List<String> remindType = new ArrayList<> ();

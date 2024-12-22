@@ -146,7 +146,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
      * 拆分优惠券数据库
      *
      * @param shopNumberList 店铺编号一览
-     * @return {@code Map<Integer,List<Long>> 数据库编号 shopNums}
+     * @return {@code Map<Integer,List<Long>> 数据库编号 shopNumbers}
      */
     public Map<Integer,List<Long>> splitCouponDatabase(List<Long> shopNumberList){
         Map<Integer,List<Long>> result = new HashMap<> ();
