@@ -54,7 +54,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
             ++rowCount;
             return;
         }
-        // 获取lua脚本 将脚本保存到Hutool单例容器 方便使用
+        // 获取lua脚本 将脚本保存到Hutool单例容器 减少获取脚本耗时
         DefaultRedisScript<Long> luaScript = Singleton.get (STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH , () -> {
             DefaultRedisScript<Long> redisScript = new DefaultRedisScript<> ();
             redisScript.setScriptSource (new ResourceScriptSource (new ClassPathResource (STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH)));
@@ -62,7 +62,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
             return redisScript;
         });
         // 执行 LUA 脚本进行扣减库存以及增加 Redis 用户领券记录
-        String couponTemplateIdKey = String.format ("fengxin:" + COUPON_TEMPLATE_KEY , couponTemplateDO.getId ());
+        String couponTemplateIdKey = String.format ("maple-plus:" + COUPON_TEMPLATE_KEY , couponTemplateDO.getId ());
         String userSetKey = String.format (TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY , couponTaskId);
         Map<Object, Object> userRowNumMap = MapUtil.builder ()
                 .put ("userId" , couponTaskExcelObject.getUserId ())
@@ -88,7 +88,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
         }
         // 获取执行后的用户set行数 未达到分发数量则保存进度到缓存 继续下一条记录执行
         int batchSize = StockDecrementReturnCombinedUtil.extractSecondField ((executeResult.intValue ()));
-        if (batchSize < BATCH_USER_COUPON_SIZE){
+        if (batchSize % BATCH_USER_COUPON_SIZE != 0){
             stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
             ++rowCount;
             return;

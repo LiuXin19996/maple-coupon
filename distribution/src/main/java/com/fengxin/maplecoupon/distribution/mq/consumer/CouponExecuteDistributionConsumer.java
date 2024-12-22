@@ -79,8 +79,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
         log.info ("[消费者] 分发优惠券执行 消息体:{}",message.getMessage ());
         CouponTemplateDistributionEvent couponTemplateDistributionEvent = message.getMessage ();
         // 如果消息体没有结束 且满足5000的整数倍
-        if (BooleanUtil.isFalse (couponTemplateDistributionEvent.getDistributionEndFlag ())
-                && couponTemplateDistributionEvent.getBatchUserSetSize () % BATCH_SAVE_USER_COUPON_SIZE == 0) {
+        if (BooleanUtil.isFalse (couponTemplateDistributionEvent.getDistributionEndFlag ())) {
             try {
                 decrementCouponTemplateStockAndSaveUserCouponList(couponTemplateDistributionEvent);
             } catch (JsonProcessingException e) {

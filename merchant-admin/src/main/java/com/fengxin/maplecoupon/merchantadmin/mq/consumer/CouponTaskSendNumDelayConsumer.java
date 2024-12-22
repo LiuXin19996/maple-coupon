@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Executors;
 
-import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TASK_SEND_NUM_DELAY_QUEUE;
 import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TASK_SEND_NUM_FLUSH_EXCEL_DELAY_QUEUE;
 
 /**
@@ -34,7 +33,7 @@ public class CouponTaskSendNumDelayConsumer implements CommandLineRunner {
         Executors.newSingleThreadExecutor (
                 runnable -> {
                     Thread thread = new Thread(runnable);
-                    thread.setName("delay_coupon-task_send-num_consumer");
+                    thread.setName("mapleCoupon_distribution_task-send_num-flush_excel-delay_thread");
                     thread.setDaemon(Boolean.TRUE);
                     return thread;
                 }
