@@ -4,7 +4,6 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson2.JSON;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -37,7 +36,7 @@ public class DuplicateSubmitAspect {
     public Object duplicateSubmitAspect(ProceedingJoinPoint joinPoint) throws Throwable {
         DuplicateSubmit duplicateSubmitAnnotation = getDuplicateSubmit (joinPoint);
         // 分布式🔒防止重复提交
-        String lockKey = String.format ("lock_no_duplicate_submit:path%s:currentUserId:%smd5:%s",getRequestPath (),getCurrentUserId (),getMD5 (joinPoint));
+        String lockKey = String.format ("lock_no_duplicate_submit:path%s:currentUserId:%smd5:%s",getRequestPath (),getCurrentUserId (), getMd5 (joinPoint));
         RLock lock = redissonClient.getLock (lockKey);
         if (!lock.tryLock ()) {
             throw new IllegalArgumentException (duplicateSubmitAnnotation.message());
@@ -49,7 +48,6 @@ public class DuplicateSubmitAspect {
             lock.unlock ();
         }
         return result;
-        
     }
     
     /**
@@ -89,7 +87,7 @@ public class DuplicateSubmitAspect {
      * @param joinPoint 加入点
      * @return {@code String }
      */
-    public String getMD5(ProceedingJoinPoint joinPoint) {
+    public String getMd5 (ProceedingJoinPoint joinPoint) {
         return DigestUtil.md5Hex(JSON.toJSONBytes(joinPoint.getArgs ()));
     }
 }

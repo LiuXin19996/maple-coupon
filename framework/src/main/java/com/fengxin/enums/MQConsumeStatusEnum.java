@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
  * @project feng-coupon
  * @description 消费状态枚举
  **/
+@Getter
 @RequiredArgsConstructor
 public enum MQConsumeStatusEnum {
     /**
@@ -22,7 +23,6 @@ public enum MQConsumeStatusEnum {
      */
     CONSUMED ("1");
     
-    @Getter
     private final String code;
     
     

@@ -1,6 +1,5 @@
 package com.fengxin.config;
 
-import com.fengxin.idempotent.DuplicateMQConsume;
 import com.fengxin.idempotent.DuplicateMQConsumeAspect;
 import com.fengxin.idempotent.DuplicateSubmitAspect;
 import org.redisson.api.RedissonClient;
@@ -34,7 +33,7 @@ public class IdempotentConfiguration {
      * @return {@code DuplicateMQConsumeAspect }
      */
     @Bean
-    public DuplicateMQConsumeAspect duplicateMQConsumeAspect(StringRedisTemplate stringRedisTemplate) {
+    public DuplicateMQConsumeAspect duplicateMqConsumeAspect (StringRedisTemplate stringRedisTemplate) {
         return new DuplicateMQConsumeAspect (stringRedisTemplate);
     }
 }

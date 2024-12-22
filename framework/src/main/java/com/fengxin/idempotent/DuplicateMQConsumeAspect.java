@@ -37,8 +37,8 @@ public class DuplicateMQConsumeAspect {
             return redis.call('SET', key, value, 'NX', 'GET', 'PX', expire_time_ms)
             """;
     @Around ("@annotation(com.fengxin.idempotent.DuplicateMQConsume)")
-    public Object duplicateMQConsumeExecute (ProceedingJoinPoint joinPoint) throws Throwable {
-        DuplicateMQConsume duplicateMQConsume = getDuplicateMQConsumeAnnotation (joinPoint);
+    public Object duplicateMqConsumeExecute (ProceedingJoinPoint joinPoint) throws Throwable {
+        DuplicateMQConsume duplicateMQConsume = getDuplicateMqConsumeAnnotation (joinPoint);
         String uniqueKey = duplicateMQConsume.keyPrefix() + SpELUtil.parseKey(duplicateMQConsume.key(), ((MethodSignature) joinPoint.getSignature()).getMethod(), joinPoint.getArgs());
         // 设置状态为执行中
         String absentAndGet = stringRedisTemplate.execute (
@@ -47,11 +47,11 @@ public class DuplicateMQConsumeAspect {
                 MQConsumeStatusEnum.CONSUMING.getCode(),
                 String.valueOf (TimeUnit.SECONDS.toMillis (duplicateMQConsume.timeout ()))
         );
-        // 返回值不空 说明有值
+        // 返回值不空 说明可能正在消费或消费完成
         if (ObjectUtil.isNotNull (absentAndGet)) {
             // 如果返回0说明正在执行
             boolean errorFlag = MQConsumeStatusEnum.isError(absentAndGet);
-            log.warn("[{}] MQ repeated consumption, {}.", uniqueKey, errorFlag ? "Wait for the client to delay consumption" : "Status is completed");
+            log.warn("[{}] MQ 幂等校验生效, {}", uniqueKey, errorFlag ? "当前正在消费中......" : "消费已完成！");
             if (errorFlag) {
                 throw new ServiceException (String.format("消息消费者幂等异常，幂等标识：%s", uniqueKey));
             }
@@ -78,7 +78,7 @@ public class DuplicateMQConsumeAspect {
      * @return {@code DuplicateMQConsume 注解}
      * @throws NoSuchMethodException 异常
      */
-    public static DuplicateMQConsume getDuplicateMQConsumeAnnotation (JoinPoint joinPoint) throws NoSuchMethodException {
+    public static DuplicateMQConsume getDuplicateMqConsumeAnnotation (JoinPoint joinPoint) throws NoSuchMethodException {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature ();
         Method declaredMethod = joinPoint.getTarget ().getClass ().getDeclaredMethod (signature.getName () , signature.getMethod ().getParameterTypes ());
         return declaredMethod.getAnnotation(DuplicateMQConsume.class);
