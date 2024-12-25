@@ -13,7 +13,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_DELAY_CLOSE_TOPIC;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_DELAY_CLOSE_TOPIC;
 
 /**
  * @author FENGXIN

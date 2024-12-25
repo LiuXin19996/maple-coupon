@@ -29,8 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 import static com.fengxin.maplecoupon.engine.common.constant.EngineRedisConstant.USER_COUPON_TEMPLATE_LIST_KEY;
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_ASYNC_REDEEM_CONSUMER;
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_ASYNC_REDEEM_TOPIC;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_ASYNC_REDEEM_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_ASYNC_REDEEM_TOPIC;
 
 /**
  * @author FENGXIN

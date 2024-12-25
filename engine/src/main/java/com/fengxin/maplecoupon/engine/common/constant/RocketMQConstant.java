@@ -1,21 +1,12 @@
 package com.fengxin.maplecoupon.engine.common.constant;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * MQ常量
  *
  * @author fengxin
  * @date 2024-12-22
  */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class MQConstant {
+public class RocketMQConstant {
     /**
      * Canal binlog同步用户优惠券主题
      */

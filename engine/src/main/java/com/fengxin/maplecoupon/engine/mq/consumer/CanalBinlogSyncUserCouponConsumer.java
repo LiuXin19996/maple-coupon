@@ -20,8 +20,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Map;
 
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_CANAL_BINLOG_SYNC_CONSUMER;
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_CANAL_BINLOG_SYNC_TOPIC;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_CANAL_BINLOG_SYNC_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_CANAL_BINLOG_SYNC_TOPIC;
 
 /**
  * @author FENGXIN

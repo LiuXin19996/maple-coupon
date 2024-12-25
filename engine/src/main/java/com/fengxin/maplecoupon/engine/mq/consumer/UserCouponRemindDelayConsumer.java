@@ -12,8 +12,8 @@ import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
 
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_REMIND_CONSUMER;
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_REMIND_TOPIC;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_REMIND_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_REMIND_TOPIC;
 
 /**
  * @author FENGXIN

@@ -18,8 +18,8 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_DELAY_CLOSE_CONSUMER;
-import static com.fengxin.maplecoupon.engine.common.constant.MQConstant.USER_COUPON_DELAY_CLOSE_TOPIC;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_DELAY_CLOSE_CONSUMER;
+import static com.fengxin.maplecoupon.engine.common.constant.RocketMQConstant.USER_COUPON_DELAY_CLOSE_TOPIC;
 
 /**
  * @author FENGXIN

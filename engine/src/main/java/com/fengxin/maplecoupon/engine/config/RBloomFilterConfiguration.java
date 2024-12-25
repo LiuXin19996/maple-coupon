@@ -19,7 +19,7 @@ public class RBloomFilterConfiguration {
      */
     @Bean
     public RBloomFilter<String> couponTemplateQueryBloomFilter(RedissonClient redissonClient,@Value("${framework.cache.redis.prefix:}") String cachePrefix) {
-        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(cachePrefix + "couponTemplateQueryBloomFilter");
+        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(cachePrefix + "-couponTemplateQueryBloomFilter");
         bloomFilter.tryInit(640L, 0.001);
         return bloomFilter;
     }
@@ -29,8 +29,18 @@ public class RBloomFilterConfiguration {
      */
     @Bean
     public RBloomFilter<String> cancelRemindBloomFilter(RedissonClient redissonClient, @Value("${framework.cache.redis.prefix:}") String cachePrefix) {
-        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(cachePrefix + "cancelRemindBloomFilter");
+        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(cachePrefix + "-cancelRemindBloomFilter");
         bloomFilter.tryInit(640L, 0.001);
         return bloomFilter;
+    }
+    
+    /**
+     * 防止用户注册查询数据库的布隆过滤器
+     */
+    @Bean
+    public RBloomFilter<String> userRegisterCachePenetrationBloomFilter(RedissonClient redissonClient, @Value("${framework.cache.redis.prefix:}") String cachePrefix) {
+        RBloomFilter<String> cachePenetrationBloomFilter = redissonClient.getBloomFilter(cachePrefix + "-userRegisterCachePenetrationBloomFilter");
+        cachePenetrationBloomFilter.tryInit(100000000, 0.001);
+        return cachePenetrationBloomFilter;
     }
 }
