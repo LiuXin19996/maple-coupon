@@ -2,7 +2,7 @@ server:
   port: 10030
 spring:
   application:
-    name: fengCoupon-settlement
+    name: MapleCoupon-settlement
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
@@ -11,6 +11,10 @@ spring:
       host: 39.105.15.60
       port: 6379
       password: xWBbAP7d2tSGdnES
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.187.101:8848
 
 mybatis-plus:
   configuration:

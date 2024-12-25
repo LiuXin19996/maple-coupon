@@ -2,17 +2,15 @@ server:
   port: 10000
 spring:
   application:
-    name: fengCoupon-gateway
+    name: MapleCoupon-gateway
   cloud:
     nacos:
       discovery:
         server-addr: 192.168.187.101:8848
-        enabled: false
-      password: 51213002
     gateway:
       routes:
-        - id: fengCoupon-merchant-admin
-          uri: lb://fengCoupon-merchant-admin/api/merchant-admin/**
+        - id: MapleCoupon-merchant-admin
+          uri: lb://MapleCoupon-merchant-admin/api/merchant-admin/**
           predicates:
             - Path=/api/merchant-admin/**
         #          暂时先不加黑名单
@@ -22,8 +20,8 @@ spring:
         #                blackPathPre:
         #                  - /api/merchant-admin/coupon-task/create
         #                  - /api/merchant-admin/coupon-task/page
-        - id: fengCoupon-engine
-          uri: lb://fengCoupon-engine/api/engine/**
+        - id: MapleCoupon-engine
+          uri: lb://MapleCoupon-engine/api/engine/**
           predicates:
             - Path=/api/engine/**
         #          暂时先不加黑名单
@@ -36,18 +34,18 @@ spring:
         #                  - /api/engine/coupon-template-remind/list
         #                  - /api/engine/coupon-template-remind/cancel
 
-        - id: fengCoupon-settlement
-          uri: lb://fengCoupon-settlement/api/settlement/**
+        - id: MapleCoupon-settlement
+          uri: lb://MapleCoupon-settlement/api/settlement/**
           predicates:
             - Path=/api/settlement/**
 
-        - id: fengCoupon-distribution
-          uri: lb://fengCoupon-distribution/api/distribution/**
+        - id: MapleCoupon-distribution
+          uri: lb://MapleCoupon-distribution/api/distribution/**
           predicates:
             - Path=/api/distribution/**
 
-        - id: fengCoupon-search
-          uri: lb://fengCoupon-search/api/search/**
+        - id: MapleCoupon-search
+          uri: lb://MapleCoupon-search/api/search/**
           predicates:
             - Path=/api/search/**
 management:
