@@ -91,7 +91,7 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                 QueryCouponsDetailRespDTO couponsDetailRespDTO = BeanUtil.toBean (each , QueryCouponsDetailRespDTO.class);
                 JSONObject consumeRule = JSON.parseObject (couponsDetailRespDTO.getConsumeRule ());
                 calculateCouponTemplateAmount (couponsDetailRespDTO , consumeRule , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
-            } , executorService)).toArray (CompletableFuture[]::new)
+            } , executorService).orTimeout (10 , TimeUnit.SECONDS)).toArray (CompletableFuture[]::new)
         );
         
         // 计算商品券
@@ -110,7 +110,7 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                     notAvailableCouponList.add (couponsDetailRespDTO);
                 }
                 calculateCouponTemplateAmount (couponsDetailRespDTO , consumeRule , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
-            } , executorService))
+            } , executorService).orTimeout (10 , TimeUnit.SECONDS))
             .toArray (CompletableFuture[]::new)
         );
         // 等待两个任务完成

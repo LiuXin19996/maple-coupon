@@ -1,6 +1,7 @@
 package com.fengxin.maplecoupon.auth.remote.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class CouponProcessPaymentReqDTO {
     /**
      * 用户优惠券ID
      */
-    @Schema(description = "优惠券ID", required = true)
+    @Schema(description = "优惠券ID", example = "12345")
+    @NotNull(message = "优惠券ID不能为空")
     private Long couponId;
-
 }

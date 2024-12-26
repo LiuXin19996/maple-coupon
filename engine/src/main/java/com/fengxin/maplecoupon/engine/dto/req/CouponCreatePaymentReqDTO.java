@@ -1,6 +1,8 @@
 package com.fengxin.maplecoupon.engine.dto.req;
 
+import com.fengxin.maplecoupon.engine.dto.req.CouponCreatePaymentGoodsReqDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,37 +25,42 @@ public class CouponCreatePaymentReqDTO {
     /**
      * 用户优惠券ID
      */
-    @Schema(description = "用户优惠券ID", required = true)
+    @Schema(description = "用户优惠券ID")
+    @NotNull(message = "优惠券ID不能为空")
     private Long couponId;
     
     /**
      * 订单ID
      */
-    @Schema(description = "订单ID", required = true)
+    @Schema(description = "订单ID")
+    @NotNull(message = "订单ID不能为空")
     private Long orderId;
     
     /**
      * 订单金额
      */
-    @Schema(description = "订单金额", required = true)
+    @Schema(description = "订单金额")
+    @NotNull(message = "订单金额不能为空")
     private BigDecimal orderAmount;
     
     /**
      * 折扣后金额
      */
-    @Schema(description = "折扣后金额", required = true)
+    @Schema(description = "折扣后金额")
+    @NotNull(message = "折扣后金额不能为空")
     private BigDecimal payableAmount;
     
     /**
      * 店铺编号
      */
-    @Schema(description = "店铺编号", example = "1810714735922956666", required = true)
+    @Schema(description = "店铺编号", example = "1810714735922956666")
+    @NotNull(message = "店铺编号不能为空")
     private String shopNumber;
     
     /**
      * 商品集合
      */
-    @Schema(description = "商品集合", required = true)
+    @Schema(description = "商品集合")
+    @NotNull(message = "商品集合不能为空")
     private List<CouponCreatePaymentGoodsReqDTO> goodsList;
-    
 }

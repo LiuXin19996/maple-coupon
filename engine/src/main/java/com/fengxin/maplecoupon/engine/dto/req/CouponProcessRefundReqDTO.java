@@ -1,6 +1,7 @@
 package com.fengxin.maplecoupon.engine.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,8 @@ public class CouponProcessRefundReqDTO {
     /**
      * 优惠券ID
      */
-    @Schema(description = "优惠券ID", required = true)
+    @Schema(description = "优惠券ID")
+    @NotNull(message = "优惠券ID不能为空")
     private Long couponId;
 
 }

@@ -1,6 +1,8 @@
 package com.fengxin.maplecoupon.settlement.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,18 +21,18 @@ public class QueryCouponsReqDTO {
     /**
      * 订单金额
      */
-    @Schema(description = "订单金额", required = true)
+    @Schema(description = "订单金额")
     private BigDecimal orderAmount;
 
     /**
      * 店铺编号
      */
-    @Schema(description = "店铺编号", example = "1810714735922956666", required = true)
+    @Schema(description = "店铺编号", example = "1810714735922956666")
     private String shopNumber;
 
     /**
      * 商品集合
      */
-    @Schema(description = "商品集合", required = true)
+    @Schema(description = "商品集合")
     private List<QueryCouponGoodsReqDTO> goodsList;
 }

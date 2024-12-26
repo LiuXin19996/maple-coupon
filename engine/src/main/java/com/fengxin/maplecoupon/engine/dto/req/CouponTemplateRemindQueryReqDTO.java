@@ -1,6 +1,7 @@
 package com.fengxin.maplecoupon.engine.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class CouponTemplateRemindQueryReqDTO {
     /**
      * 用户id
      */
-    @Schema(description = "用户id", example = "1810518709471555585", required = true)
+    @Schema(description = "用户id", example = "1810518709471555585")
+    @NotNull(message = "用户id不能为空")
     private String userId;
 }

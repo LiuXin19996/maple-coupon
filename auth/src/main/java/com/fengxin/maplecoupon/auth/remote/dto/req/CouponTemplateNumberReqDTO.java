@@ -1,6 +1,7 @@
 package com.fengxin.maplecoupon.auth.remote.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -16,16 +17,16 @@ public class CouponTemplateNumberReqDTO {
      * 优惠券模板id
      */
     @Schema(description = "优惠券模板id",
-            example = "1810966706881941507",
-            requiredMode = Schema.RequiredMode.REQUIRED)
+            example = "1810966706881941507")
+    @NotNull(message = "优惠券模板id不能为空")
     private String couponTemplateId;
     
     /**
      * 增加发行数量
      */
     @Schema(description = "增加发行数量",
-            example = "100",
-            requiredMode = Schema.RequiredMode.REQUIRED)
+            example = "100")
+    @NotNull(message = "增加发行数量不能为空")
     private Integer number;
 
 }
