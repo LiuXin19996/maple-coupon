@@ -87,7 +87,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         // 新增优惠券模板信息到数据库
         CouponTemplateDO couponTemplateDO = BeanUtil.toBean(requestParam, CouponTemplateDO.class);
         couponTemplateDO.setStatus(CouponTemplateStatusEnum.ACTIVE.getValue ());
-        couponTemplateDO.setShopNumber(1810714735922956666L);
+        couponTemplateDO.setShopNumber(UserContext.getShopNumber ());
         couponTemplateMapper.insert(couponTemplateDO);
         
         // 添加入布隆过滤器
