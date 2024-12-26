@@ -48,7 +48,7 @@ public final class UserContext {
      *
      * @return 用户店铺编号
      */
-    public static Long getShopNumber() {
+    public static String getShopNumber() {
         UserInfoDTO userInfoDTO = USER_THREAD_LOCAL.get();
         return Optional.ofNullable(userInfoDTO).map(UserInfoDTO::getShopNumber).orElse(null);
     }

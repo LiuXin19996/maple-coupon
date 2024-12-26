@@ -48,6 +48,10 @@ spring:
           uri: lb://MapleCoupon-search/api/search/**
           predicates:
             - Path=/api/search/**
+        - id: MapleCoupon-auth
+          uri: lb://MapleCoupon-auth/api/auth/**
+          predicates:
+            - Path=/api/auth/**
 management:
   endpoints:
     web:

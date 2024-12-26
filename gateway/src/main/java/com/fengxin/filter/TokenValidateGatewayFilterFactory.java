@@ -52,7 +52,7 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
                     JSONObject userInfoJsonObject = JSON.parseObject(userInfo.toString());
                     ServerHttpRequest.Builder builder = exchange.getRequest().mutate().headers(httpHeaders -> {
                         httpHeaders.set("userId", userInfoJsonObject.getString("id"));
-                        httpHeaders.set("realName", URLEncoder.encode(userInfoJsonObject.getString("realName"), StandardCharsets.UTF_8));
+                        httpHeaders.set("username", username);
                         httpHeaders.set("shopNumber", Optional.ofNullable(userInfoJsonObject.getString ("shopNumber")).orElse(""));
                     });
                     // 用户校验成功后刷新时间 防止用户还在操作数据就退出登录

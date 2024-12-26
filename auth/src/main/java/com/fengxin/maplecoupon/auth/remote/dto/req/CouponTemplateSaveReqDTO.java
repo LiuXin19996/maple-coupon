@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.merchantadmin.dto.req;
+package com.fengxin.maplecoupon.auth.remote.dto.req;
 
 import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * @author FENGXIN
  * @date 2024/10/16
- * @project feng-coupon
+ * @project maple-coupon
  * @description 新增优惠券模板参数
  **/
 @Data

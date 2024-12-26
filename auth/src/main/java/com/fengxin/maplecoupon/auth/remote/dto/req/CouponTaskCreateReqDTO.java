@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.merchantadmin.dto.req;
+package com.fengxin.maplecoupon.auth.remote.dto.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

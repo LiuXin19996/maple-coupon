@@ -50,10 +50,10 @@ public class UserConfiguration implements WebMvcConfigurer {
             if (request != null) {
                 userId = Optional.ofNullable (request.getParameter ("userId"))
                         .orElseThrow (() -> new RuntimeException ("用户id缺失"));
-                String userName = Optional.ofNullable (request.getParameter ("realName"))
+                String userName = Optional.ofNullable (request.getParameter ("username"))
                         .orElseThrow (() -> new RuntimeException ("用户名缺失"));
-                Long shopNumber = Long.valueOf (Optional.ofNullable (request.getParameter ("shopNumber"))
-                        .orElse(""));
+                String shopNumber = Optional.ofNullable (request.getParameter ("shopNumber"))
+                        .orElse("");
                 UserInfoDTO userInfoDTO = new UserInfoDTO (userId, userName, shopNumber);
                 UserContext.setUser(userInfoDTO);
             }

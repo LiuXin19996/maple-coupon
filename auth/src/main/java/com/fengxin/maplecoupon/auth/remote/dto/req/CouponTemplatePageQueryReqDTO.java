@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.merchantadmin.dto.req;
+package com.fengxin.maplecoupon.auth.remote.dto.req;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * @author FENGXIN
  * @date 2024/10/20
- * @project maple-coupon
+ * @project feng-coupon
  * @description 分页查询优惠券请求参数
  **/
 @EqualsAndHashCode(callSuper = true)

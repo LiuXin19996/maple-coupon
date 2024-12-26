@@ -1,4 +1,4 @@
-package com.fengxin.maplecoupon.merchantadmin.dto.req;
+package com.fengxin.maplecoupon.auth.remote.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
