@@ -1,6 +1,5 @@
 package com.fengxin.maplecoupon.auth.remote;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fengxin.maplecoupon.auth.config.OpenFeignConfiguration;
 import com.fengxin.maplecoupon.auth.remote.dto.req.*;

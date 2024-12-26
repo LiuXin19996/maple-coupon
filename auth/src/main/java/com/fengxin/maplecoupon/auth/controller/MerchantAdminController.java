@@ -43,7 +43,7 @@ public class MerchantAdminController {
     
     @Operation(summary = "查询优惠券模板详情")
     @GetMapping("/api/auth/merchant-admin/coupon-template/find")
-    Result<CouponTemplateQueryRespDTO> findCouponTemplate ( String couponTemplateId){
+    Result<CouponTemplateQueryRespDTO> findCouponTemplate (String couponTemplateId){
         return mapleCouponMerchantAdminRemoteService.findCouponTemplate (couponTemplateId);
     }
     

@@ -134,6 +134,13 @@ public class UserCouponServiceImpl implements UserCouponService {
         if (ObjectUtil.isNull (couponTemplateById)){
             throw new ServiceException ("优惠券 " + requestParam.getCouponTemplateId () + " 不存在" );
         }
+        if (couponTemplateById.getValidEndTime ().before (new Date ())){
+            throw new ServiceException ("优惠券 " + requestParam.getCouponTemplateId () + " 已结束" );
+        }
+        if (couponTemplateById.getValidStartTime ().before (new Date ())){
+            throw new ServiceException ("优惠券 " + requestParam.getCouponTemplateId () + " 已开始" );
+        }
+        
         // 查询提醒信息
         LambdaQueryWrapper<CouponTemplateRemindDO> remindTemplateQueryWrapper = new LambdaQueryWrapper<CouponTemplateRemindDO> ()
                 .eq (CouponTemplateRemindDO::getCouponTemplateId,requestParam.getCouponTemplateId ())

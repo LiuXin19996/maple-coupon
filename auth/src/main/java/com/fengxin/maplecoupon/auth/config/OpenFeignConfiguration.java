@@ -5,6 +5,8 @@ import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
+
 /**
  * @author FENGXIN
  * @date 2024/10/13
@@ -17,8 +19,8 @@ public class OpenFeignConfiguration {
     public RequestInterceptor requestInterceptor() {
         return template -> {
             template.header ("username", UserContext.getUsername ());
-            template.header ("userId", UserContext.getUserId ());
-            template.header ("shopNumber", UserContext.getShopNumber ());
+            template.header ("userId", String.valueOf (UserContext.getUserId ()));
+            template.header ("shopNumber", String.valueOf (UserContext.getShopNumber ()));
         };
     }
 }

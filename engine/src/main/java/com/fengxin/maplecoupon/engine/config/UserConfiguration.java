@@ -1,8 +1,7 @@
-package com.fengxin.maplecoupon.auth.config;
+package com.fengxin.maplecoupon.engine.config;
 
-
-import com.fengxin.maplecoupon.auth.common.context.UserContext;
-import com.fengxin.maplecoupon.auth.common.context.UserInfoDTO;
+import com.fengxin.maplecoupon.engine.common.context.UserContext;
+import com.fengxin.maplecoupon.engine.common.context.UserInfoDTO;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,7 +36,7 @@ public class UserConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userTransmitInterceptor())
                 .order (0)
-                .addPathPatterns ("/**");
+                .addPathPatterns("/**");
     }
     
     /**
@@ -65,5 +64,5 @@ public class UserConfiguration implements WebMvcConfigurer {
             UserContext.removeUser();
         }
     }
-
+    
 }
