@@ -43,9 +43,17 @@ public class UserConfiguration implements WebMvcConfigurer {
         
         @Override
         public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable Object handler) throws Exception {
-            // 用户属于非核心功能，这里先通过模拟的形式代替。后续如果需要后管展示，会重构该代码
-            UserInfoDTO userInfoDTO = new UserInfoDTO ("1810518709471555585", "pdd45305558318", 1810714735922956666L);
-            UserContext.setUser(userInfoDTO);
+            if (request != null) {
+                // Long userId =  Optional.ofNullable (request.getParameter ("userId"))
+                //         .orElseThrow (() -> new RuntimeException ("用户id缺失"));
+                // String userName = Optional.ofNullable (request.getParameter ("username"))
+                //         .orElseThrow (() -> new RuntimeException ("用户名缺失"));
+                // Long shopNumber = Long.valueOf (Optional.ofNullable (request.getParameter ("shopNumber"))
+                //         .orElse(""));
+                // TODO 后期加入网关重构
+                UserInfoDTO userInfoDTO = new UserInfoDTO ("180000000000000000", "maple2", 1810714735922956666L);
+                UserContext.setUser(userInfoDTO);
+            }
             return true;
         }
         
