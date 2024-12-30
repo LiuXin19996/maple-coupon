@@ -38,7 +38,14 @@ public class MerchantAdminController {
     @Operation(summary = "分页查询优惠券模板")
     @GetMapping("/api/auth/merchant-admin/coupon-template/page")
     Result<Page<CouponTemplatePageQueryRespDTO>> pageQueryCouponTemplate (CouponTemplatePageQueryReqDTO requestParam){
-        return mapleCouponMerchantAdminRemoteService.pageQueryCouponTemplate (requestParam);
+        return mapleCouponMerchantAdminRemoteService.pageQueryCouponTemplate (
+                requestParam.getName (),
+                requestParam.getTarget (),
+                requestParam.getGoods (),
+                requestParam.getType (),
+                requestParam.getCurrent (),
+                requestParam.getSize ()
+        );
     }
     
     @Operation(summary = "查询优惠券模板详情")

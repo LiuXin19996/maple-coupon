@@ -27,7 +27,14 @@ public interface MapleCouponMerchantAdminRemoteService {
     Result<Void> createCouponTemplate (@RequestBody CouponTemplateSaveReqDTO requestParam);
     
     @GetMapping("/api/merchant-admin/coupon-template/page")
-    Result<Page<CouponTemplatePageQueryRespDTO>> pageQueryCouponTemplate (@RequestParam("requestParam") CouponTemplatePageQueryReqDTO requestParam);
+    Result<Page<CouponTemplatePageQueryRespDTO>> pageQueryCouponTemplate (
+            @RequestParam("name") String name,
+            @RequestParam("target") Integer target,
+            @RequestParam("goods") String goods,
+            @RequestParam("type") Integer type,
+            @RequestParam("current") Long current,
+            @RequestParam("size") Long size
+    );
     
     @GetMapping("/api/merchant-admin/coupon-template/find")
     Result<CouponTemplateQueryRespDTO> findCouponTemplate (@RequestParam("couponTemplateId") String couponTemplateId);
