@@ -8,9 +8,9 @@ spring:
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
   data:
     redis:
-      host: 39.105.15.60
+      host: 192.168.187.101
       port: 6379
-      password: xWBbAP7d2tSGdnES
+      password: 51213002
   cloud:
     nacos:
       discovery:
@@ -38,7 +38,7 @@ knife4j:
     language: zh_cn
 
 rocketmq:
-  name-server: 39.105.15.60:9876
+  name-server: 192.168.187.101:9876
   producer:
     group: mapleCoupon_merchant-admin-message-execute-producer
     send-message-timeout: 2000 # 发送超时时间

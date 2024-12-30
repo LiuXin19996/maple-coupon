@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: MapleCoupon-gateway
+  data:
+    redis:
+      host: 192.168.187.101
+      port: 6379
+      password: 51213002
   cloud:
     nacos:
       discovery:
@@ -13,45 +18,48 @@ spring:
           uri: lb://MapleCoupon-merchant-admin/api/merchant-admin/**
           predicates:
             - Path=/api/merchant-admin/**
-        #          暂时先不加黑名单
-        #          filters:
-        #            - name: TokenValidate
-        #              args:
-        #                blackPathPre:
-        #                  - /api/merchant-admin/coupon-task/create
-        #                  - /api/merchant-admin/coupon-task/page
+#          黑名单
+          filters:
+            - name: TokenValidate
+#              args:
+#                blackPathPre:
+#                  - /api/merchant-admin/coupon-task/create
+#                  - /api/merchant-admin/coupon-task/page
         - id: MapleCoupon-engine
           uri: lb://MapleCoupon-engine/api/engine/**
           predicates:
             - Path=/api/engine/**
-        #          暂时先不加黑名单
-        #          filters:
-        #            - name: TokenValidate
-        #              args:
-        #                blackPathPre:
-        #                  - /api/engine/coupon-template/redeem
-        #                  - /api/engine/coupon-template-remind/create
-        #                  - /api/engine/coupon-template-remind/list
-        #                  - /api/engine/coupon-template-remind/cancel
-
+          filters:
+            - name: TokenValidate
         - id: MapleCoupon-settlement
           uri: lb://MapleCoupon-settlement/api/settlement/**
           predicates:
             - Path=/api/settlement/**
-
+          filters:
+            - name: TokenValidate
         - id: MapleCoupon-distribution
           uri: lb://MapleCoupon-distribution/api/distribution/**
           predicates:
             - Path=/api/distribution/**
-
+          filters:
+            - name: TokenValidate
         - id: MapleCoupon-search
           uri: lb://MapleCoupon-search/api/search/**
           predicates:
             - Path=/api/search/**
+          filters:
+            - name: TokenValidate
         - id: MapleCoupon-auth
           uri: lb://MapleCoupon-auth/api/auth/**
           predicates:
             - Path=/api/auth/**
+          filters:
+            - name: TokenValidate
+              args:
+                whitePathList:
+                  - /api/auth/user/register
+                  - /api/auth/user/has-username
+                  - /api/auth/user/login
 management:
   endpoints:
     web:

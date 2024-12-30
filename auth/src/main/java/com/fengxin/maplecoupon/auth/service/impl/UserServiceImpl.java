@@ -2,6 +2,7 @@ package com.fengxin.maplecoupon.auth.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -82,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         try {
             UserDO userDO = BeanUtil.toBean (requestParams , UserDO.class);
             // 生成店铺id
-            userDO.setShopNumber (UUID.fastUUID ().toString ());
+            userDO.setShopNumber (Long.valueOf (RandomUtil.randomNumbers (18)));
             // 新增用户
             int insert = baseMapper.insert (userDO);
             if (insert < 1) {

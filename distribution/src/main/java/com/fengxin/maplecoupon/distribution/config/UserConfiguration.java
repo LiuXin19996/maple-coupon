@@ -1,6 +1,6 @@
-package com.fengxin.maplecoupon.engine.config;
+package com.fengxin.maplecoupon.distribution.config;
 
-import com.fengxin.maplecoupon.engine.common.context.UserTransmitInterceptor;
+import com.fengxin.maplecoupon.distribution.common.context.UserTransmitInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

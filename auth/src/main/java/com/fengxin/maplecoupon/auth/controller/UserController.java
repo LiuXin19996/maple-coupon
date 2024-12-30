@@ -46,7 +46,7 @@ public class UserController {
     }
     
     @Operation(summary = "注册新用户")
-    @PostMapping("/api/auth/user")
+    @PostMapping("/api/auth/user/register")
     public Result<Void> registerUser (@RequestBody UserRegisterReqDTO requestParams) {
         userService.registerUser (requestParams);
         return Results.success ();

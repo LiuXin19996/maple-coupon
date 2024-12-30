@@ -31,7 +31,7 @@ public class UserDO {
     /**
      * 店铺id
      */
-    private String shopNumber;
+    private Long shopNumber;
     
     /**
      * 店铺名

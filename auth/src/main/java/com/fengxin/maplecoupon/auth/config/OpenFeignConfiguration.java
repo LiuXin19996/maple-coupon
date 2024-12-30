@@ -5,8 +5,6 @@ import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Optional;
-
 /**
  * @author FENGXIN
  * @date 2024/10/13

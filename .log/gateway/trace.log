@@ -1,170 +1,797 @@
-2024-12-25 20:09:59.857 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
-2024-12-25 20:09:59.865 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
-2024-12-25 20:09:59.903 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
-2024-12-25 20:09:59.909 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 18384 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
-2024-12-25 20:09:59.910 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
-2024-12-25 20:10:00.457 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=7f45d766-c56e-39f8-a063-89f7f5a9eb04
-2024-12-25 20:10:00.495 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2024-12-25 20:10:00.495 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2024-12-25 20:10:00.497 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2024-12-25 20:10:01.850 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 20:10:03.002 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 20:10:03.227 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
-2024-12-25 20:10:03.227 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
-2024-12-25 20:10:03.227 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
-2024-12-25 20:10:03.227 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
-2024-12-25 20:10:03.229 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
-2024-12-25 20:10:04.449 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 20:10:04.562 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2024-12-25 20:10:04.707 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
-2024-12-25 20:10:05.834 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 20:10:06.951 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 20:10:06.956 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
-2024-12-25 20:10:06.956 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
-2024-12-25 20:10:06.956 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
-2024-12-25 20:10:06.956 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
-2024-12-25 20:10:06.972 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
-2024-12-25 20:10:06.972 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
-2024-12-25 20:10:06.973 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
-2024-12-25 20:10:06.976 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
-2024-12-25 20:10:06.976 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
-2024-12-25 20:10:06.978 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
-2024-12-25 20:10:06.985 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of 372c9395-e58d-4e92-8c1e-ab505995fbaf
-2024-12-25 20:10:06.997 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
-2024-12-25 20:10:06.997 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
-2024-12-25 20:10:06.997 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
-2024-12-25 20:10:07.001 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
-2024-12-25 20:10:07.024 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
-2024-12-25 20:10:07.990 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735128575191_192.168.187.1_51317
-2024-12-25 20:10:07.991 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Notify connected event to listeners.
-2024-12-25 20:10:07.992 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
-2024-12-25 20:10:07.992 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
-2024-12-25 20:10:07.992 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [372c9395-e58d-4e92-8c1e-ab505995fbaf] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$927/0x000001f7816fd5e0
-2024-12-25 20:10:07.993 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service fengCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2001:250:5833:2197:32be:20a9:8c5:3fd7], preserved.register.source=SPRING_CLOUD}}
-2024-12-25 20:10:08.141 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP fengCoupon-gateway 192.168.61.1:10000 register finished
-2024-12-25 20:10:08.174 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 9.872 seconds (process running for 10.289)
-2024-12-25 20:10:31.768 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
-2024-12-25 20:10:31.770 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
-2024-12-25 20:10:31.770 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
-2024-12-25 20:10:31.770 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
-2024-12-25 20:10:31.773 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
-2024-12-25 20:10:31.773 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service fengCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
-2024-12-25 20:10:31.791 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
-2024-12-25 20:10:31.793 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
-2024-12-25 20:10:31.793 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
-2024-12-25 20:10:31.793 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
-2024-12-25 20:10:31.793 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
-2024-12-25 20:10:31.793 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
-2024-12-25 20:10:31.794 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
-2024-12-25 20:10:31.794 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
-2024-12-25 20:10:31.794 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
-2024-12-25 20:10:31.794 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@426d6bb[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
-2024-12-25 20:10:31.794 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735128575191_192.168.187.1_51317
-2024-12-25 20:10:31.797 WARN  c.a.nacos.common.remote.client.grpc.GrpcClient    :89   [32m                  [0;39m [1735128575191_192.168.187.1_51317]Ignore error event,isRunning:false,isAbandon=false
-2024-12-25 20:10:31.797 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@2e32d268[Running, pool size = 5, active threads = 0, queued tasks = 0, completed tasks = 15]
-2024-12-25 20:10:31.797 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@1372c58f[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 8]
-2024-12-25 20:10:31.798 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
-2024-12-25 20:10:31.798 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
-2024-12-25 20:10:31.798 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
-2024-12-25 21:10:36.833 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
-2024-12-25 21:10:36.842 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
-2024-12-25 21:10:36.893 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
-2024-12-25 21:10:36.901 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 7500 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
-2024-12-25 21:10:36.901 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
-2024-12-25 21:10:37.568 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=7f45d766-c56e-39f8-a063-89f7f5a9eb04
-2024-12-25 21:10:37.609 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2024-12-25 21:10:37.611 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2024-12-25 21:10:37.611 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2024-12-25 21:10:39.018 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 21:10:40.264 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 21:10:40.543 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
-2024-12-25 21:10:40.544 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
-2024-12-25 21:10:40.545 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
-2024-12-25 21:10:40.545 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
-2024-12-25 21:10:40.546 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
-2024-12-25 21:10:41.860 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 21:10:42.007 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2024-12-25 21:10:42.203 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
-2024-12-25 21:10:43.376 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 21:10:44.511 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
-2024-12-25 21:10:44.516 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
-2024-12-25 21:10:44.516 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
-2024-12-25 21:10:44.516 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
-2024-12-25 21:10:44.517 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
-2024-12-25 21:10:44.532 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
-2024-12-25 21:10:44.533 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
-2024-12-25 21:10:44.533 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
-2024-12-25 21:10:44.535 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
-2024-12-25 21:10:44.537 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
-2024-12-25 21:10:44.538 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
-2024-12-25 21:10:44.544 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of 8a244ea1-e9cb-4009-9503-40ab6e4b60c0
-2024-12-25 21:10:44.556 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
-2024-12-25 21:10:44.556 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
-2024-12-25 21:10:44.556 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
-2024-12-25 21:10:44.559 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
-2024-12-25 21:10:44.584 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
-2024-12-25 21:10:45.488 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735132212943_192.168.187.1_48469
-2024-12-25 21:10:45.488 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Notify connected event to listeners.
-2024-12-25 21:10:45.488 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
-2024-12-25 21:10:45.488 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
-2024-12-25 21:10:45.490 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [8a244ea1-e9cb-4009-9503-40ab6e4b60c0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$926/0x000001bd2f6fc3d0
-2024-12-25 21:10:45.490 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2001:250:5833:2197:32be:20a9:8c5:3fd7], preserved.register.source=SPRING_CLOUD}}
-2024-12-25 21:10:45.511 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
-2024-12-25 21:10:45.553 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 10.469 seconds (process running for 11.195)
-2024-12-25 21:12:21.515 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
-2024-12-25 21:12:21.515 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
-2024-12-25 21:12:21.516 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
-2024-12-25 21:12:21.516 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
-2024-12-25 21:12:21.527 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
-2024-12-25 21:12:21.527 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
-2024-12-25 21:12:21.539 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
-2024-12-25 21:12:21.539 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
-2024-12-25 21:12:21.539 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
-2024-12-25 21:12:21.539 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
-2024-12-25 21:12:21.540 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
-2024-12-25 21:12:21.540 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
-2024-12-25 21:12:21.540 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
-2024-12-25 21:12:21.540 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
-2024-12-25 21:12:21.541 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
-2024-12-25 21:12:21.541 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
-2024-12-25 21:12:21.541 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
-2024-12-25 21:12:21.541 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@6d671e48[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
-2024-12-25 21:12:21.541 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735132212943_192.168.187.1_48469
-2024-12-25 21:12:21.546 WARN  c.a.nacos.common.remote.client.grpc.GrpcClient    :89   [32m                  [0;39m [1735132212943_192.168.187.1_48469]Ignore error event,isRunning:false,isAbandon=false
-2024-12-25 21:12:21.548 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@65e36da0[Running, pool size = 5, active threads = 0, queued tasks = 0, completed tasks = 34]
-2024-12-25 21:12:21.548 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@7afeeab7[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 32]
-2024-12-25 21:12:21.548 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
-2024-12-25 21:12:21.548 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
-2024-12-25 21:12:21.548 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 20:41:10.395 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:41:10.404 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 20:41:10.451 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:41:10.459 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 7408 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 20:41:10.461 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 20:41:11.313 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=98dc9f2a-4977-3a5d-b1df-c4d9557fdfbd
+2024-12-26 20:41:11.379 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:41:11.379 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:41:11.382 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:41:11.581 WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext:616  [32m                  [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'tokenValidateGatewayFilterFactory' defined in file [E:\Java\feng-coupon\gateway\target\classes\com\fengxin\filter\TokenValidateGatewayFilterFactory.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.data.redis.core.StringRedisTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-12-26 20:41:11.594 INFO  o.s.b.a.logging.ConditionEvaluationReportLogger   :82   [32m                  [0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-26 20:41:11.611 ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter  :40   [32m                  [0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.fengxin.filter.TokenValidateGatewayFilterFactory required a bean of type 'org.springframework.data.redis.core.StringRedisTemplate' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.data.redis.core.StringRedisTemplate' in your configuration.
+
+2024-12-26 20:45:03.555 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:45:03.563 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 20:45:03.605 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:45:03.611 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 26592 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 20:45:03.613 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 20:45:04.177 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=98dc9f2a-4977-3a5d-b1df-c4d9557fdfbd
+2024-12-26 20:45:04.219 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:45:04.219 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:45:04.221 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:45:04.347 WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext:616  [32m                  [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'tokenValidateGatewayFilterFactory' defined in file [E:\Java\feng-coupon\gateway\target\classes\com\fengxin\filter\TokenValidateGatewayFilterFactory.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.data.redis.core.StringRedisTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-12-26 20:45:04.358 INFO  o.s.b.a.logging.ConditionEvaluationReportLogger   :82   [32m                  [0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-26 20:45:04.372 ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter  :40   [32m                  [0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.fengxin.filter.TokenValidateGatewayFilterFactory required a bean of type 'org.springframework.data.redis.core.StringRedisTemplate' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.data.redis.core.StringRedisTemplate' in your configuration.
+
+2024-12-26 20:48:16.026 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:48:16.032 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 20:48:16.073 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:48:16.078 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 4008 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 20:48:16.079 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 20:48:16.609 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=98dc9f2a-4977-3a5d-b1df-c4d9557fdfbd
+2024-12-26 20:48:16.652 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:48:16.652 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:48:16.653 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:48:16.780 WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext:616  [32m                  [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'tokenValidateGatewayFilterFactory' defined in file [E:\Java\feng-coupon\gateway\target\classes\com\fengxin\filter\TokenValidateGatewayFilterFactory.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.data.redis.core.StringRedisTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-12-26 20:48:16.790 INFO  o.s.b.a.logging.ConditionEvaluationReportLogger   :82   [32m                  [0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-26 20:48:16.804 ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter  :40   [32m                  [0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.fengxin.filter.TokenValidateGatewayFilterFactory required a bean of type 'org.springframework.data.redis.core.StringRedisTemplate' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.data.redis.core.StringRedisTemplate' in your configuration.
+
+2024-12-26 20:50:21.676 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:50:21.684 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 20:50:21.720 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:50:21.726 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 29292 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 20:50:21.728 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 20:50:22.440 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 20:50:22.444 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 20:50:22.480 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2024-12-26 20:50:22.632 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=2cfe9292-1267-3cf5-97de-8d093b2d067a
+2024-12-26 20:50:22.693 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:50:22.695 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:50:22.696 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:50:22.848 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m                  [0;39m Tomcat initialized with port(s): 10000 (http)
+2024-12-26 20:50:22.856 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m                  [0;39m Initializing ProtocolHandler ["http-nio-10000"]
+2024-12-26 20:50:22.857 INFO  org.apache.catalina.core.StandardService          :173  [32m                  [0;39m Starting service [Tomcat]
+2024-12-26 20:50:22.857 INFO  org.apache.catalina.core.StandardEngine           :173  [32m                  [0;39m Starting Servlet engine: [Apache Tomcat/10.1.8]
+2024-12-26 20:50:22.942 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] :173  [32m                  [0;39m Initializing Spring embedded WebApplicationContext
+2024-12-26 20:50:22.943 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :291  [32m                  [0;39m Root WebApplicationContext: initialization completed in 1187 ms
+2024-12-26 20:50:23.362 WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:616  [32m                  [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration$SpringMvcFoundOnClasspathConfiguration': Failed to instantiate [org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration$SpringMvcFoundOnClasspathConfiguration]: Constructor threw exception
+2024-12-26 20:50:23.372 INFO  org.apache.catalina.core.StandardService          :173  [32m                  [0;39m Stopping service [Tomcat]
+2024-12-26 20:50:23.383 INFO  o.s.b.a.logging.ConditionEvaluationReportLogger   :82   [32m                  [0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-26 20:50:23.396 ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter  :40   [32m                  [0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Spring MVC found on classpath, which is incompatible with Spring Cloud Gateway.
+
+Action:
+
+Please set spring.main.web-application-type=reactive or remove spring-boot-starter-web dependency.
+
+2024-12-26 20:50:48.601 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:50:48.607 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 20:50:48.644 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:50:48.651 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 26724 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 20:50:48.652 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 20:50:49.146 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 20:50:49.149 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 20:50:49.170 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-12-26 20:50:49.276 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 20:50:49.313 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:50:49.314 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:50:49.316 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 20:50:50.904 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 20:50:52.059 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 20:50:52.317 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 20:50:53.541 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 20:50:53.606 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 20:50:53.703 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 20:50:54.841 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 20:50:55.972 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 20:50:55.975 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 20:50:55.976 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 20:50:55.976 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 20:50:55.976 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 20:50:55.991 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 20:50:55.991 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 20:50:55.991 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 20:50:55.995 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 20:50:55.995 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 20:50:55.997 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 20:50:56.002 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of 23724b54-6f36-401b-876c-36fa69125edf
+2024-12-26 20:50:56.016 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 20:50:56.016 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 20:50:56.018 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 20:50:56.020 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 20:50:56.042 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 20:50:56.681 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735217422895_192.168.187.1_34976
+2024-12-26 20:50:56.681 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Notify connected event to listeners.
+2024-12-26 20:50:56.681 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 20:50:56.681 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 20:50:56.681 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [23724b54-6f36-401b-876c-36fa69125edf] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1042/0x000002a1227a7db8
+2024-12-26 20:50:56.683 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 20:50:56.701 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 20:50:56.739 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 9.697 seconds (process running for 10.121)
+2024-12-26 21:08:37.175 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 21:08:37.175 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 21:08:37.208 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 21:08:37.221 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 21:08:37.428 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 21:08:37.429 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 21:08:37.447 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 21:08:37.448 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 21:08:37.448 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 21:08:37.448 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 21:08:37.448 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 21:08:37.448 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 21:08:37.451 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 21:08:37.451 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 21:08:37.451 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 21:08:37.451 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:08:37.451 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:08:37.451 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 21:08:37.451 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 21:08:37.451 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:08:37.451 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:08:37.451 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 21:08:37.452 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 21:08:37.454 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@1826cbb7[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 21:08:37.454 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735217422895_192.168.187.1_34976
+2024-12-26 21:08:37.462 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :63   [32m                  [0;39m [1735217422895_192.168.187.1_34976]Ignore complete event,isRunning:false,isAbandon=false
+2024-12-26 21:08:37.468 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@3b3991c9[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 230]
+2024-12-26 21:08:37.468 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@7b6b8481[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 352]
+2024-12-26 21:08:37.470 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 21:08:37.470 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 21:08:37.470 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 21:08:59.138 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:08:59.146 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 21:08:59.192 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:08:59.200 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 12936 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 21:08:59.202 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 21:08:59.753 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 21:08:59.756 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 21:08:59.779 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-12-26 21:08:59.895 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 21:08:59.933 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:08:59.935 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:08:59.936 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:09:01.596 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:09:02.751 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:09:03.068 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 21:09:03.068 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 21:09:03.069 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 21:09:04.371 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:09:04.439 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 21:09:04.546 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 21:09:05.696 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:09:06.864 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:09:06.871 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:09:06.871 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 21:09:06.872 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 21:09:06.872 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 21:09:06.901 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 21:09:06.902 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 21:09:06.902 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 21:09:06.909 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 21:09:06.909 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 21:09:06.915 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 21:09:06.927 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of ef1a9647-5fe9-4414-a72e-9eb717e07dd7
+2024-12-26 21:09:06.959 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 21:09:06.959 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 21:09:06.959 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 21:09:06.962 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 21:09:07.011 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 21:09:07.990 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735218514212_192.168.187.1_35866
+2024-12-26 21:09:07.990 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Notify connected event to listeners.
+2024-12-26 21:09:07.991 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 21:09:07.991 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 21:09:07.991 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [ef1a9647-5fe9-4414-a72e-9eb717e07dd7] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1042/0x000001b4877aa7b8
+2024-12-26 21:09:07.991 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 21:09:08.010 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 21:09:08.058 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 10.56 seconds (process running for 11.076)
+2024-12-26 21:12:52.757 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 21:12:52.757 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 21:12:52.757 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 21:12:52.757 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 21:12:52.761 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 21:12:52.761 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 21:12:52.778 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 21:12:52.779 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:12:52.779 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 21:12:52.779 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:12:52.779 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 21:12:52.779 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@1fa1bef8[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 21:12:52.781 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735218514212_192.168.187.1_35866
+2024-12-26 21:12:52.783 WARN  c.a.nacos.common.remote.client.grpc.GrpcClient    :89   [32m                  [0;39m [1735218514212_192.168.187.1_35866]Ignore error event,isRunning:false,isAbandon=false
+2024-12-26 21:12:52.783 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@23c181[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 59]
+2024-12-26 21:12:52.783 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@67e75297[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 75]
+2024-12-26 21:12:52.784 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 21:12:52.784 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 21:12:52.784 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 21:13:00.606 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:13:00.620 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 21:13:00.672 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:13:00.681 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 12396 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 21:13:00.684 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 21:13:01.247 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 21:13:01.250 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 21:13:01.271 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2024-12-26 21:13:01.381 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 21:13:01.420 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:13:01.420 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:13:01.421 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:13:03.113 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:13:04.273 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:13:04.504 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 21:13:04.504 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 21:13:04.505 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 21:13:05.720 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:13:05.796 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 21:13:05.906 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 21:13:07.051 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:13:08.174 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:13:08.181 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:13:08.181 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 21:13:08.181 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 21:13:08.181 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 21:13:08.198 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 21:13:08.198 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 21:13:08.200 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 21:13:08.203 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 21:13:08.203 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 21:13:08.204 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 21:13:08.212 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of f872d87d-bc35-4053-82a7-b3f48062027f
+2024-12-26 21:13:08.226 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 21:13:08.226 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 21:13:08.226 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 21:13:08.229 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 21:13:08.256 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 21:13:08.958 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735218755173_192.168.187.1_36436
+2024-12-26 21:13:08.959 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Notify connected event to listeners.
+2024-12-26 21:13:08.959 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 21:13:08.959 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 21:13:08.959 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [f872d87d-bc35-4053-82a7-b3f48062027f] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1046/0x0000026c8f7dd880
+2024-12-26 21:13:08.961 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 21:13:08.979 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 21:13:09.025 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 10.083 seconds (process running for 10.84)
+2024-12-26 21:16:20.642 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 21:16:20.642 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 21:16:20.642 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 21:16:20.642 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 21:16:20.648 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 21:16:20.648 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 21:16:20.665 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 21:16:20.666 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:16:20.666 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 21:16:20.666 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 21:16:20.666 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:16:20.666 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:16:20.668 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 21:16:20.668 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 21:16:20.668 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@7c3abd7d[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 21:16:20.668 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735218755173_192.168.187.1_36436
+2024-12-26 21:16:20.671 WARN  c.a.nacos.common.remote.client.grpc.GrpcClient    :89   [32m                  [0;39m [1735218755173_192.168.187.1_36436]Ignore error event,isRunning:false,isAbandon=false
+2024-12-26 21:16:20.672 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@338758d3[Running, pool size = 5, active threads = 0, queued tasks = 0, completed tasks = 49]
+2024-12-26 21:16:20.672 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@11a0f09c[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 63]
+2024-12-26 21:16:20.672 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 21:16:20.672 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 21:16:20.674 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 21:16:29.826 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:16:29.834 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 21:16:29.880 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:16:29.888 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 4504 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 21:16:29.890 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 21:16:30.805 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 21:16:30.806 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 21:16:30.837 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 14 ms. Found 0 Redis repository interfaces.
+2024-12-26 21:16:30.986 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=31a12d33-53a4-320c-a1cd-a9168bc87273
+2024-12-26 21:16:31.209 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:16:31.211 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:16:31.212 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:16:31.418 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m                  [0;39m Tomcat initialized with port(s): 10000 (http)
+2024-12-26 21:16:31.429 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m                  [0;39m Initializing ProtocolHandler ["http-nio-10000"]
+2024-12-26 21:16:31.430 INFO  org.apache.catalina.core.StandardService          :173  [32m                  [0;39m Starting service [Tomcat]
+2024-12-26 21:16:31.430 INFO  org.apache.catalina.core.StandardEngine           :173  [32m                  [0;39m Starting Servlet engine: [Apache Tomcat/10.1.8]
+2024-12-26 21:16:31.539 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] :173  [32m                  [0;39m Initializing Spring embedded WebApplicationContext
+2024-12-26 21:16:31.539 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :291  [32m                  [0;39m Root WebApplicationContext: initialization completed in 1609 ms
+2024-12-26 21:16:31.931 INFO  org.redisson.Version                              :43   [32m                  [0;39m Redisson 3.27.2
+2024-12-26 21:16:32.061 WARN  o.r.connection.SequentialDnsAddressResolverFactory:111  [32m                  [0;39m DNS TCP fallback on UDP query timeout disabled. Upgrade Netty to 4.1.105 or higher.
+2024-12-26 21:16:32.502 INFO  org.redisson.connection.ConnectionsHolder         :130  [32m                  [0;39m 1 connections initialized for 39.105.15.60/39.105.15.60:6379
+2024-12-26 21:16:34.672 INFO  org.redisson.connection.ConnectionsHolder         :130  [32m                  [0;39m 24 connections initialized for 39.105.15.60/39.105.15.60:6379
+2024-12-26 21:16:34.844 WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:616  [32m                  [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration$SpringMvcFoundOnClasspathConfiguration': Failed to instantiate [org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration$SpringMvcFoundOnClasspathConfiguration]: Constructor threw exception
+2024-12-26 21:16:34.858 INFO  org.apache.catalina.core.StandardService          :173  [32m                  [0;39m Stopping service [Tomcat]
+2024-12-26 21:16:34.873 INFO  o.s.b.a.logging.ConditionEvaluationReportLogger   :82   [32m                  [0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-26 21:16:34.895 ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter  :40   [32m                  [0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Spring MVC found on classpath, which is incompatible with Spring Cloud Gateway.
+
+Action:
+
+Please set spring.main.web-application-type=reactive or remove spring-boot-starter-web dependency.
+
+2024-12-26 21:17:38.303 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:17:38.311 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 21:17:38.356 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:17:38.362 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 29244 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 21:17:38.362 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 21:17:38.939 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 21:17:38.941 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 21:17:38.966 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2024-12-26 21:17:39.101 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 21:17:39.146 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:17:39.148 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:17:39.150 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:17:40.785 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:17:41.941 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:17:42.198 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 21:17:42.199 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 21:17:43.454 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:17:43.530 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 21:17:43.630 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 21:17:44.767 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:17:45.922 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:17:45.926 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:17:45.928 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 21:17:45.928 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 21:17:45.928 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 21:17:45.948 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 21:17:45.948 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 21:17:45.949 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 21:17:45.954 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 21:17:45.954 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 21:17:45.956 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 21:17:45.964 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of 66bcecd5-d5f6-4a90-a2c2-2d11822f63cd
+2024-12-26 21:17:45.977 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 21:17:45.977 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 21:17:45.977 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 21:17:45.979 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 21:17:46.005 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 21:17:46.708 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735219032915_192.168.187.1_36728
+2024-12-26 21:17:46.708 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Notify connected event to listeners.
+2024-12-26 21:17:46.708 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 21:17:46.708 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 21:17:46.708 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [66bcecd5-d5f6-4a90-a2c2-2d11822f63cd] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1046/0x000001828b7dcf30
+2024-12-26 21:17:46.709 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 21:17:46.725 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 21:17:46.767 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 10.059 seconds (process running for 10.679)
+2024-12-26 21:24:12.196 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 21:24:12.196 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 21:24:12.198 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 21:24:12.198 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 21:24:12.202 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 21:24:12.202 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 21:24:12.213 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 21:24:12.215 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:24:12.215 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 21:24:12.215 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 21:24:12.215 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 21:24:12.215 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@3359fb36[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 21:24:12.217 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735219032915_192.168.187.1_36728
+2024-12-26 21:24:12.218 WARN  c.a.nacos.common.remote.client.grpc.GrpcClient    :89   [32m                  [0;39m [1735219032915_192.168.187.1_36728]Ignore error event,isRunning:false,isAbandon=false
+2024-12-26 21:24:12.220 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@6610055f[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 86]
+2024-12-26 21:24:12.220 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@2301ef60[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 128]
+2024-12-26 21:24:12.220 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 21:24:12.222 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 21:24:12.222 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 21:24:17.911 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:24:17.919 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 21:24:17.960 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:24:17.966 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 22620 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 21:24:17.967 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 21:24:18.486 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 21:24:18.488 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 21:24:18.513 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2024-12-26 21:24:18.622 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 21:24:18.661 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:24:18.661 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:24:18.663 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 21:24:20.309 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:24:21.470 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:24:21.715 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 21:24:21.715 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 21:24:21.715 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 21:24:21.715 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 21:24:21.715 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 21:24:21.716 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 21:24:22.956 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:24:23.033 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 21:24:23.136 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 21:24:24.269 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:24:25.403 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 21:24:25.408 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 21:24:25.408 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 21:24:25.408 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 21:24:25.409 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 21:24:25.428 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 21:24:25.428 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 21:24:25.428 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 21:24:25.433 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 21:24:25.433 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 21:24:25.435 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 21:24:25.442 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of 3c67bae9-4e98-4233-b83a-a0cc39a061b8
+2024-12-26 21:24:25.457 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 21:24:25.457 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 21:24:25.457 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 21:24:25.459 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 21:24:25.485 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 21:24:26.178 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735219432397_192.168.187.1_36980
+2024-12-26 21:24:26.178 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Notify connected event to listeners.
+2024-12-26 21:24:26.178 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 21:24:26.180 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 21:24:26.180 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [3c67bae9-4e98-4233-b83a-a0cc39a061b8] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1046/0x000001ff097dcf30
+2024-12-26 21:24:26.180 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 21:24:26.199 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 21:24:26.246 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 9.903 seconds (process running for 10.701)
+2024-12-26 22:28:20.360 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 22:28:20.360 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 22:28:20.381 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 22:28:20.393 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 22:28:20.560 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 22:28:20.565 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 22:28:20.620 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m Redo instance operation UNREGISTER for DEFAULT_GROUP@@MapleCoupon-gateway
+2024-12-26 22:28:20.621 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 22:28:20.623 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 22:28:20.623 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 22:28:20.625 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 22:28:20.625 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 22:28:20.625 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 22:28:20.625 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 22:28:20.626 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 22:28:20.626 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 22:28:20.626 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 22:28:20.626 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 22:28:20.628 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 22:28:20.628 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 22:28:20.628 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 22:28:20.628 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 22:28:20.628 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 22:28:20.628 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 22:28:20.629 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@7ae6bd3a[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 22:28:20.629 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735219432397_192.168.187.1_36980
+2024-12-26 22:28:20.640 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@4f775009[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 784]
+2024-12-26 22:28:20.641 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@34e9b636[Running, pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 1274]
+2024-12-26 22:28:20.643 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 22:28:20.643 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 22:28:20.643 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 22:28:20.643 ERROR com.alibaba.nacos.common.remote.client            :102  [32m                  [0;39m Send request fail, request = InstanceRequest{headers={app=unknown}, requestId='null'}, retryTimes = 0, errorMessage = java.lang.InterruptedException
+2024-12-26 22:28:20.761 ERROR com.alibaba.nacos.common.remote.client            :102  [32m                  [0;39m Send request fail, request = InstanceRequest{headers={app=unknown}, requestId='null'}, retryTimes = 1, errorMessage = Client not connected, current status:SHUTDOWN
+2024-12-26 22:28:20.870 ERROR com.alibaba.nacos.common.remote.client            :102  [32m                  [0;39m Send request fail, request = InstanceRequest{headers={app=unknown}, requestId='null'}, retryTimes = 2, errorMessage = Client not connected, current status:SHUTDOWN
+2024-12-26 22:28:20.871 ERROR com.alibaba.nacos.client.naming                   :63   [32m                  [0;39m Redo instance operation REMOVE for DEFAULT_GROUP@@MapleCoupon-gateway failed. 
+com.alibaba.nacos.api.exception.NacosException: Client not connected, current status:SHUTDOWN
+	at com.alibaba.nacos.common.remote.client.RpcClient.request(RpcClient.java:643)
+	at com.alibaba.nacos.common.remote.client.RpcClient.request(RpcClient.java:623)
+	at com.alibaba.nacos.client.naming.remote.gprc.NamingGrpcClientProxy.requestToServer(NamingGrpcClientProxy.java:357)
+	at com.alibaba.nacos.client.naming.remote.gprc.NamingGrpcClientProxy.doDeregisterService(NamingGrpcClientProxy.java:234)
+	at com.alibaba.nacos.client.naming.remote.gprc.redo.RedoScheduledTask.redoForInstance(RedoScheduledTask.java:85)
+	at com.alibaba.nacos.client.naming.remote.gprc.redo.RedoScheduledTask.redoForInstances(RedoScheduledTask.java:61)
+	at com.alibaba.nacos.client.naming.remote.gprc.redo.RedoScheduledTask.run(RedoScheduledTask.java:51)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.runAndReset$$$capture(FutureTask.java:305)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2024-12-26 22:28:26.627 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 22:28:26.636 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 22:28:26.679 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 22:28:26.688 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 26908 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 22:28:26.688 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 22:28:27.230 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 22:28:27.232 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 22:28:27.256 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-12-26 22:28:27.369 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 22:28:27.416 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 22:28:27.417 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 22:28:27.419 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 22:28:29.073 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:28:30.249 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 22:28:30.516 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 22:28:30.517 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 22:28:31.789 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:28:31.867 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 22:28:31.989 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 22:28:33.179 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:28:34.318 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:28:34.324 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 22:28:34.324 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 22:28:34.325 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 22:28:34.325 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 22:28:34.346 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 22:28:34.346 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 22:28:34.348 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 22:28:34.353 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 22:28:34.354 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 22:28:34.357 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 22:28:34.365 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of a83da51e-ee0f-4a6a-9983-ad73e61b18a8
+2024-12-26 22:28:34.380 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 22:28:34.382 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 22:28:34.382 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 22:28:34.385 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 22:28:34.421 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 22:28:35.256 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735223281505_192.168.187.1_40101
+2024-12-26 22:28:35.256 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Notify connected event to listeners.
+2024-12-26 22:28:35.256 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 22:28:35.256 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 22:28:35.257 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [a83da51e-ee0f-4a6a-9983-ad73e61b18a8] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1046/0x0000017c567dd880
+2024-12-26 22:28:35.259 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 22:28:35.281 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 22:28:35.330 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 10.339 seconds (process running for 11.167)
+2024-12-26 22:58:16.697 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 22:58:16.697 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 22:58:16.702 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 22:58:16.703 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 22:58:16.731 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 22:58:16.732 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 22:58:16.748 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 22:58:16.749 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 22:58:16.749 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 22:58:16.749 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 22:58:16.751 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 22:58:16.751 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 22:58:16.751 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 22:58:16.751 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 22:58:16.751 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@6f683304[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 22:58:16.751 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735223281505_192.168.187.1_40101
+2024-12-26 22:58:16.754 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :63   [32m                  [0;39m [1735223281505_192.168.187.1_40101]Ignore complete event,isRunning:false,isAbandon=false
+2024-12-26 22:58:16.756 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@394205d1[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 368]
+2024-12-26 22:58:16.756 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@43e9efd2[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 592]
+2024-12-26 22:58:16.758 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 22:58:16.758 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 22:58:16.758 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2024-12-26 22:58:24.567 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 22:58:24.575 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 8.0.0.Final
+2024-12-26 22:58:24.617 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 22:58:24.623 INFO  com.fengxin.GateWayApplication                    :51   [32m                  [0;39m Starting GateWayApplication using Java 17.0.12 with PID 2664 (E:\Java\feng-coupon\gateway\target\classes started by FENGXIN in E:\Java\feng-coupon)
+2024-12-26 22:58:24.625 INFO  com.fengxin.GateWayApplication                    :632  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2024-12-26 22:58:25.135 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :291  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-26 22:58:25.136 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :138  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-26 22:58:25.160 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :208  [32m                  [0;39m Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-12-26 22:58:25.287 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=07e1b2aa-ac6b-3ab5-a9e8-f91eafbb5b18
+2024-12-26 22:58:25.331 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 22:58:25.333 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 22:58:25.333 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409  [32m                  [0;39m Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-12-26 22:58:27.011 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:58:28.178 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:58:28.435 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2024-12-26 22:58:28.437 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :89   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-26 22:58:29.722 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:58:29.842 WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger:94   [32m                  [0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-26 22:58:30.050 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 10000
+2024-12-26 22:58:31.181 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:58:32.326 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2024-12-26 22:58:32.331 WARN  com.alibaba.nacos.client.logging.NacosLogging     :64   [32m                  [0;39m Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-12-26 22:58:32.333 INFO  com.alibaba.nacos.client.naming                   :62   [32m                  [0;39m initializer namespace from ans.namespace attribute : null
+2024-12-26 22:58:32.333 INFO  com.alibaba.nacos.client.naming                   :66   [32m                  [0;39m initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2024-12-26 22:58:32.333 INFO  com.alibaba.nacos.client.naming                   :73   [32m                  [0;39m initializer namespace from namespace attribute :null
+2024-12-26 22:58:32.356 INFO  com.alibaba.nacos.client.utils.ParamUtil          :87   [32m                  [0;39m [settings] [req-serv] nacos-server port:8848
+2024-12-26 22:58:32.356 INFO  com.alibaba.nacos.client.utils.ParamUtil          :98   [32m                  [0;39m [settings] [http-client] connect timeout:1000
+2024-12-26 22:58:32.357 INFO  com.alibaba.nacos.client.utils.ParamUtil          :105  [32m                  [0;39m PER_TASK_CONFIG_SIZE: 3000.0
+2024-12-26 22:58:32.363 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2024-12-26 22:58:32.363 INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager   :56   [32m                  [0;39m [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2024-12-26 22:58:32.367 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :165  [32m                  [0;39m null No credential found
+2024-12-26 22:58:32.380 INFO  com.alibaba.nacos.common.remote.client            :108  [32m                  [0;39m [RpcClientFactory] create a new rpc client of 38779af8-5fd7-40f9-a0c3-e21fade9ea6d
+2024-12-26 22:58:32.395 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2024-12-26 22:58:32.395 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2024-12-26 22:58:32.395 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2024-12-26 22:58:32.398 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Try to connect to server on start up, server: {serverIp = '192.168.187.101', server main port = 8848}
+2024-12-26 22:58:32.425 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :182  [32m                  [0;39m grpc client connection server:192.168.187.101 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2024-12-26 22:58:33.418 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Success to connect to server [192.168.187.101:8848] on start up, connectionId = 1735225079648_192.168.187.1_41360
+2024-12-26 22:58:33.419 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Notify connected event to listeners.
+2024-12-26 22:58:33.419 INFO  com.alibaba.nacos.client.naming                   :78   [32m                  [0;39m Grpc connection connect
+2024-12-26 22:58:33.419 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2024-12-26 22:58:33.419 INFO  com.alibaba.nacos.common.remote.client            :63   [32m                  [0;39m [38779af8-5fd7-40f9-a0c3-e21fade9ea6d] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda$1046/0x00000173057dd880
+2024-12-26 22:58:33.420 INFO  com.alibaba.nacos.client.naming                   :121  [32m                  [0;39m [REGISTER-SERVICE] public registering service MapleCoupon-gateway with instance Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2409:893d:d13:a7e0:41d3:e241:844a:4217], preserved.register.source=SPRING_CLOUD}}
+2024-12-26 22:58:33.438 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :76   [32m                  [0;39m nacos registry, DEFAULT_GROUP MapleCoupon-gateway 192.168.61.1:10000 register finished
+2024-12-26 22:58:33.485 INFO  com.fengxin.GateWayApplication                    :57   [32m                  [0;39m Started GateWayApplication in 10.563 seconds (process running for 11.253)
+2024-12-26 23:03:40.181 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :102  [32m                  [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2024-12-26 23:03:40.181 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :136  [32m                  [0;39m [NotifyCenter] Start destroying Publisher
+2024-12-26 23:03:40.183 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :153  [32m                  [0;39m [NotifyCenter] Destruction of the end
+2024-12-26 23:03:40.183 WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder  :111  [32m                  [0;39m [HttpClientBeanHolder] Destruction of the end
+2024-12-26 23:03:40.191 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :95   [32m                  [0;39m De-registering from Nacos Server now...
+2024-12-26 23:03:40.192 INFO  com.alibaba.nacos.client.naming                   :217  [32m                  [0;39m [DEREGISTER-SERVICE] public deregistering service MapleCoupon-gateway with instance: Instance{instanceId='null', ip='192.168.61.1', port=10000, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2024-12-26 23:03:40.201 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :115  [32m                  [0;39m De-registration finished.
+2024-12-26 23:03:40.203 INFO  com.alibaba.nacos.client.naming                   :256  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2024-12-26 23:03:40.203 INFO  com.alibaba.nacos.client.naming                   :136  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2024-12-26 23:03:40.206 INFO  com.alibaba.nacos.client.naming                   :138  [32m                  [0;39m com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2024-12-26 23:03:40.207 INFO  com.alibaba.nacos.client.naming                   :258  [32m                  [0;39m com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2024-12-26 23:03:40.209 INFO  com.alibaba.nacos.client.naming                   :204  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.client.naming                   :143  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.client.naming                   :145  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.client.naming                   :194  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2024-12-26 23:03:40.210 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 23:03:40.210 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.client.naming                   :199  [32m                  [0;39m com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.client.naming                   :484  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2024-12-26 23:03:40.210 WARN  com.alibaba.nacos.client.naming                   :74   [32m                  [0;39m [NamingHttpClientManager] Start destroying NacosRestTemplate
+2024-12-26 23:03:40.210 WARN  com.alibaba.nacos.client.naming                   :81   [32m                  [0;39m [NamingHttpClientManager] Destruction of the end
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.client.naming                   :486  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.common.remote.client            :429  [32m                  [0;39m Shutdown rpc client, set status to shutdown
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.common.remote.client            :431  [32m                  [0;39m Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@19215e80[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2024-12-26 23:03:40.210 INFO  com.alibaba.nacos.common.remote.client            :584  [32m                  [0;39m Close current connection 1735225079648_192.168.187.1_41360
+2024-12-26 23:03:40.215 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :63   [32m                  [0;39m [1735225079648_192.168.187.1_41360]Ignore complete event,isRunning:false,isAbandon=false
+2024-12-26 23:03:40.218 INFO  c.a.nacos.common.remote.client.grpc.GrpcClient    :159  [32m                  [0;39m Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@3275d701[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 72]
+2024-12-26 23:03:40.218 INFO  com.alibaba.nacos.client.naming                   :318  [32m                  [0;39m Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@444bac60[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 102]
+2024-12-26 23:03:40.221 INFO  c.a.n.client.auth.ram.identify.CredentialWatcher  :106  [32m                  [0;39m [null] CredentialWatcher is stopped
+2024-12-26 23:03:40.222 INFO  c.a.n.client.auth.ram.identify.CredentialService  :100  [32m                  [0;39m [null] CredentialService is freed
+2024-12-26 23:03:40.226 INFO  com.alibaba.nacos.client.naming                   :211  [32m                  [0;39m com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop

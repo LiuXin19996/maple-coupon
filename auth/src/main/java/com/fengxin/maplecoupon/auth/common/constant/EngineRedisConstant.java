@@ -48,7 +48,7 @@ public final class EngineRedisConstant {
      */
     public static final String LOCK_COUPON_SETTLEMENT_KEY = "lock:maple-coupon_engine:settlement:%s";
     
-    public static final String LOCK_COUPON_USER_REGISTER_KEY = "lock:maple-coupon_engine:user:register_username:";
+    public static final String LOCK_COUPON_USER_REGISTER_KEY = "lock:maple-coupon_auth:user:register_username:";
     
-    public static final String COUPON_USER_LOGIN_KEY = "maple-coupon_engine:user:login:";
+    public static final String COUPON_USER_LOGIN_KEY = "maple-coupon_auth:user:login:";
 }

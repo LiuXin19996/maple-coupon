@@ -8,9 +8,9 @@ spring:
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
   data:
     redis:
-      host: 39.105.15.60
+      host: 192.168.187.101
       port: 6379
-      password: xWBbAP7d2tSGdnES
+      password: 51213002
   cloud:
     nacos:
       discovery:
