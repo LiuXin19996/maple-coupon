@@ -7,7 +7,6 @@ import com.fengxin.common.GatewayErrorResult;
 import com.fengxin.config.Config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -24,6 +23,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import static com.fengxin.common.RedisConstantEnum.USER_LOGIN_KEY;
 
 /**
  * SpringCloud Gateway Token 拦截器
@@ -49,7 +50,7 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
                 String username = request.getHeaders().getFirst("username");
                 String token = request.getHeaders().getFirst("token");
                 Object userInfo;
-                if (StringUtils.hasText(username) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get("MapleCoupon-maple-coupon_auth:user:login:" + username, token)) != null) {
+                if (StringUtils.hasText(username) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token)) != null) {
                     JSONObject userInfoJsonObject = JSON.parseObject(userInfo.toString());
                     String userId = userInfoJsonObject.getString ("id");
                     String shopNumber = Optional.ofNullable (userInfoJsonObject.getString ("shopNumber")).orElse("");
@@ -69,7 +70,7 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
                             }).build();
                     // 用户校验成功后刷新时间 防止用户还在操作数据就退出登录
                     // 设置有效时间
-                    stringRedisTemplate.expire ("MapleCoupon-maple-coupon_auth:user:login:" + username , 30L , TimeUnit.DAYS);
+                    stringRedisTemplate.expire (USER_LOGIN_KEY + username , 30L , TimeUnit.DAYS);
                     return chain.filter(serverWebExchange);
                 }
                 ServerHttpResponse response = exchange.getResponse();

@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * @author FENGXIN
  * @date 2024/10/15
- * @project feng-coupon
+ * @project maple-coupon
  * @description 请求过滤器 | 日志
  **/
 @Component
