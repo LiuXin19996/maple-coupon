@@ -48,4 +48,6 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
     void terminateCouponTemplate (TerminateCouponTemplateReqDTO requestParam);
     
     IPage<CouponTemplatePageQueryRespDTO> pageQueryCouponTemplate (CouponTemplatePageQueryReqDTO requestParam);
+    
+    void deleteCouponTemplate (String couponTemplateId);
 }

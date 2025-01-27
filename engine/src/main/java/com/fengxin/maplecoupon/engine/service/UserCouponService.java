@@ -14,11 +14,18 @@ import java.util.List;
  **/
 public interface UserCouponService{
     /**
-     * 兑换用户优惠券
+     * 兑换用户优惠券v1
      *
      * @param requestParam 请求参数
      */
-    void redeemUserCoupon (CouponTemplateRedeemReqDTO requestParam);
+    void redeemUserCouponv1 (CouponTemplateRedeemReqDTO requestParam);
+    
+    /**
+     * 兑换用户优惠券v2
+     *
+     * @param requestParam 请求参数
+     */
+    void redeemUserCouponv2 (CouponTemplateRedeemReqDTO requestParam);
     
     /**
      * 创建优惠券提醒

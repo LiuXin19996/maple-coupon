@@ -30,6 +30,4 @@ public class CouponTemplateController {
         return Results.success(couponTemplateService.findCouponTemplateById(requestParam));
     }
     
-    
-    
 }

@@ -1,6 +1,5 @@
 package com.fengxin.filter;
 
-
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.fengxin.common.GatewayErrorResult;

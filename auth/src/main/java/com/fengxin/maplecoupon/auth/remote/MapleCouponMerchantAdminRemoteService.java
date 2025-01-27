@@ -44,4 +44,7 @@ public interface MapleCouponMerchantAdminRemoteService {
     
     @PostMapping("/api/merchant-admin/coupon-template/terminate")
     Result<Void> terminateCouponTemplate (@RequestBody TerminateCouponTemplateReqDTO requestParam);
+    
+    @PostMapping("/api/merchant-admin/coupon-template/delete")
+    Result<Void> deleteCouponTemplate (String couponTemplateId);
 }

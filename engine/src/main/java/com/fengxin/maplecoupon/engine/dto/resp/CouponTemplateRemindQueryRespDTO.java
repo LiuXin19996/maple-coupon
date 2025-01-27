@@ -1,8 +1,14 @@
 package com.fengxin.maplecoupon.engine.dto.resp;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -15,19 +21,24 @@ import java.util.List;
  */
 @Data
 @Schema(description = "查询优惠券预约抢券提醒返回实体")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CouponTemplateRemindQueryRespDTO {
 
     /**
      * id
      */
     @Schema(description = "优惠券id")
-    private Long id;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private String id;
 
     /**
      * 店铺编号
      */
     @Schema(description = "店铺编号")
-    private Long shopNumber;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private String shopNumber;
 
     /**
      * 优惠券名称

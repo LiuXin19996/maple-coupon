@@ -63,5 +63,11 @@ public class CouponTemplateController {
         return Results.success();
     }
     
+    @Operation(summary = "删除优惠券模板")
+    @DeleteMapping("/api/merchant-admin/coupon-template/delete")
+    public Result<Void> deleteCouponTemplate(@RequestParam("couponTemplateId") String couponTemplateId) {
+        couponTemplateService.deleteCouponTemplate(couponTemplateId);
+        return Results.success();
+    }
     
 }

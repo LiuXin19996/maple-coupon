@@ -36,7 +36,7 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
     private final SendAppMessageRemindCouponTemplate sendAppMessageRemindCouponTemplate;
-    private final SendEmailMessageRemindCouponTemplate sendEmailMessageRemindCouponTemplate;
+    private final SendSMSMessageRemindCouponTemplate sendSMSMessageRemindCouponTemplate;
     private final UserCouponService userCouponService;
     // 线程池并行处理 提高效率
     private final ExecutorService executorService = new ThreadPoolExecutor(
@@ -69,7 +69,7 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
         executorService.execute (() -> {
             switch (Objects.requireNonNull (CouponRemindTypeEnum.getByType (couponTemplateRemindDTO.getType ()))){
                 case APP -> sendAppMessageRemindCouponTemplate.remind(couponTemplateRemindDTO);
-                case EMAIL -> sendEmailMessageRemindCouponTemplate.remind(couponTemplateRemindDTO);
+                case SMS -> sendSMSMessageRemindCouponTemplate.remind(couponTemplateRemindDTO);
                 default -> {}
             }
             // 消费完后删除提醒key

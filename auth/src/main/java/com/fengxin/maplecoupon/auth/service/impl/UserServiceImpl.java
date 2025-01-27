@@ -102,8 +102,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateUser (UserUpdateReqDTO requestParams,String token) {
-        if (StrUtil.equals (requestParams.getUsername () , UserContext.getUsername ())) {
-            throw new ClientException ("用户更新信息异常");
+        if (! StrUtil.equals (requestParams.getUsername () , UserContext.getUsername ())) {
+            throw new ClientException ("用户更新信息异常："+ UserContext.getUsername () + "与当前登录用户" + requestParams.getUsername () + "不一致");
         }
         LambdaUpdateWrapper<UserDO> updateWrapper = new LambdaUpdateWrapper<UserDO>()
                 .eq(UserDO::getUsername, requestParams.getUsername ());

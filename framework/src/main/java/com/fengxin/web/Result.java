@@ -22,7 +22,7 @@ public class Result<T> implements Serializable {
     /**
      * 正确返回码
      */
-    public static final String SUCCESS_CODE = "0";
+    public static final String SUCCESS_CODE = "200";
     
     /**
      * 返回码
@@ -38,11 +38,6 @@ public class Result<T> implements Serializable {
      * 响应数据
      */
     private T data;
-    
-    /**
-     * 请求ID
-     */
-    private String requestId;
     
     public boolean isSuccess() {
         return SUCCESS_CODE.equals(code);

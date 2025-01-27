@@ -1,9 +1,12 @@
 package com.fengxin.maplecoupon.auth.remote;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fengxin.maplecoupon.auth.config.OpenFeignConfiguration;
 import com.fengxin.maplecoupon.auth.remote.dto.req.*;
+import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplateRemindQueryRespDTO;
+import com.fengxin.maplecoupon.auth.remote.dto.resp.UserCouponPageQueryRespDTO;
 import com.fengxin.web.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

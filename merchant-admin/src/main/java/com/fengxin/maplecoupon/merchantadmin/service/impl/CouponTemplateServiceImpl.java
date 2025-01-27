@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fengxin.maplecoupon.merchantadmin.common.constant.MerchantAdminRedisConstant;
 import com.fengxin.maplecoupon.merchantadmin.common.context.UserContext;
+import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTemplateDelFlagEnum;
 import com.fengxin.maplecoupon.merchantadmin.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.merchantadmin.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.merchantadmin.dao.mapper.CouponTemplateMapper;
@@ -207,6 +208,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     public IPage<CouponTemplatePageQueryRespDTO> pageQueryCouponTemplate (CouponTemplatePageQueryReqDTO requestParam) {
         LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
                 .eq(CouponTemplateDO::getShopNumber,UserContext.getShopNumber())
+                .eq (CouponTemplateDO::getDelFlag,0)
                 .like (StrUtil.isNotBlank (requestParam.getName ()),CouponTemplateDO::getName,requestParam.getName())
                 .like (StrUtil.isNotBlank (requestParam.getGoods ()),CouponTemplateDO::getGoods,requestParam.getGoods ())
                 .eq(Objects.nonNull(requestParam.getType()), CouponTemplateDO::getType, requestParam.getType())
@@ -216,5 +218,22 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         return selectPage.convert (ea -> BeanUtil.toBean(ea,CouponTemplatePageQueryRespDTO.class));
     }
     
+    @Override
+    public void deleteCouponTemplate (String couponTemplateId) {
+        LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
+                .eq(CouponTemplateDO::getId,couponTemplateId);
+        CouponTemplateDO selectOne = couponTemplateMapper.selectOne (queryWrapper);
+        if (ObjectUtil.isNull(selectOne)) {
+            throw new ClientException ("优惠券不存在");
+        }
+        if (ObjectUtil.equals (selectOne.getStatus(), CouponTemplateDelFlagEnum.DELETED.getValue ())){
+            throw new ClientException ("优惠券已删除");
+        }
+        selectOne.setDelFlag (CouponTemplateDelFlagEnum.DELETED.getValue ());
+        int updateById = couponTemplateMapper.updateById (selectOne);
+        if (!SqlHelper.retBool (updateById)) {
+            throw new ServiceException ("优惠券删除失败");
+        }
+    }
     
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @project feng-coupon
  * @description 优惠券优惠类型枚举
  **/
+@Getter
 @RequiredArgsConstructor
 public enum DiscountTypeEnum {
     /**
@@ -26,10 +27,8 @@ public enum DiscountTypeEnum {
      */
     DISCOUNT_COUPON(2, "折扣券");
     
-    @Getter
     private final int type;
     
-    @Getter
     private final String value;
     
     /**

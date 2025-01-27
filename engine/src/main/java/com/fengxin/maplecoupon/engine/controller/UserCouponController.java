@@ -32,7 +32,7 @@ public class UserCouponController {
     @Operation(summary = "兑换优惠券模板", description = "存在较高流量场景，可类比“秒杀”业务")
     @PostMapping("/api/engine/user-coupon/redeem")
     public Result<Void> redeemUserCoupon(@RequestBody CouponTemplateRedeemReqDTO requestParam) {
-        userCouponService.redeemUserCoupon(requestParam);
+        userCouponService.redeemUserCouponv1(requestParam);
         return Results.success();
     }
     

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengxin.exception.ServiceException;
 import com.fengxin.maplecoupon.engine.common.enums.CouponTemplateStatusEnum;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
+import com.fengxin.maplecoupon.engine.dao.mapper.UserCouponMapper;
 import com.fengxin.maplecoupon.engine.dao.sharding.DBShardingUtil;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
@@ -43,6 +44,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     private final StringRedisTemplate stringRedisTemplate;
     private final RedissonClient redissonClient;
     private final RBloomFilter<String> couponTemplateQueryBloomFilter;
+    private final UserCouponMapper userCouponMapper;
     
     @Override
     public CouponTemplateQueryRespDTO findCouponTemplateById (CouponTemplateQueryReqDTO requestParam) {

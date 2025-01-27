@@ -16,6 +16,12 @@ import java.util.Date;
 @Schema(description = "优惠券模板分页查询返回实体")
 public class CouponTemplatePageQueryRespDTO {
     /**
+     * 优惠券ID
+     */
+    @Schema(description = "优惠券id")
+    private String id;
+    
+    /**
      * 优惠券名称
      */
     @Schema(description = "优惠券名称")

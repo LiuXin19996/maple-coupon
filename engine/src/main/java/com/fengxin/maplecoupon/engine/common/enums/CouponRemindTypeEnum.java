@@ -19,7 +19,7 @@ public enum CouponRemindTypeEnum {
     /**
      * 邮件提醒
      */
-    EMAIL(1, "邮件提醒");
+    SMS(1, "短信提醒");
 
     private final int type;
     private final String describe;

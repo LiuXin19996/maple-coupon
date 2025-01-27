@@ -1,6 +1,8 @@
 package com.fengxin.maplecoupon.auth.remote.dto.resp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,13 +23,15 @@ public class CouponTemplateRemindQueryRespDTO {
      * id
      */
     @Schema(description = "优惠券id")
-    private Long id;
+    // @JsonSerialize(using = ToStringSerializer.class)
+    private String id;
 
     /**
      * 店铺编号
      */
     @Schema(description = "店铺编号")
-    private Long shopNumber;
+    // @JsonSerialize(using = ToStringSerializer.class)
+    private String shopNumber;
 
     /**
      * 优惠券名称

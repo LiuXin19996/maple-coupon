@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateDO;
 import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateQueryReqDTO;
-import com.fengxin.maplecoupon.engine.dto.req.CouponTemplateRemindTimeReqDTO;
 import com.fengxin.maplecoupon.engine.dto.resp.CouponTemplateQueryRespDTO;
 
 import java.util.List;
@@ -34,4 +33,5 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
      * @return {@code List<CouponTemplateDO> }
      */
     List<CouponTemplateDO> listCouponTemplateByIdAndShopNumber (List<Long> couponTemplateIdList , List<Long> shopNumberList);
+    
 }

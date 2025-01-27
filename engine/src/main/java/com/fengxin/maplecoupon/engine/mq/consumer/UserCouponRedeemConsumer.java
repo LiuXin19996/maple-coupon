@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fengxin.exception.ServiceException;
+import com.fengxin.maplecoupon.engine.common.context.UserContext;
 import com.fengxin.maplecoupon.engine.common.enums.UserCouponStatusEnum;
 import com.fengxin.maplecoupon.engine.dao.entity.UserCouponDO;
 import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateMapper;
@@ -80,7 +81,10 @@ public class UserCouponRedeemConsumer implements RocketMQListener<MessageWrapper
                 .validStartTime (now)
                 .validEndTime (couponTemplateById.getValidEndTime ())
                 .build ();
-        userCouponMapper.insert (userCouponDO);
+        int insert = userCouponMapper.insert (userCouponDO);
+        if (SqlHelper.retBool (insert)){
+            throw new ServiceException ("用户优惠券插入失败");
+        }
         // 添加用户领取优惠券模板缓存记录
         String userCouponListCacheKey = String.format(USER_COUPON_TEMPLATE_LIST_KEY, userId);
         String userCouponItemCacheKey = StrUtil.builder()

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class SendEmailMessageRemindCouponTemplate implements RemindCouponTemplate {
+public class SendSMSMessageRemindCouponTemplate implements RemindCouponTemplate {
     
     @Override
     public void remind (CouponTemplateRemindDTO couponTemplateRemindDTO) {

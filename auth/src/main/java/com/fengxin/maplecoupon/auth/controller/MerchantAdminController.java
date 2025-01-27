@@ -66,4 +66,10 @@ public class MerchantAdminController {
     Result<Void> terminateCouponTemplate (@RequestBody TerminateCouponTemplateReqDTO requestParam){
         return mapleCouponMerchantAdminRemoteService.terminateCouponTemplate (requestParam);
     }
+    
+    @Operation(summary = "删除优惠券模板")
+    @DeleteMapping("/api/auth/merchant-admin/coupon-template/delete")
+    Result<Void> deleteCouponTemplate(@RequestParam("couponTemplateId") String couponTemplateId){
+        return mapleCouponMerchantAdminRemoteService.deleteCouponTemplate (couponTemplateId);
+    }
 }

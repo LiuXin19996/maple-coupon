@@ -9,9 +9,9 @@ spring:
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
   data:
     redis:
-      host: 39.105.15.60
+      host: 122.51.165.51
       port: 6379
-      password: xWBbAP7d2tSGdnES
+      password: xWfhdsajklfh@@991
   cloud:
     nacos:
       discovery:
@@ -22,7 +22,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     
 rocketmq:
-  name-server: 39.105.15.60:9876
+  name-server: 122.51.165.51:9876
   producer:
     group: mapleCoupon_distribution-message-execute-producer
     send-message-timeout: 2000 # 发送超时时间
