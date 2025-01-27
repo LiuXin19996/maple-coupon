@@ -61,6 +61,6 @@ public class CouponCreatePaymentReqDTO {
      * 商品集合
      */
     @Schema(description = "商品集合")
-    @NotNull(message = "商品集合不能为空")
+    @NotNull(message = "商品集合不能为null,集合可为空")
     private List<CouponCreatePaymentGoodsReqDTO> goodsList;
 }

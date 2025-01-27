@@ -25,7 +25,7 @@ public class CouponQueryController {
 
     private final CouponQueryService couponQueryService;
 
-    @Operation(summary = "查询用户可用/不可用优惠券列表")
+    @Operation(summary = "异步查询用户可用/不可用优惠券列表")
     @PostMapping("/api/settlement/coupon-query")
     public Result<QueryCouponsRespDTO> listQueryCoupons(@RequestBody QueryCouponsReqDTO requestParam) {
         return Results.success(couponQueryService.listQueryUserCoupons(requestParam));

@@ -6,11 +6,8 @@ import com.fengxin.maplecoupon.auth.remote.dto.req.*;
 import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplateQueryRespDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import com.fengxin.web.Result;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author FENGXIN
@@ -45,6 +42,6 @@ public interface MapleCouponMerchantAdminRemoteService {
     @PostMapping("/api/merchant-admin/coupon-template/terminate")
     Result<Void> terminateCouponTemplate (@RequestBody TerminateCouponTemplateReqDTO requestParam);
     
-    @PostMapping("/api/merchant-admin/coupon-template/delete")
-    Result<Void> deleteCouponTemplate (String couponTemplateId);
+    @DeleteMapping("/api/merchant-admin/coupon-template/delete")
+    Result<Void> deleteCouponTemplate (@RequestParam("couponTemplateId") String couponTemplateId);
 }

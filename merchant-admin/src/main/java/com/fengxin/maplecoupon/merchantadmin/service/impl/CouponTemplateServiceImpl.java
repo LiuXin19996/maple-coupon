@@ -221,17 +221,18 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     @Override
     public void deleteCouponTemplate (String couponTemplateId) {
         LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO> ()
+                .eq(CouponTemplateDO::getShopNumber,UserContext.getShopNumber())
                 .eq(CouponTemplateDO::getId,couponTemplateId);
         CouponTemplateDO selectOne = couponTemplateMapper.selectOne (queryWrapper);
         if (ObjectUtil.isNull(selectOne)) {
             throw new ClientException ("优惠券不存在");
         }
-        if (ObjectUtil.equals (selectOne.getStatus(), CouponTemplateDelFlagEnum.DELETED.getValue ())){
+        if (ObjectUtil.equals (selectOne.getDelFlag (), CouponTemplateDelFlagEnum.DELETED.getValue ())){
             throw new ClientException ("优惠券已删除");
         }
         selectOne.setDelFlag (CouponTemplateDelFlagEnum.DELETED.getValue ());
-        int updateById = couponTemplateMapper.updateById (selectOne);
-        if (!SqlHelper.retBool (updateById)) {
+        int update = couponTemplateMapper.update (selectOne, queryWrapper);
+        if (!SqlHelper.retBool (update)) {
             throw new ServiceException ("优惠券删除失败");
         }
     }

@@ -1,13 +1,10 @@
 package com.fengxin.maplecoupon.auth.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fengxin.idempotent.DuplicateSubmit;
 import com.fengxin.maplecoupon.auth.remote.MapleCouponEngineRemoteService;
 import com.fengxin.maplecoupon.auth.remote.dto.req.*;
-import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplatePageQueryRespDTO;
 import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplateQueryRespDTO;
 import com.fengxin.maplecoupon.auth.remote.dto.resp.CouponTemplateRemindQueryRespDTO;
-import com.fengxin.maplecoupon.auth.remote.dto.resp.UserCouponPageQueryRespDTO;
 import com.fengxin.web.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
