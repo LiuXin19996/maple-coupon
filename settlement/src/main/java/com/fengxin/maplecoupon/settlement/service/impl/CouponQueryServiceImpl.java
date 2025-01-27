@@ -264,6 +264,7 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             QueryCouponGoodsReqDTO couponGoodsReqDTO = goodsMap.get (each.getGoods ());
             if (ObjectUtil.isNull (couponGoodsReqDTO)) {
                 notAvailableCouponList.add (couponsDetailRespDTO);
+                return;
             }
             switch (each.getType ()){
                 case 0:
