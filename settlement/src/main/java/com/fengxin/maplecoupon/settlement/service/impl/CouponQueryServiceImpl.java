@@ -81,16 +81,16 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                 .collect (Collectors.partitioningBy (coupon -> StrUtil.isEmpty (coupon.getGoods ())));
         List<CouponTemplateQueryRespDTO> emptyGoodsList = couponTemplateByGoods.get (true);
         List<CouponTemplateQueryRespDTO> hasGoodsList = couponTemplateByGoods.get (false);
-        // 计算店铺券折扣金额
-        List<QueryCouponsDetailRespDTO> availableCouponList = Collections.synchronizedList (new ArrayList<> ());
-        List<QueryCouponsDetailRespDTO> notAvailableCouponList = Collections.synchronizedList (new ArrayList<> ());
+        // 优惠券列表
+        List<QueryCouponsDetailRespDTO> availableCouponList = new ArrayList<> ();
+        List<QueryCouponsDetailRespDTO> notAvailableCouponList = new ArrayList<> ();
         
         // 计算店铺券
         CompletableFuture<Void> emptyGoodsTasks  = CompletableFuture.allOf (
             emptyGoodsList.stream ().map (each -> CompletableFuture.runAsync (() -> {
                 QueryCouponsDetailRespDTO couponsDetailRespDTO = BeanUtil.toBean (each , QueryCouponsDetailRespDTO.class);
                 JSONObject consumeRule = JSON.parseObject (couponsDetailRespDTO.getConsumeRule ());
-                calculateCouponTemplateAmount (couponsDetailRespDTO , consumeRule , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
+                calculateCouponTemplateAmount (each , couponsDetailRespDTO, consumeRule , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
             } , executorService).orTimeout (10 , TimeUnit.SECONDS)).toArray (CompletableFuture[]::new)
         );
         
@@ -108,8 +108,9 @@ public class CouponQueryServiceImpl implements CouponQueryService {
                 QueryCouponGoodsReqDTO couponGoodsReqDTO = goodsMap.get (each.getGoods ());
                 if (ObjectUtil.isNull (couponGoodsReqDTO)) {
                     notAvailableCouponList.add (couponsDetailRespDTO);
+                    return;
                 }
-                calculateCouponTemplateAmount (couponsDetailRespDTO , consumeRule , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
+                calculateCouponTemplateAmount (each , couponsDetailRespDTO, consumeRule , availableCouponList , notAvailableCouponList , requestParam.getOrderAmount ());
             } , executorService).orTimeout (10 , TimeUnit.SECONDS))
             .toArray (CompletableFuture[]::new)
         );
@@ -123,7 +124,8 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             .build ();
     }
     
-    public void calculateCouponTemplateAmount(QueryCouponsDetailRespDTO couponsDetailRespDTO,
+    public void calculateCouponTemplateAmount(CouponTemplateQueryRespDTO couponTemplateQueryRespDTO,
+                                              QueryCouponsDetailRespDTO couponsDetailRespDTO,
                                               JSONObject consumeRule,
                                               List<QueryCouponsDetailRespDTO> availableCouponList,
                                               List<QueryCouponsDetailRespDTO> notAvailableCouponList,
@@ -133,7 +135,7 @@ public class CouponQueryServiceImpl implements CouponQueryService {
             return;
         }
         BigDecimal maximumDiscountAmount = consumeRule.getBigDecimal("maximumDiscountAmount");
-        switch (couponsDetailRespDTO.getType ()){
+        switch (couponTemplateQueryRespDTO.getType ()){
             case 0:
                 // 立减券
                 if (orderAmount.compareTo (maximumDiscountAmount) < 0){
