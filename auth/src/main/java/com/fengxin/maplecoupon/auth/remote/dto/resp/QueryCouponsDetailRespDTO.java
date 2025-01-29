@@ -26,6 +26,12 @@ public class QueryCouponsDetailRespDTO {
      */
     @Schema(description = "优惠券id")
     private String id;
+    
+    /**
+     * 优惠券名称
+     */
+    @Schema(description = "优惠券名称")
+    private String name;
 
     /**
      * 优惠对象 0：商品专属 1：全店通用
