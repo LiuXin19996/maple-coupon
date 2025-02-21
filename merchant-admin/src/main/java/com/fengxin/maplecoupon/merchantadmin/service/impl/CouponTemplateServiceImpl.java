@@ -81,6 +81,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
             extra = "{{#requestParam.toString()}}"
     )
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void createCouponTemplate (CouponTemplateSaveReqDTO requestParam) {
         
         // 使用责任链校验数据
@@ -126,6 +127,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     public CouponTemplateQueryRespDTO findCouponTemplateById (String couponTemplateId) {
         LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO>()
                 .eq(CouponTemplateDO::getShopNumber,UserContext.getShopNumber())
+                .eq (CouponTemplateDO::getDelFlag, 0)
                 .eq(CouponTemplateDO::getId,couponTemplateId);
         CouponTemplateDO couponTemplateDO = couponTemplateMapper.selectOne (queryWrapper);
         return BeanUtil.toBean(couponTemplateDO, CouponTemplateQueryRespDTO.class);

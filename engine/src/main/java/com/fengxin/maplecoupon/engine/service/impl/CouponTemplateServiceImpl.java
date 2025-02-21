@@ -58,11 +58,11 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         if (MapUtil.isEmpty (cacheCouponTemplateMap)) {
             // 先查询布隆过滤器是否存在
             if (!couponTemplateQueryBloomFilter.contains (requestParam.getCouponTemplateId())) {
-                throw new ServiceException ("优惠券模板不存在");
+                throw new ServiceException ("优惠券已过期");
             }
             // 如果布隆过滤器存在值 查询是否有空值 防止数据库删除了优惠券模板但布隆过滤器还存在
             if (stringRedisTemplate.hasKey (emptyCouponTemplateKey)) {
-                throw new ServiceException ("优惠券模板不存在");
+                throw new ServiceException ("优惠券已过期");
             }
             // 分布式🔒 这里用户需要真实数据 必须保证数据正确 所以采用lock()
             RLock lock = redissonClient.getLock (lockCouponTemplateKey);
@@ -73,22 +73,23 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
                 if (MapUtil.isEmpty (cacheCouponTemplateMap)) {
                     // 先查询布隆过滤器是否存在 如果是第一个线程 查 如果是之后的线程 直接判断缓存
                     if (!couponTemplateQueryBloomFilter.contains (requestParam.getCouponTemplateId())) {
-                        throw new ServiceException ("优惠券模板不存在");
+                        throw new ServiceException ("优惠券已过期");
                     }
                     // 如果布隆过滤器存在值 查询是否有空值 防止数据库删除了优惠券模板而布隆过滤器还存在
                     if (stringRedisTemplate.hasKey (emptyCouponTemplateKey)) {
-                        throw new ServiceException ("优惠券模板不存在");
+                        throw new ServiceException ("优惠券已过期");
                     }
                     // 查询数据库数据
                     LambdaQueryWrapper<CouponTemplateDO> queryWrapper = new LambdaQueryWrapper<CouponTemplateDO>()
                             .eq (CouponTemplateDO::getId,Long.valueOf (requestParam.getCouponTemplateId ()))
                             .eq (CouponTemplateDO::getStatus,CouponTemplateStatusEnum.ACTIVE.getValue ())
+                            .eq (CouponTemplateDO::getDelFlag, 0)
                             .eq (CouponTemplateDO::getShopNumber,Long.valueOf (requestParam.getShopNumber ()));
                     CouponTemplateDO couponTemplateDO = couponTemplateMapper.selectOne (queryWrapper);
                     if (ObjectUtil.isEmpty (couponTemplateDO)) {
                         // 设置缓存空值
                         stringRedisTemplate.opsForValue ().set (emptyCouponTemplateKey,"",30, TimeUnit.MINUTES);
-                        throw new ServiceException ("优惠券模板不存在");
+                        throw new ServiceException ("优惠券已过期");
                     }
                     
                     // 放入redis缓存

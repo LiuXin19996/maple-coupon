@@ -40,7 +40,8 @@ public final class MerchantAdminChainContext<T> implements ApplicationContextAwa
     public void run (String... args) throws Exception {
         // 从Spring IOC获取对应的责任链bean 填充入container
         // 通过 applicationContext.getBeansOfType() 方法获取所有实现了 MerchantAdminAbstractChainHandler 的 bean。
-        applicationContext.getBeansOfType(MerchantAdminAbstractChainHandler.class).forEach((beanName, bean) -> {
+        applicationContext.getBeansOfType(MerchantAdminAbstractChainHandler.class)
+                .forEach((beanName, bean) -> {
             // 根据mark分组责任链
             // 判断 Mark 是否已经存在抽象责任链容器中，如果已经存在直接向集合新增；如果不存在，创建 Mark 和对应的责任链集合 每个mark对应一条责任链
             List<MerchantAdminAbstractChainHandler<T>> abstractChainHandlerContainerOrDefault = abstractChainHandlerContainer.getOrDefault (bean.mark () , new ArrayList<> ());
