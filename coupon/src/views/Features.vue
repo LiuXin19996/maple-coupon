@@ -782,18 +782,18 @@ const comparisons = ref([
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
   color: white;
   border-radius: 20px;
   text-decoration: none;
   font-weight: 500;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
   transition: all 0.3s ease;
 }
 
 .back-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
 }
 
 .back-btn i {
@@ -805,7 +805,7 @@ const comparisons = ref([
     top: 10px;
     left: 10px;
   }
-  
+
   .back-btn {
     padding: 8px 16px;
     font-size: 0.9rem;

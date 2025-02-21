@@ -12,12 +12,20 @@
         </div>
         <div class="nav-right">
           <div class="nav-links">
-            <router-link v-for="link in navLinks" :key="link.href" :to="link.href" class="nav-link"
-              @mouseover="handleLinkHover" @mouseleave="handleLinkLeave">
-              <span class="nav-link-content">{{ link.text }}</span>
-              <span class="nav-link-indicator"></span>
-              <div class="nav-link-glow"></div>
-            </router-link>
+            <template v-for="link in navLinks" :key="link.href">
+              <a v-if="link.external" :href="link.href" target="_blank" rel="noopener noreferrer" class="nav-link"
+                @mouseover="handleLinkHover" @mouseleave="handleLinkLeave">
+                <span class="nav-link-content">{{ link.text }}</span>
+                <span class="nav-link-indicator"></span>
+                <div class="nav-link-glow"></div>
+              </a>
+              <router-link v-else :to="link.href" class="nav-link" @mouseover="handleLinkHover"
+                @mouseleave="handleLinkLeave">
+                <span class="nav-link-content">{{ link.text }}</span>
+                <span class="nav-link-indicator"></span>
+                <div class="nav-link-glow"></div>
+              </router-link>
+            </template>
           </div>
           <div class="auth-buttons" v-if="!isLoggedIn">
             <router-link :to="{ name: 'Login' }" class="auth-button login">
@@ -132,7 +140,8 @@ const isScrolled = ref(false)
 
 const navLinks = [
   { href: '/features', text: '技术特性' },
-  { href: '/about', text: '关于项目' }
+  { href: '/about', text: '关于项目' },
+  { href: 'https://mapleplus.apifox.cn', text: '接口文档', external: true }
 ]
 
 const stats = [
@@ -297,7 +306,7 @@ const handleLinkLeave = (event) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 0rem;
   max-width: 1400px;
   margin: 0 auto;
   height: 70px;
@@ -343,12 +352,10 @@ const handleLinkLeave = (event) => {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 45%,
-    rgba(255, 255, 255, 0.5) 50%,
-    transparent 55%
-  );
+  background: linear-gradient(45deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 55%);
   transform: translate(-100%, -100%);
   animation: shine 3s infinite;
 }
@@ -384,11 +391,9 @@ const handleLinkLeave = (event) => {
 .nav-link-content {
   position: relative;
   z-index: 1;
-  background: linear-gradient(
-    to right,
-    #4b5563,
-    #3b82f6
-  );
+  background: linear-gradient(to right,
+      #4b5563,
+      #3b82f6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -413,11 +418,9 @@ const handleLinkLeave = (event) => {
 .nav-link-glow {
   position: absolute;
   inset: -4px -8px;
-  background: radial-gradient(
-    circle at center,
-    rgba(59, 130, 246, 0.15),
-    transparent 70%
-  );
+  background: radial-gradient(circle at center,
+      rgba(59, 130, 246, 0.15),
+      transparent 70%);
   border-radius: 8px;
   opacity: 0;
   transition: all 0.4s ease;
@@ -570,7 +573,7 @@ const handleLinkLeave = (event) => {
 .mock-dashboard {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -591,19 +594,19 @@ const handleLinkLeave = (event) => {
   .nav-links {
     display: none;
   }
-  
+
   .nav-content {
     padding: 0.75rem 1rem;
   }
-  
+
   .hero-content {
     padding: 2rem 1rem;
   }
-  
+
   .data-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .header-tabs {
     display: none;
   }
@@ -615,6 +618,7 @@ const handleLinkLeave = (event) => {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -701,7 +705,7 @@ const handleLinkLeave = (event) => {
 .button-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -784,6 +788,7 @@ const handleLinkLeave = (event) => {
   0% {
     transform: translate(0, 0);
   }
+
   100% {
     transform: translate(calc(100vw - 100%), calc(100vh - 100%));
   }
@@ -812,7 +817,7 @@ const handleLinkLeave = (event) => {
 .grid-overlay {
   position: absolute;
   inset: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -916,6 +921,7 @@ const handleLinkLeave = (event) => {
   0% {
     background-position: 0% 50%;
   }
+
   100% {
     background-position: 100% 50%;
   }
@@ -926,16 +932,16 @@ const handleLinkLeave = (event) => {
   .section-title {
     font-size: 2rem;
   }
-  
+
   .intro-paragraph {
     font-size: 1rem;
     line-height: 1.6;
   }
-  
+
   .feature-list li {
     font-size: 1rem;
   }
-  
+
   .stat-number {
     font-size: 2rem;
   }
@@ -944,8 +950,10 @@ const handleLinkLeave = (event) => {
 /* 特性卡片网格布局优化 */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 三列布局 */
-  grid-template-rows: repeat(2, auto);    /* 两行布局 */
+  grid-template-columns: repeat(3, 1fr);
+  /* 三列布局 */
+  grid-template-rows: repeat(2, auto);
+  /* 两行布局 */
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -981,7 +989,8 @@ const handleLinkLeave = (event) => {
 /* 响应式布局优化 */
 @media (max-width: 1024px) {
   .features-grid {
-    grid-template-columns: repeat(2, 1fr); /* 平板设备显示两列 */
+    grid-template-columns: repeat(2, 1fr);
+    /* 平板设备显示两列 */
     gap: 1.5rem;
     padding: 1.5rem;
   }
@@ -989,11 +998,12 @@ const handleLinkLeave = (event) => {
 
 @media (max-width: 768px) {
   .features-grid {
-    grid-template-columns: 1fr; /* 手机设备显示单列 */
+    grid-template-columns: 1fr;
+    /* 手机设备显示单列 */
     gap: 1rem;
     padding: 1rem;
   }
-  
+
   .feature-card {
     padding: 1.5rem;
   }
@@ -1080,11 +1090,11 @@ const handleLinkLeave = (event) => {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .intro-feature-card {
     padding: 1.2rem;
   }
-  
+
   .intro-feature-icon {
     font-size: 1.5rem;
     padding: 0.8rem;
@@ -1233,7 +1243,9 @@ const handleLinkLeave = (event) => {
   0% {
     transform: translate(-100%, -100%) rotate(45deg);
   }
-  80%, 100% {
+
+  80%,
+  100% {
     transform: translate(100%, 100%) rotate(45deg);
   }
 }

@@ -17,7 +17,8 @@
       </div>
 
       <el-card class="create-card">
-        <el-form :model="form" label-width="120px" label-position="top" :rules="rules" ref="formRef">
+        <el-form :model="form" label-width="120px" label-position="top" :rules="rules" ref="formRef"
+          :require-asterisk-position="'left'" :hide-required-asterisk="false">
           <!-- 基本信息 -->
           <div class="section-title">基本信息</div>
           <el-row :gutter="24">
@@ -25,7 +26,9 @@
               <el-form-item label="优惠券名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入优惠券名称">
                   <template #prefix>
-                    <el-icon><Ticket /></el-icon>
+                    <el-icon>
+                      <Ticket />
+                    </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
@@ -64,7 +67,9 @@
               <el-form-item label="优惠商品编码" prop="goods">
                 <el-input v-model="form.goods" placeholder="请输入商品编码">
                   <template #prefix>
-                    <el-icon><Goods /></el-icon>
+                    <el-icon>
+                      <Goods />
+                    </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
@@ -89,43 +94,43 @@
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="每人限领次数" prop="limitPerPerson">
+              <el-form-item label="每人限领次数" prop="receiveRule.limitPerPerson">
                 <el-input-number v-model="form.receiveRule.limitPerPerson" :min="1" />
               </el-form-item>
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="使用说明" prop="usageInstructions">
+              <el-form-item label="使用说明" prop="receiveRule.usageInstructions">
                 <el-input v-model="form.receiveRule.usageInstructions" placeholder="请输入使用说明" />
               </el-form-item>
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="使用门槛" prop="termsOfUse">
+              <el-form-item label="使用门槛" prop="consumeRule.termsOfUse">
                 <el-input-number v-model="form.consumeRule.termsOfUse" :min="0" />
               </el-form-item>
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="最大优惠金额" prop="maximumDiscountAmount">
+              <el-form-item label="最大优惠金额" prop="consumeRule.maximumDiscountAmount">
                 <el-input-number v-model="form.consumeRule.maximumDiscountAmount" :min="0" />
               </el-form-item>
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="折扣率" prop="discountRate">
+              <el-form-item label="折扣率" prop="consumeRule.discountRate">
                 <el-input-number v-model="form.consumeRule.discountRate" :min="0" :max="1" :step="0.1" />
               </el-form-item>
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="未满足条件说明" prop="explanationOfUnmetConditions">
+              <el-form-item label="未满足条件说明" prop="consumeRule.explanationOfUnmetConditions">
                 <el-input v-model="form.consumeRule.explanationOfUnmetConditions" placeholder="请输入未满足条件说明" />
               </el-form-item>
             </el-col>
 
             <el-col :md="8" :sm="24">
-              <el-form-item label="有效期(小时)" prop="validityPeriod">
+              <el-form-item label="有效期(小时)" prop="consumeRule.validityPeriod">
                 <el-input-number v-model="form.consumeRule.validityPeriod" :min="1" />
               </el-form-item>
             </el-col>
@@ -133,11 +138,15 @@
 
           <div class="form-actions">
             <el-button type="primary" @click="submitForm" class="submit-button">
-              <el-icon><Check /></el-icon>
+              <el-icon>
+                <Check />
+              </el-icon>
               <span>创建优惠券</span>
             </el-button>
             <el-button @click="resetForm" class="reset-button">
-              <el-icon><Refresh /></el-icon>
+              <el-icon>
+                <Refresh />
+              </el-icon>
               <span>重置表单</span>
             </el-button>
           </div>
@@ -156,6 +165,13 @@ export default {
     ElDatePicker
   },
   data() {
+    const validateGoods = (rule, value, callback) => {
+      if (this.form.target === 0 && !value) {
+        callback(new Error('选择商品专属时，请输入商品编码'))
+      } else {
+        callback()
+      }
+    }
     return {
       locale: zhCn,
       dateFormat: 'YYYY-MM-DD HH:mm:ss',
@@ -203,7 +219,7 @@ export default {
         name: [{ required: true, message: '请输入优惠券名称', trigger: 'blur' }],
         source: [{ required: true, message: '请选择优惠券来源', trigger: 'change' }],
         target: [{ required: true, message: '请选择优惠对象', trigger: 'change' }],
-        goods: [{ required: true, message: '请输入优惠商品编码', trigger: 'blur' }],
+        goods: [{ validator: validateGoods, trigger: ['blur', 'change'] }],
         type: [{ required: true, message: '请选择优惠类型', trigger: 'change' }],
         validTimeRange: [{ required: true, message: '请选择有效期', trigger: 'change' }],
         stock: [{ required: true, message: '请输入库存', trigger: 'blur' }],
@@ -383,6 +399,58 @@ export default {
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
+/* 自定义数字输入框样式 */
+:deep(.el-input-number) {
+  width: 100%;
+}
+
+:deep(.el-input-number .el-input__wrapper) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+:deep(.el-input-number__decrease),
+:deep(.el-input-number__increase) {
+  background-color: #f3f4f6 !important;
+  border: none !important;
+  color: #4b5563 !important;
+  transition: all 0.3s ease;
+  width: 32px !important;
+  height: calc(100% - 5px) !important;
+  margin: 1px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+:deep(.el-input-number__decrease) {
+  margin-right: 4px !important;
+}
+
+:deep(.el-input-number__increase) {
+  margin-left: 4px !important;
+}
+
+:deep(.el-input-number__decrease:hover),
+:deep(.el-input-number__increase:hover) {
+  background-color: #e5e7eb !important;
+  color: #1f2937 !important;
+  transform: scale(1.05);
+}
+
+:deep(.el-input-number__decrease:active),
+:deep(.el-input-number__increase:active) {
+  background-color: #d1d5db !important;
+  transform: scale(0.95);
+}
+
+:deep(.el-input-number .el-input__inner) {
+  text-align: center;
+  font-weight: 500;
+  color: #1f2937;
+}
+
 .form-actions {
   display: flex;
   justify-content: center;
@@ -425,29 +493,40 @@ export default {
 }
 
 @keyframes blob {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @media screen and (max-width: 768px) {
   .container {
     padding: 16px;
   }
-  
+
   .create-card {
     padding: 20px;
   }
-  
+
   .title {
     font-size: 1.5rem;
   }
-  
+
   .section-title {
     font-size: 1.1rem;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }

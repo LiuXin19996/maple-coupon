@@ -1,114 +1,122 @@
 <template>
-  <div class="coupon-template-query">
-    <div class="page-header">
-      <h2><el-icon class="header-icon">
-          <Ticket />
-        </el-icon>优惠券兑换预约</h2>
-      <div class="header-divider"></div>
-    </div>
+  <div class="page-container">
+    <div class="page-content">
+      <header class="page-header">
+        <div class="header-wrapper">
+          <div class="header-title-group">
+            <h1 class="header-title">优惠券兑换预约</h1>
+            <div class="title-decoration"></div>
+          </div>
+          <p class="header-subtitle">快速查询并预约兑换优惠券</p>
+        </div>
+        <div class="header-badge">Exchange</div>
+      </header>
 
-    <el-row :gutter="20" justify="center">
-      <el-col :xs="24" :sm="20" :md="16" :lg="14">
-        <el-form :model="queryForm" label-width="120px" class="query-form">
-          <el-form-item label="店铺编号" required>
-            <el-input v-model="queryForm.shopNumber" placeholder="请输入店铺编号" class="custom-input" />
-          </el-form-item>
-          <el-form-item label="优惠券ID" required>
-            <el-input v-model="queryForm.couponTemplateId" placeholder="请输入优惠券ID" class="custom-input" />
-          </el-form-item>
-          <el-form-item>
-            <div class="form-actions">
-              <el-button type="primary" @click="handleQuery" :loading="loading" class="query-button">
-                <el-icon>
-                  <Search />
-                </el-icon>
-                查询
-              </el-button>
-            </div>
-          </el-form-item>
-        </el-form>
-
-        <Transition name="fade">
-          <el-card v-if="templateData" class="result-card">
-            <template #header>
-              <div class="card-header">
-                <el-icon>
-                  <DocumentChecked />
-                </el-icon>
-                <span>查询结果</span>
+      <el-row :gutter="20" justify="center">
+        <el-col :xs="24" :sm="20" :md="16" :lg="14">
+          <el-form :model="queryForm" label-width="120px" class="query-form">
+            <el-form-item label="店铺编号" required>
+              <el-input v-model="queryForm.shopNumber" placeholder="请输入店铺编号" class="custom-input" />
+            </el-form-item>
+            <el-form-item label="优惠券ID" required>
+              <el-input v-model="queryForm.couponTemplateId" placeholder="请输入优惠券ID" class="custom-input" />
+            </el-form-item>
+            <el-form-item>
+              <div class="form-actions">
+                <el-button type="primary" @click="handleQuery" :loading="loading" class="query-button">
+                  <el-icon>
+                    <Search />
+                  </el-icon>
+                  查询
+                </el-button>
               </div>
-            </template>
+            </el-form-item>
+          </el-form>
 
-            <el-skeleton :rows="6" animated v-if="loading" />
-            <div v-else class="result-content">
-              <el-descriptions :column="1" border class="custom-descriptions">
-                <el-descriptions-item v-for="(item, key) in formattedTemplateData" :key="key" :label="item.label"
-                  class="custom-description-item">
-                  <div :class="['description-content', item.type]">
-                    {{ item.value }}
-                  </div>
-                </el-descriptions-item>
-
-                <el-descriptions-item label="领取规则">
-                  <el-card class="rule-card" shadow="never">
-                    <div class="rule-detail">
-                      <div>每人限领：{{ JSON.parse(templateData.receiveRule).limitPerPerson }} 张</div>
-                      <div>使用说明：{{ JSON.parse(templateData.receiveRule).usageInstructions }}</div>
-                    </div>
-                  </el-card>
-                </el-descriptions-item>
-
-                <el-descriptions-item label="使用规则">
-                  <el-card class="rule-card" shadow="never">
-                    <div class="rule-detail">
-                      <div>使用条件：订单满 {{ JSON.parse(templateData.consumeRule).termsOfUse }} 元可用</div>
-                      <div>折扣比例：{{ JSON.parse(templateData.consumeRule).discountRate * 100 }}%</div>
-                      <div>有效期：{{ JSON.parse(templateData.consumeRule).validityPeriod }} 小时</div>
-                      <div>最高优惠：{{ JSON.parse(templateData.consumeRule).maximumDiscountAmount }} 元</div>
-                      <div>未满足条件说明：{{ JSON.parse(templateData.consumeRule).explanationOfUnmetConditions }}</div>
-                    </div>
-                  </el-card>
-                </el-descriptions-item>
-              </el-descriptions>
-
-              <div class="action-section">
-                <div class="primary-actions">
-                  <el-button type="success" class="action-button redeem-btn" @click="handleRedeem" :disabled="loading">
-                    <el-icon>
-                      <ShoppingCart />
-                    </el-icon>
-                    立即兑换
-                  </el-button>
-                  <el-button type="primary" class="action-button remind-btn" @click="handleRemind" :disabled="loading">
-                    <el-icon>
-                      <Bell />
-                    </el-icon>
-                    设置提醒
-                  </el-button>
+          <Transition name="fade">
+            <el-card v-if="templateData" class="result-card">
+              <template #header>
+                <div class="card-header">
+                  <el-icon>
+                    <DocumentChecked />
+                  </el-icon>
+                  <span>查询结果</span>
                 </div>
+              </template>
 
-                <el-divider content-position="center">提醒设置</el-divider>
+              <el-skeleton :rows="6" animated v-if="loading" />
+              <div v-else class="result-content">
+                <el-descriptions :column="1" border class="custom-descriptions">
+                  <el-descriptions-item v-for="(item, key) in formattedTemplateData" :key="key" :label="item.label"
+                    class="custom-description-item">
+                    <div :class="['description-content', item.type]">
+                      {{ item.value }}
+                    </div>
+                  </el-descriptions-item>
 
-                <el-form :model="remindForm" label-width="80px" class="remind-form">
-                  <el-form-item label="提醒类型">
-                    <el-radio-group v-model="remindForm.type">
-                      <el-radio :label="0">APP提醒</el-radio>
-                      <el-radio :label="1">短信提醒</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
+                  <el-descriptions-item label="领取规则">
+                    <el-card class="rule-card" shadow="never">
+                      <div class="rule-detail">
+                        <div>每人限领：{{ JSON.parse(templateData.receiveRule).limitPerPerson }} 张</div>
+                        <div>使用说明：{{ JSON.parse(templateData.receiveRule).usageInstructions }}</div>
+                      </div>
+                    </el-card>
+                  </el-descriptions-item>
 
-                  <el-form-item label="提醒时间">
-                    <el-select v-model="remindForm.remindTime" placeholder="请选择提醒时间">
-                      <el-option v-for="time in remindTimeOptions" :key="time" :label="`提前${time}分钟`" :value="time" />
-                    </el-select>
-                  </el-form-item>
-                </el-form>
+                  <el-descriptions-item label="使用规则">
+                    <el-card class="rule-card" shadow="never">
+                      <div class="rule-detail">
+                        <div>使用条件：订单满 {{ JSON.parse(templateData.consumeRule).termsOfUse }} 元可用</div>
+                        <div>折扣比例：{{ JSON.parse(templateData.consumeRule).discountRate * 100 }}%</div>
+                        <div>有效期：{{ JSON.parse(templateData.consumeRule).validityPeriod }} 小时</div>
+                        <div>最高优惠：{{ JSON.parse(templateData.consumeRule).maximumDiscountAmount }} 元</div>
+                        <div>未满足条件说明：{{ JSON.parse(templateData.consumeRule).explanationOfUnmetConditions }}</div>
+                      </div>
+                    </el-card>
+                  </el-descriptions-item>
+                </el-descriptions>
+
+                <div class="action-section">
+                  <div class="primary-actions">
+                    <el-button type="success" class="action-button redeem-btn" @click="handleRedeem"
+                      :disabled="loading">
+                      <el-icon>
+                        <ShoppingCart />
+                      </el-icon>
+                      立即兑换
+                    </el-button>
+                    <el-button type="primary" class="action-button remind-btn" @click="handleRemind"
+                      :disabled="loading">
+                      <el-icon>
+                        <Bell />
+                      </el-icon>
+                      设置提醒
+                    </el-button>
+                  </div>
+
+                  <el-divider content-position="center">提醒设置</el-divider>
+
+                  <el-form :model="remindForm" label-width="80px" class="remind-form">
+                    <el-form-item label="提醒类型">
+                      <el-radio-group v-model="remindForm.type">
+                        <el-radio :label="0">APP提醒</el-radio>
+                        <el-radio :label="1">短信提醒</el-radio>
+                      </el-radio-group>
+                    </el-form-item>
+
+                    <el-form-item label="提醒时间">
+                      <el-select v-model="remindForm.remindTime" placeholder="请选择提醒时间">
+                        <el-option v-for="time in remindTimeOptions" :key="time" :label="`提前${time}分钟`" :value="time" />
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                </div>
               </div>
-            </div>
-          </el-card>
-        </Transition>
-      </el-col>
-    </el-row>
+            </el-card>
+          </Transition>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -155,7 +163,7 @@ const handleQuery = async () => {
       return
     }
 
-    const response = await couponAPI.findCouponTemplate({
+    const response = await couponAPI.findEngineCouponTemplate({
       shopNumber,
       couponTemplateId
     })
@@ -165,7 +173,7 @@ const handleQuery = async () => {
     if (error.response?.status === 401) {
       ElMessage.error('登录已过期，请重新登录')
     } else {
-      ElMessage.error('查询失败，请稍后重试' + error)
+      ElMessage.error(error.message || '查询失败')
     }
   } finally {
     loading.value = false
@@ -176,18 +184,18 @@ const handleRedeem = async () => {
   let response
   try {
     response = await couponAPI.redeemCoupon({
-      source: templateData.value.source, 
+      source: templateData.value.source,
       shopNumber: templateData.value.shopNumber,
       couponTemplateId: templateData.value.id
     })
-    
+
     console.log('兑换响应:', response)
-    
+
     if (!response) {
       ElMessage.error('兑换失败：服务器未响应')
       return
     }
-    
+
     if (response.success) {
       ElMessage.success('兑换成功，请到个人中心查看')
     } else {
@@ -259,30 +267,116 @@ const formattedTemplateData = computed(() => {
 </script>
 
 <style scoped>
+/* 更新页面容器样式 */
+.page-container {
+  min-height: 100vh;
+  padding: 0;
+  background-color: #f8fafc;
+  width: 100%;
+}
+
+.page-content {
+  width: 100%;
+  margin: 0;
+  position: relative;
+  padding: 0;
+}
+
+/* 更新页头样式 */
+.page-header {
+  margin-bottom: 6px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.header-title-group {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a90ff;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(26, 144, 255, 0.1);
+}
+
+.header-subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+}
+
+.header-badge {
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  background: linear-gradient(135deg, #1a90ff, #1864ab);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  transform: rotate(45deg);
+  opacity: 0.1;
+}
+
+.title-decoration {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(90deg, rgba(26, 144, 255, 0.2), rgba(24, 100, 171, 0.1));
+  border-radius: 4px;
+  z-index: 0;
+}
+
+/* 添加装饰效果 */
+.page-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #1a90ff, #1864ab);
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #1a90ff, transparent);
+}
+
 .coupon-template-query {
   padding: 30px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.page-header {
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.page-header h2 {
-  font-size: 32px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 0;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .header-divider {
   height: 4px;
@@ -295,8 +389,12 @@ const formattedTemplateData = computed(() => {
 .query-form {
   background: #fff;
   padding: 30px;
-  border-radius: 8px;
+  border-radius: 6px;
+  /* 移除圆角 */
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  /* 移除外边距 */
+  margin-bottom: 2px;
 }
 
 .custom-input :deep(.el-input__wrapper) {
@@ -423,10 +521,13 @@ const formattedTemplateData = computed(() => {
 }
 
 .result-card {
-  margin-top: 30px;
-  border-radius: 8px;
+  margin-top: 0;
+  /* 移除顶部间距 */
+  border-radius: 6px;
+  /* 移除圆角 */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  width: 100%;
 }
 
 .result-card :deep(.el-card__header) {
@@ -482,7 +583,11 @@ const formattedTemplateData = computed(() => {
   }
 
   .query-form {
-    padding: 20px;
+    padding: 16px 24px;
+  }
+
+  .page-header {
+    padding: 16px 24px;
   }
 
   .action-buttons {
@@ -582,6 +687,7 @@ const formattedTemplateData = computed(() => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -603,5 +709,15 @@ const formattedTemplateData = computed(() => {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+/* 移除行间距 */
+.el-row {
+  margin: 0 !important;
+}
+
+/* 移除列间距 */
+.el-col {
+  padding: 0 !important;
 }
 </style>

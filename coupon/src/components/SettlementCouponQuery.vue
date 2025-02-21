@@ -1,172 +1,181 @@
 <template>
-  <div class="settlement-coupon-query">
-    <!-- 页面背景 -->
-    <div class="page-background"></div>
-    
-    <!-- 页面内容容器 -->
+  <div class="page-container">
     <div class="page-content">
-      <!-- 标题部分 -->
-      <header class="page-header">
-        <div class="header-content">
-          <h2>
-            <el-icon class="header-icon"><Wallet /></el-icon>
-            结算优惠券查询
-          </h2>
-          <div class="header-divider"></div>
-          <p class="header-desc">快速查询订单可用的优惠券信息</p>
-        </div>
-      </header>
+      <!-- 页面背景 -->
+      <div class="page-background"></div>
 
-      <!-- 查询表单卡片 -->
-      <el-card class="query-section">
-        <template #header>
-          <div class="section-header">
-            <el-icon><Search /></el-icon>
-            <span>查询条件</span>
-          </div>
-        </template>
-
-        <el-form :model="queryForm" label-width="120px" class="query-form">
-          <el-form-item label="订单金额">
-            <el-input-number v-model="queryForm.orderAmount" :min="0" :precision="2" class="custom-input-number"
-              controls-position="right" />
-          </el-form-item>
-
-          <el-form-item label="店铺编号">
-            <el-input v-model="queryForm.shopNumber" class="custom-input" placeholder="请输入店铺编号" />
-          </el-form-item>
-
-          <el-form-item label="商品列表" class="goods-list-item">
-            <div class="goods-header">
-              <el-button type="primary" @click="openAddGoodsDialog" class="add-goods-btn">
-                <i class="el-icon-plus"></i>
-                添加商品
-              </el-button>
+      <!-- 页面内容容器 -->
+      <div class="page-content">
+        <!-- 标题部分 -->
+        <header class="page-header">
+          <div class="header-wrapper">
+            <div class="header-title-group">
+              <h1 class="header-title">结算优惠券查询</h1>
+              <div class="title-decoration"></div>
             </div>
+            <p class="header-subtitle">快速查询订单可用的优惠券信息</p>
+          </div>
+          <div class="header-badge">Settlement</div>
+        </header>
 
-            <el-table :data="queryForm.goodsList" border class="custom-table">
-              <el-table-column prop="goodsNumber" label="商品编号" />
-              <el-table-column prop="goodsAmount" label="商品金额">
-                <template #default="scope">
-                  <span class="amount">¥{{ scope.row.goodsAmount.toFixed(2) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="goodsPayableAmount" label="应付金额">
-                <template #default="scope">
-                  <span class="amount">¥{{ scope.row.goodsPayableAmount.toFixed(2) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template #default="scope">
-                  <el-button type="danger" size="small" class="delete-btn" @click="removeGoods(scope.$index)">
-                    删除
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-form-item>
-
-          <!-- 更新按钮样式 -->
-          <el-form-item class="query-actions">
-            <el-button type="primary" @click="handleQuery" class="query-button">
-              <el-icon><Search /></el-icon>
-              查询优惠券
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-
-      <!-- 结果展示卡片 -->
-      <Transition name="fade">
-        <el-card v-if="availableCoupons.length || unavailableCoupons.length" class="result-section">
+        <!-- 查询表单卡片 -->
+        <el-card class="query-section">
           <template #header>
             <div class="section-header">
-              <el-icon><List /></el-icon>
-              <span>查询结果</span>
+              <el-icon>
+                <Search />
+              </el-icon>
+              <span>查询条件</span>
             </div>
           </template>
-          
-          <el-tabs v-model="activeTab" class="custom-tabs">
-            <el-tab-pane label="可用优惠券" name="available">
-              <el-table :data="availableCoupons" border class="custom-table">
-                <el-table-column prop="id" label="优惠券ID" width="100" />
-                <el-table-column prop="name" label="优惠券名称" />
-                <el-table-column prop="couponAmount" label="优惠金额">
-                  <template #default="scope">
-                    <span class="discount-amount">¥{{ scope.row.couponAmount }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="consumeRule" label="使用规则" width="120">
-                  <template #default="scope">
-                    <el-popover placement="right" :width="320" trigger="hover" v-model:visible="popoverVisible">
-                      <template #reference>
-                        <el-button type="text" class="view-rule-btn">查看规则</el-button>
-                      </template>
-                      <div class="rule-content">
-                        <h4>优惠券使用规则</h4>
-                        <div class="rule-item">
-                          <span class="rule-label">使用门槛：</span>
-                          <span class="rule-value">满{{ formatRule(scope.row.consumeRule).termsOfUse }}元可用</span>
-                        </div>
-                        <div class="rule-item">
-                          <span class="rule-label">最高优惠：</span>
-                          <span class="rule-value">{{ formatRule(scope.row.consumeRule).maximumDiscountAmount }}元</span>
-                        </div>
-                        <div class="rule-item">
-                          <span class="rule-label">折扣率：</span>
-                          <span class="rule-value">{{ (formatRule(scope.row.consumeRule).discountRate * 10).toFixed(1)
-                            }}折</span>
-                        </div>
-                        <div class="rule-item">
-                          <span class="rule-label">有效期：</span>
-                          <span class="rule-value">{{ formatRule(scope.row.consumeRule).validityPeriod }}小时</span>
-                        </div>
-                      </div>
-                    </el-popover>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-tab-pane>
 
-            <el-tab-pane label="不可用优惠券" name="unavailable">
-              <el-table :data="unavailableCoupons" border class="custom-table">
-                <el-table-column prop="id" label="优惠券ID" width="100" />
-                <el-table-column prop="consumeRule" label="不可用原因">
+          <el-form :model="queryForm" label-width="120px" class="query-form">
+            <el-form-item label="订单金额">
+              <el-input-number v-model="queryForm.orderAmount" :min="0" :precision="2" class="custom-input-number"
+                controls-position="right" />
+            </el-form-item>
+
+            <el-form-item label="店铺编号">
+              <el-input v-model="queryForm.shopNumber" class="custom-input" placeholder="请输入店铺编号" />
+            </el-form-item>
+
+            <el-form-item label="商品列表" class="goods-list-item">
+              <div class="goods-header">
+                <el-button type="primary" @click="openAddGoodsDialog" class="add-goods-btn">
+                  <i class="el-icon-plus"></i>
+                  添加商品
+                </el-button>
+              </div>
+
+              <el-table :data="queryForm.goodsList" border class="custom-table">
+                <el-table-column prop="goodsNumber" label="商品编号" />
+                <el-table-column prop="goodsAmount" label="商品金额">
                   <template #default="scope">
-                    <span class="unavailable-reason">
-                      {{ JSON.parse(scope.row.consumeRule).explanationOfUnmetConditions }}
-                    </span>
+                    <span class="amount">¥{{ scope.row.goodsAmount.toFixed(2) }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="goodsPayableAmount" label="应付金额">
+                  <template #default="scope">
+                    <span class="amount">¥{{ scope.row.goodsPayableAmount.toFixed(2) }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" width="120">
+                  <template #default="scope">
+                    <el-button type="danger" size="small" class="delete-btn" @click="removeGoods(scope.$index)">
+                      删除
+                    </el-button>
                   </template>
                 </el-table-column>
               </el-table>
-            </el-tab-pane>
-          </el-tabs>
+            </el-form-item>
+
+            <!-- 更新按钮样式 -->
+            <el-form-item class="query-actions">
+              <el-button type="primary" @click="handleQuery" class="query-button">
+                <el-icon>
+                  <Search />
+                </el-icon>
+                查询优惠券
+              </el-button>
+            </el-form-item>
+          </el-form>
         </el-card>
-      </Transition>
-    </div>
 
-    <!-- 添加商品对话框 -->
-    <el-dialog title="添加商品" v-model="addGoodsDialogVisible" width="500px" class="custom-dialog">
-      <el-form :model="newGoods" label-width="100px" class="goods-form">
-        <el-form-item label="商品编号">
-          <el-input v-model="newGoods.goodsNumber" class="custom-input" />
-        </el-form-item>
-        <el-form-item label="商品金额">
-          <el-input-number v-model="newGoods.goodsAmount" :min="0" :precision="2" class="custom-input-number"
-            controls-position="right" />
-        </el-form-item>
-        <el-form-item label="应付金额">
-          <el-input-number v-model="newGoods.goodsPayableAmount" :min="0" :precision="2" class="custom-input-number"
-            controls-position="right" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="addGoodsDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleAddGoods">确定</el-button>
-        </div>
-      </template>
-    </el-dialog>
+        <!-- 结果展示卡片 -->
+        <Transition name="fade">
+          <el-card v-if="availableCoupons.length || unavailableCoupons.length" class="result-section">
+            <template #header>
+              <div class="section-header">
+                <el-icon>
+                  <List />
+                </el-icon>
+                <span>查询结果</span>
+              </div>
+            </template>
+
+            <el-tabs v-model="activeTab" class="custom-tabs">
+              <el-tab-pane label="可用优惠券" name="available">
+                <el-table :data="availableCoupons" border class="custom-table">
+                  <el-table-column prop="id" label="优惠券ID" width="100" />
+                  <el-table-column prop="name" label="优惠券名称" />
+                  <el-table-column prop="couponAmount" label="优惠金额">
+                    <template #default="scope">
+                      <span class="discount-amount">¥{{ scope.row.couponAmount }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="consumeRule" label="使用规则" width="120">
+                    <template #default="scope">
+                      <el-popover placement="right" :width="320" trigger="hover" v-model:visible="popoverVisible">
+                        <template #reference>
+                          <el-button type="text" class="view-rule-btn">查看规则</el-button>
+                        </template>
+                        <div class="rule-content">
+                          <h4>优惠券使用规则</h4>
+                          <div class="rule-item">
+                            <span class="rule-label">使用门槛：</span>
+                            <span class="rule-value">满{{ formatRule(scope.row.consumeRule).termsOfUse }}元可用</span>
+                          </div>
+                          <div class="rule-item">
+                            <span class="rule-label">最高优惠：</span>
+                            <span class="rule-value">{{ formatRule(scope.row.consumeRule).maximumDiscountAmount
+                              }}元</span>
+                          </div>
+                          <div class="rule-item">
+                            <span class="rule-label">折扣率：</span>
+                            <span class="rule-value">{{ (formatRule(scope.row.consumeRule).discountRate * 10).toFixed(1)
+                              }}折</span>
+                          </div>
+                          <div class="rule-item">
+                            <span class="rule-label">有效期：</span>
+                            <span class="rule-value">{{ formatRule(scope.row.consumeRule).validityPeriod }}小时</span>
+                          </div>
+                        </div>
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+
+              <el-tab-pane label="不可用优惠券" name="unavailable">
+                <el-table :data="unavailableCoupons" border class="custom-table">
+                  <el-table-column prop="id" label="优惠券ID" width="100" />
+                  <el-table-column prop="consumeRule" label="不可用原因">
+                    <template #default="scope">
+                      <span class="unavailable-reason">
+                        {{ JSON.parse(scope.row.consumeRule).explanationOfUnmetConditions }}
+                      </span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+            </el-tabs>
+          </el-card>
+        </Transition>
+      </div>
+
+      <!-- 添加商品对话框 -->
+      <el-dialog title="添加商品" v-model="addGoodsDialogVisible" width="500px" class="custom-dialog">
+        <el-form :model="newGoods" label-width="100px" class="goods-form">
+          <el-form-item label="商品编号">
+            <el-input v-model="newGoods.goodsNumber" class="custom-input" />
+          </el-form-item>
+          <el-form-item label="商品金额">
+            <el-input-number v-model="newGoods.goodsAmount" :min="0" :precision="2" class="custom-input-number"
+              controls-position="right" />
+          </el-form-item>
+          <el-form-item label="应付金额">
+            <el-input-number v-model="newGoods.goodsPayableAmount" :min="0" :precision="2" class="custom-input-number"
+              controls-position="right" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="addGoodsDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="handleAddGoods">确定</el-button>
+          </div>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -259,78 +268,172 @@ const formatRule = (ruleString) => {
 </script>
 
 <style scoped>
-/* 基础布局 */
-.settlement-coupon-query {
+/* 更新页面容器样式 */
+.page-container {
   min-height: 100vh;
-  position: relative;
-  padding: 40px 20px;
-}
-
-.page-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #f6f8fd 0%, #f0f3ff 100%);
-  z-index: -1;
+  padding: 0;
+  background-color: #f8fafc;
+  width: 100%;
 }
 
 .page-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   position: relative;
+  padding: 0;
 }
 
-/* 页头样式增强 */
+/* 调整卡片间距 */
 .page-header {
-  margin-bottom: 40px;
-  text-align: center;
+  margin-bottom: 6px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header-content {
+.header-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.header-title-group {
   position: relative;
   display: inline-block;
-  padding: 30px 60px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 12px;
 }
 
-.header-content h2 {
-  font-size: 36px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 0 0 15px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.header-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a90ff;
+  position: relative;
+  z-index: 1;
   letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(26, 144, 255, 0.1);
 }
 
-.header-desc {
-  color: #6b7280;
+.title-decoration {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(90deg, rgba(26, 144, 255, 0.2), rgba(24, 100, 171, 0.1));
+  border-radius: 4px;
+  z-index: 0;
+}
+
+.header-subtitle {
+  margin: 0;
   font-size: 16px;
-  margin: 10px 0 0;
+  color: #666;
+  font-weight: 500;
 }
 
-.header-divider {
+.header-badge {
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  background: linear-gradient(135deg, #1a90ff, #1864ab);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  transform: rotate(45deg);
+  opacity: 0.1;
+}
+
+/* 添加装饰效果 */
+.page-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #1a90ff, #1864ab);
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   height: 4px;
-  width: 60%;
-  margin: 15px auto;
-  background: linear-gradient(to right, #6366f1, #8b5cf6, #d946ef);
-  border-radius: 2px;
+  background: linear-gradient(to right, #1a90ff, transparent);
+}
+
+/* 标题悬停效果 */
+.header-title-group:hover .title-decoration {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+    transform: translateX(-10px);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateX(10px);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: translateX(-10px);
+  }
+}
+
+.el-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 5px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .page-content {
+    padding: 0;
+  }
+
+  .query-form {
+    padding: 16px 24px;
+  }
+
+  .page-header {
+    padding: 16px 24px;
+  }
+
+  .header-title {
+    font-size: 28px;
+  }
+
+  .header-subtitle {
+    font-size: 14px;
+  }
+
+  .header-badge {
+    display: none;
+  }
 }
 
 /* 区段样式 */
 .query-section,
 .result-section {
-  margin-bottom: 30px;
-  border-radius: 16px;
+  margin-bottom: 0;
+  border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   background: white;
@@ -344,13 +447,16 @@ const formatRule = (ruleString) => {
   font-size: 18px;
   font-weight: 600;
   color: #1e293b;
-  padding: 20px;
+  padding: 16px 32px;
+  /* 增加左右内边距 */
   background: linear-gradient(to right, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
 }
 
+
 /* 表单样式优化 */
 .query-form {
-  padding: 30px;
+  padding: 16px;
+  /* 统一内边距 */
 }
 
 .custom-input :deep(.el-input__wrapper),
@@ -387,7 +493,7 @@ const formatRule = (ruleString) => {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: 0.5s;
 }
 
@@ -477,7 +583,7 @@ const formatRule = (ruleString) => {
   }
 
   .query-form {
-    padding: 15px;
+    padding: 12px;
   }
 
   .query-button,

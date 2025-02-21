@@ -35,17 +35,17 @@
             </el-icon>
             <span>优惠券管理</span>
           </el-menu-item>
+          <el-menu-item index="/admin/coupon-remind">
+            <el-icon>
+              <Bell />
+            </el-icon>
+            <span>优惠券预约提醒</span>
+          </el-menu-item>
           <el-menu-item index="/admin/coupon-template/query">
             <el-icon>
               <Search />
             </el-icon>
             <span>优惠券兑换预约</span>
-          </el-menu-item>
-          <el-menu-item index="/admin/coupon-remind">
-            <el-icon>
-              <Bell />
-            </el-icon>
-            <span>优惠券提醒管理</span>
           </el-menu-item>
           <el-menu-item index="/admin/settlement-coupon-query">
             <el-icon>
@@ -102,7 +102,7 @@ export default {
         'UserProfile': '个人信息',
         'CouponTemplateManagement': '优惠券管理',
         'CouponTemplateQuery': '优惠券兑换预约',
-        'CouponTemplateRemindList': '优惠券提醒管理',
+        'CouponTemplateRemindList': '优惠券预约提醒',
         'SettlementCouponQuery': '优惠券结算服务'
       }
       return routeMap[this.$route.name] || this.$route.meta?.title || ''
@@ -752,4 +752,57 @@ export default {
       transform: translateY(0);
     }
   }
-}</style>
+}
+
+/* 更新面包屑导航样式 */
+.el-breadcrumb {
+  font-size: 15px;
+  padding-left: 15px;
+  line-height: 64px;
+}
+
+.el-breadcrumb__item {
+  display: flex;
+  align-items: center;
+}
+
+/* 首页样式 */
+.el-breadcrumb__item:first-child .el-breadcrumb__inner {
+  color: #64748b !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.el-breadcrumb__item:first-child .el-breadcrumb__inner:hover {
+  color: #2563eb !important;
+  transform: translateX(2px);
+}
+
+/* 当前页面样式 */
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  font-weight: 600;
+  font-size: 16px;
+  background: linear-gradient(120deg, #2563eb, #0ea5e9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+}
+
+/* 分隔符样式 */
+.el-breadcrumb__separator {
+  color: #94a3b8;
+  margin: 0 12px;
+  font-weight: 600;
+}
+
+/* 面包屑项目悬停效果 */
+.el-breadcrumb__inner {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.el-breadcrumb__inner:hover {
+  opacity: 0.8;
+  transform: translateX(2px);
+}
+</style>

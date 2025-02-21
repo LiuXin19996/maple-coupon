@@ -88,7 +88,7 @@ const handleLogin = async () => {
         token: token
       })
       setTimeout(() => {
-        router.push({ name: 'Home' })
+        router.push('/admin/coupon-template')
       }, 1500)
     } else {
       errorMessage.value = response.data?.message || '登录失败，请检查用户名和密码'

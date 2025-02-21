@@ -91,6 +91,10 @@ export const couponAPI = {
     apiClient.get('/api/merchant-admin/coupon-template/find', {
       params: queryParams
     }),
+  findEngineCouponTemplate: (queryParams) =>
+    apiClient.get('/api/auth/engine/coupon-template/query', {
+      params: queryParams
+    }),
   getCouponTemplateRemindList: () => 
     apiClient.get('/api/engine/coupon-template-remind/list'),
   cancelCouponTemplateRemind: (data) =>

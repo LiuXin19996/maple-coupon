@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <!-- 背景改为简单渐变 -->
-    <div class="page-bg"></div>
+    <!-- <div class="page-bg"></div> -->
 
     <div class="page-content">
       <header class="page-header">
@@ -12,7 +12,7 @@
           </div>
           <p class="header-subtitle">高效便捷的优惠券模板管理系统</p>
         </div>
-        <div class="header-badge">MANAGE</div>
+        <div class="header-badge">Coupon</div>
       </header>
 
       <el-card class="main-card">
@@ -490,7 +490,7 @@ export default {
 /* 核心布局样式 */
 .page-container {
   min-height: 100vh;
-  padding: 20px;
+  padding: 0px;
   background-color: #f8fafc;
 }
 
@@ -508,10 +508,10 @@ export default {
 
 /* 页头样式 */
 .page-header {
-  margin-bottom: 24px;
-  padding: 32px;
+  margin-bottom: 6px;
+  padding: 16px;
   background: #fff;
-  border-radius: 16px;
+  border-radius: 6px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
@@ -594,7 +594,6 @@ export default {
   height: 4px;
   background: linear-gradient(to right, #1a90ff, transparent);
 }
-
 /* 标题悬停效果 */
 .header-title-group:hover .title-decoration {
   animation: shimmer 2s infinite;
@@ -645,13 +644,13 @@ export default {
 
 /* 搜索表单样式 */
 .search-form {
-  padding: 20px;
+  padding: 0px;
   border-bottom: 1px solid #eee;
 }
 
 /* 表格容器样式 */
 .table-container {
-  padding: 0 20px;
+  padding: 0 0px;
 }
 
 .data-table {
@@ -841,7 +840,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0 0;
+  padding: 10px 0;
   margin-top: 8px;
   border-top: 1px solid #eee;
 }
