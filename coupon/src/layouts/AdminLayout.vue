@@ -33,25 +33,25 @@
             <el-icon>
               <Collection />
             </el-icon>
-            <span>优惠券管理</span>
+            <span>管理</span>
           </el-menu-item>
           <el-menu-item index="/admin/coupon-remind">
             <el-icon>
               <Bell />
             </el-icon>
-            <span>优惠券预约提醒</span>
+            <span>提醒</span>
           </el-menu-item>
           <el-menu-item index="/admin/coupon-template/query">
             <el-icon>
               <Search />
             </el-icon>
-            <span>优惠券兑换预约</span>
+            <span>兑换预约</span>
           </el-menu-item>
           <el-menu-item index="/admin/settlement-coupon-query">
             <el-icon>
-              <Bell />
+              <CirclePlus />
             </el-icon>
-            <span>优惠券结算服务</span>
+            <span>结算服务</span>
           </el-menu-item>
           <el-menu-item index="/admin/user-profile">
             <el-icon>
@@ -114,13 +114,7 @@ export default {
       localStorage.removeItem('username')
       this.$router.push('/login')
     }
-  },
-  // beforeUnmount() {
-  //   // 清理可能的副作用
-  //   if (this.$refs.routerView) {
-  //     this.$refs.routerView.unmount()
-  //   }
-  // }
+  }
 }
 </script>
 
