@@ -33,25 +33,25 @@
             <el-icon>
               <Collection />
             </el-icon>
-            <span>管理</span>
+            <span>优惠券管理</span>
           </el-menu-item>
           <el-menu-item index="/admin/coupon-remind">
             <el-icon>
               <Bell />
             </el-icon>
-            <span>提醒</span>
+            <span>优惠券提醒</span>
           </el-menu-item>
           <el-menu-item index="/admin/coupon-template/query">
             <el-icon>
               <Search />
             </el-icon>
-            <span>兑换预约</span>
+            <span>优惠券兑换</span>
           </el-menu-item>
           <el-menu-item index="/admin/settlement-coupon-query">
             <el-icon>
               <CirclePlus />
             </el-icon>
-            <span>结算服务</span>
+            <span>优惠券结算</span>
           </el-menu-item>
           <el-menu-item index="/admin/user-profile">
             <el-icon>
@@ -101,9 +101,9 @@ export default {
       const routeMap = {
         'UserProfile': '个人信息',
         'CouponTemplateManagement': '优惠券管理',
-        'CouponTemplateQuery': '优惠券兑换预约',
-        'CouponTemplateRemindList': '优惠券预约提醒',
-        'SettlementCouponQuery': '优惠券结算服务'
+        'CouponTemplateQuery': '优惠券兑换',
+        'CouponTemplateRemindList': '优惠券提醒',
+        'SettlementCouponQuery': '优惠券结算'
       }
       return routeMap[this.$route.name] || this.$route.meta?.title || ''
     }

@@ -4,10 +4,10 @@
       <header class="page-header">
         <div class="header-wrapper">
           <div class="header-title-group">
-            <h1 class="header-title">优惠券提醒列表</h1>
+            <h1 class="header-title">优惠券提醒</h1>
             <div class="title-decoration"></div>
           </div>
-          <p class="header-subtitle">管理您的优惠券到期提醒</p>
+          <p class="header-subtitle">优惠券秒杀提醒</p>
         </div>
         <div class="header-badge">Remind</div>
       </header>
@@ -316,7 +316,6 @@ export default {
 /* 卡片头部样式更新 */
 .main-card {
   border-radius: 0;
-  /* 移除圆角 */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   margin-top: 0;
 }
@@ -326,7 +325,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 16px 32px;
-  /* 增加左右内边距 */
 }
 
 .section-header {

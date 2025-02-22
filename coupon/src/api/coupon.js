@@ -39,17 +39,11 @@ apiClient.interceptors.response.use(
           if (!originalRequest._retry) {
             originalRequest._retry = true
             try {
-              const refreshToken = localStorage.getItem('refreshToken')
-              if (refreshToken) {
-                const { data } = await apiClient.post('/api/auth/refresh-token', { refreshToken })
                 localStorage.setItem('token', data.token)
-                localStorage.setItem('refreshToken', data.refreshToken)
                 originalRequest.headers.Authorization = `Bearer ${data.token}`
                 return apiClient(originalRequest)
-              }
             } catch (refreshError) {
               localStorage.removeItem('token')
-              localStorage.removeItem('refreshToken')
               localStorage.removeItem('username')
               if (window.location.pathname !== '/login') {
                 window.$message.error('登录已过期，请重新登录')
@@ -99,8 +93,6 @@ export const couponAPI = {
     apiClient.get('/api/engine/coupon-template-remind/list'),
   cancelCouponTemplateRemind: (data) =>
     apiClient.post('/api/engine/coupon-template-remind/cancel', data),
-  refreshToken: (refreshToken) =>
-    apiClient.post('/api/auth/refresh-token', { refreshToken }),
   increaseNumberCouponTemplate: (data) => {
     if (!data?.couponTemplateId || !data?.number) {
       return Promise.reject(new Error('必要参数缺失'));

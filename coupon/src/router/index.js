@@ -41,46 +41,43 @@ const routes = [
         path: 'coupon-template',
         name: 'CouponTemplateManagement',
         component: () => import('../components/CouponTemplateManagement.vue'),
-        meta: { requiresAuth: true, title: '优惠券模板管理' }
+        meta: { requiresAuth: true, title: '优惠券管理', keepAlive: true }
       },
       {
         path: 'coupon-template/create',
         name: 'CouponTemplateCreate',
         component: () => import('../components/CouponTemplateCreate.vue'),
-        meta: { requiresAuth: true, title: '创建优惠券模板' }
+        meta: { requiresAuth: true, title: '创建优惠券', keepAlive: true }
       },
       {
         path: 'coupon-template/query',
-        name: 'CouponTemplateQuery',
-        component: () => import('../components/CouponTemplateQuery.vue'),
-        meta: { requiresAuth: true, title: '优惠券模板查询' }
+        name: 'CouponTemplateRedeem',
+        component: () => import('../components/CouponTemplateRedeem.vue'),
+        meta: { requiresAuth: true, title: '优惠券兑换', keepAlive: true }
       },
       {
         path: 'coupon-template-detail/:id',
         name: 'CouponTemplateDetail',
         component: () => import('@/components/CouponTemplateDetail.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, title: '优惠券详情', keepAlive: true }
       },
       {
         path: 'coupon-remind',
         name: 'CouponTemplateRemindList',
         component: () => import('@/components/CouponTemplateRemindList.vue'),
-        meta: { requiresAuth: true, title: '优惠券提醒' }
+        meta: { requiresAuth: true, title: '优惠券提醒', keepAlive: true }
       },
       {
         path: 'user-profile',
         name: 'UserProfile',
         component: () => import('@/components/UserProfile.vue'),
-        meta: { requiresAuth: true, title: '用户信息' }
+        meta: { requiresAuth: true, title: '用户信息', keepAlive: true }
       },
       {
         path: 'settlement-coupon-query',
         name: 'SettlementCouponQuery',
         component: () => import('@/components/SettlementCouponQuery.vue'),
-        meta: { 
-          requiresAuth: true, 
-          title: '优惠券结算服务',
-          keepAlive: true // 添加 keepAlive 配置
+        meta: { requiresAuth: true, title: '优惠券结算', keepAlive: true
         }
       },
     ]
@@ -99,7 +96,6 @@ router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('token')
     const isLoginPage = to.path === '/login'
     const isRegisterPage = to.path === '/register'
-    const isHomePage = to.path === '/'
 
     // 如果访问登录/注册页面且有token，跳转到首页
     if ((isLoginPage || isRegisterPage) && token) {

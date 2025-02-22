@@ -10,10 +10,10 @@
         <header class="page-header">
           <div class="header-wrapper">
             <div class="header-title-group">
-              <h1 class="header-title">结算优惠券查询</h1>
+              <h1 class="header-title">优惠券结算</h1>
               <div class="title-decoration"></div>
             </div>
-            <p class="header-subtitle">快速查询订单可用的优惠券信息</p>
+            <p class="header-subtitle">快速查询订单可用的优惠券</p>
           </div>
           <div class="header-badge">Settlement</div>
         </header>

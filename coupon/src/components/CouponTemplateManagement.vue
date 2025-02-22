@@ -1,8 +1,6 @@
 <template>
   <div class="page-container">
     <!-- 背景改为简单渐变 -->
-    <!-- <div class="page-bg"></div> -->
-
     <div class="page-content">
       <header class="page-header">
         <div class="header-wrapper">
@@ -10,7 +8,7 @@
             <h1 class="header-title">优惠券管理</h1>
             <div class="title-decoration"></div>
           </div>
-          <p class="header-subtitle">高效便捷的优惠券模板管理系统</p>
+          <p class="header-subtitle">高效便捷的优惠券管理系统</p>
         </div>
         <div class="header-badge">Coupon</div>
       </header>
@@ -494,13 +492,6 @@ export default {
   background-color: #f8fafc;
 }
 
-.page-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(135deg, #f0f7ff 0%, #e8eaff 100%);
-}
-
 .page-content {
   position: relative;
   z-index: 1;
@@ -639,9 +630,15 @@ export default {
 .main-card {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
-
+.el-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 5px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
 /* 搜索表单样式 */
 .search-form {
   padding: 0px;
@@ -689,7 +686,7 @@ export default {
 /* 响应式布局 */
 @media (max-width: 1400px) {
   .page-container {
-    padding: 16px;
+    padding: 0;
   }
 }
 

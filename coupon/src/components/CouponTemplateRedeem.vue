@@ -4,10 +4,10 @@
       <header class="page-header">
         <div class="header-wrapper">
           <div class="header-title-group">
-            <h1 class="header-title">优惠券兑换预约</h1>
+            <h1 class="header-title">优惠券兑换</h1>
             <div class="title-decoration"></div>
           </div>
-          <p class="header-subtitle">快速查询并预约兑换优惠券</p>
+          <p class="header-subtitle">快速预约并兑换优惠券</p>
         </div>
         <div class="header-badge">Exchange</div>
       </header>
