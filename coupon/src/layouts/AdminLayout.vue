@@ -39,19 +39,19 @@
             <el-icon>
               <Bell />
             </el-icon>
-            <span>优惠券提醒</span>
+            <span>优惠券预约提醒</span>
           </el-menu-item>
           <el-menu-item index="/admin/coupon-template/query">
             <el-icon>
               <Search />
             </el-icon>
-            <span>优惠券兑换</span>
+            <span>优惠券兑换预约</span>
           </el-menu-item>
           <el-menu-item index="/admin/settlement-coupon-query">
             <el-icon>
-              <CirclePlus />
+              <Bell />
             </el-icon>
-            <span>优惠券结算</span>
+            <span>优惠券结算服务</span>
           </el-menu-item>
           <el-menu-item index="/admin/user-profile">
             <el-icon>
@@ -101,9 +101,9 @@ export default {
       const routeMap = {
         'UserProfile': '个人信息',
         'CouponTemplateManagement': '优惠券管理',
-        'CouponTemplateQuery': '优惠券兑换',
-        'CouponTemplateRemindList': '优惠券提醒',
-        'SettlementCouponQuery': '优惠券结算'
+        'CouponTemplateQuery': '优惠券兑换预约',
+        'CouponTemplateRemindList': '优惠券预约提醒',
+        'SettlementCouponQuery': '优惠券结算服务'
       }
       return routeMap[this.$route.name] || this.$route.meta?.title || ''
     }
@@ -114,7 +114,13 @@ export default {
       localStorage.removeItem('username')
       this.$router.push('/login')
     }
-  }
+  },
+  // beforeUnmount() {
+  //   // 清理可能的副作用
+  //   if (this.$refs.routerView) {
+  //     this.$refs.routerView.unmount()
+  //   }
+  // }
 }
 </script>
 

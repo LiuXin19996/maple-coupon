@@ -116,7 +116,6 @@ export default {
           this.flattenedRemindList = this.remindList.reduce((acc, coupon) => {
             const remindTimes = Array.isArray(coupon.remindTime) ? coupon.remindTime : [coupon.remindTime]
             const remindTypes = Array.isArray(coupon.remindType) ? coupon.remindType : [coupon.remindType]
-
             return acc.concat(
               remindTimes.map((time, index) => ({
                 ...coupon,
@@ -218,6 +217,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .header-wrapper {
   position: relative;
   z-index: 2;
@@ -292,6 +292,7 @@ export default {
   height: 4px;
   background: linear-gradient(to right, #1a90ff, transparent);
 }
+
 /* 标题悬停效果 */
 .header-title-group:hover .title-decoration {
   animation: shimmer 2s infinite;
@@ -313,6 +314,7 @@ export default {
     transform: translateX(-10px);
   }
 }
+
 /* 卡片头部样式更新 */
 .main-card {
   border-radius: 0;
