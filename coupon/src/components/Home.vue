@@ -128,15 +128,15 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import CounterUp from './CounterUp.vue'
+import { useUserStore } from '../store/userStore'
 
-const username = ref(localStorage.getItem('username') || '')
-const isLoggedIn = computed(() => {
-  const token = localStorage.getItem('token')
-  const username = localStorage.getItem('username')
-  return token && username
-})
+const userStore = useUserStore()
 const router = useRouter()
 const isScrolled = ref(false)
+
+// 使用 store 中的状态
+const isLoggedIn = computed(() => userStore.isLoggedIn)
+const username = computed(() => userStore.username)
 
 const navLinks = [
   { href: '/features', text: '技术特性' },
@@ -154,8 +154,10 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
 }
 
+// 添加事件监听器
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  window.addEventListener('storage', handleStorageChange)
   const particles = document.querySelectorAll('.particle')
   particles.forEach(particle => {
     particle.style.left = `${Math.random() * 100}%`
@@ -165,7 +167,13 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('storage', handleStorageChange)
 })
+
+// 监听 localStorage 变化
+const handleStorageChange = () => {
+  userStore.updateLoginStatus()
+}
 
 const goToAdmin = () => {
   router.push('/admin')

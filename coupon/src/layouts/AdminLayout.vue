@@ -90,7 +90,7 @@ export default {
   data() {
     return {
       userAvatar: '../../public/avatar.jpg',  // 修改为相对路径
-      username: localStorage.getItem('username') || 'Admin'
+      username: localStorage.getItem('username') || '淘风'
     }
   },
   computed: {
@@ -114,13 +114,7 @@ export default {
       localStorage.removeItem('username')
       this.$router.push('/login')
     }
-  },
-  // beforeUnmount() {
-  //   // 清理可能的副作用
-  //   if (this.$refs.routerView) {
-  //     this.$refs.routerView.unmount()
-  //   }
-  // }
+  }
 }
 </script>
 

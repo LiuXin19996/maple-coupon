@@ -276,29 +276,21 @@ export default {
     async fetchData() {
       this.loading = true
       try {
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
-        const response = await this.$axios.get('/api/merchant-admin/coupon-template/page', {
-          params: {
-            current: this.queryParams.current,
-            size: this.queryParams.size,
-            name: this.queryParams.name,
-            target: this.queryParams.target,
-            goods: this.queryParams.goods,
-            type: this.queryParams.type
-          },
-          headers: {
-            'token': token,
-            'username': username
-          }
+        const response = await couponAPI.getCouponTemplatePage({
+          current: this.queryParams.current,
+          size: this.queryParams.size,
+          name: this.queryParams.name,
+          target: this.queryParams.target,
+          goods: this.queryParams.goods,
+          type: this.queryParams.type
         })
-
+        console.log('查询优惠券响应:', response.data)
         if (response.data.success) {
           this.tableData = response.data.data.records
           this.total = response.data.data.total
         }
       } catch (error) {
-        this.$message.error(error.response?.data?.message || error.message)
+        this.$message.error(error?.data?.data?.message || error.message)
       } finally {
         this.loading = false
       }
@@ -371,21 +363,13 @@ export default {
     async increaseNumber() {
       try {
         await this.$refs.increaseFormRef.validate()
-
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
         const params = {
           couponTemplateId: this.increaseForm.couponTemplateId,
           number: this.increaseForm.number
         }
 
-        const response = await this.$axios.post('/api/merchant-admin/coupon-template/increase-number', params, {
-          headers: {
-            'token': token,
-            'username': username
-          }
-        })
-
+        const response = await couponAPI.increaseNumberCouponTemplate(params)
+        console.log('增加发行量响应:', response.data)
         if (response.data.success) {
           this.$message.success('增加发行量成功')
         } else {
@@ -394,7 +378,7 @@ export default {
         this.increaseDialogVisible = false
         this.fetchData()
       } catch (error) {
-        this.$message.error('增加发行量失败：' + (error.response?.data?.message || error.message))
+        this.$message.error('增加发行量失败：' + (error?.data?.message || error.message))
       }
     },
 
@@ -405,17 +389,8 @@ export default {
 
     async terminateCoupon() {
       try {
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
-        const response = await this.$axios.post('/api/merchant-admin/coupon-template/terminate', {
-          couponTemplateId: this.terminateForm.couponTemplateId
-        }, {
-          headers: {
-            'token': token,
-            'username': username
-          }
-        })
-
+        const response = await couponAPI.terminateCouponTemplate(this.terminateForm.couponTemplateId)
+        console.log('终止优惠券响应:', response.data)
         if (response.data.success) {
           this.$message.success('终止优惠券成功')
           this.terminateDialogVisible = false
@@ -424,7 +399,7 @@ export default {
           this.$message.error(response.data.message || '终止失败')
         }
       } catch (error) {
-        this.$message.error('终止优惠券失败：' + (error.response?.data?.message || error.message))
+        this.$message.error('终止优惠券失败：' + (error?.data?.message || error.message))
       }
       this.fetchData()
     },
@@ -432,21 +407,11 @@ export default {
       this.deleteForm.couponTemplateId = id
       this.deleteDialogVisible = true
     },
-    
+
     async deleteCoupon() {
       try {
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
-        const response = await this.$axios.delete('/api/merchant-admin/coupon-template/delete', {
-          params: {
-            couponTemplateId: this.deleteForm.couponTemplateId
-          },
-          headers: {
-            'token': token,
-            'username': username
-          }
-        })
-
+        const response = await couponAPI.deleteCouponTemplate(this.deleteForm.couponTemplateId)
+        console.log('删除优惠券响应:', response.data)
         if (response.data.success) {
           this.$message.success('删除优惠券成功')
           this.deleteDialogVisible = false
@@ -455,7 +420,7 @@ export default {
           this.$message.error(response.data.message || '删除失败')
         }
       } catch (error) {
-        this.$message.error('删除优惠券失败：' + (error.response?.data?.message || error.message))
+        this.$message.error('删除优惠券失败：' + (error?.data?.message || error.message))
       }
     },
     handleCreate() {
@@ -585,6 +550,7 @@ export default {
   height: 4px;
   background: linear-gradient(to right, #1a90ff, transparent);
 }
+
 /* 标题悬停效果 */
 .header-title-group:hover .title-decoration {
   animation: shimmer 2s infinite;
@@ -632,6 +598,7 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
+
 .el-card {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.9) !important;
@@ -639,6 +606,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
 }
+
 /* 搜索表单样式 */
 .search-form {
   padding: 0px;

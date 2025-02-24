@@ -56,10 +56,10 @@
 import { ref } from 'vue'
 import { couponAPI } from '../api/coupon.js'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useUserStore } from '../store/userStore'
 
 const router = useRouter()
-const store = useStore()
+const userStore = useUserStore()
 
 const username = ref('')
 const password = ref('')
@@ -74,19 +74,12 @@ const handleLogin = async () => {
       username: username.value,
       password: password.value
     })
-
+    console.log('登录响应:', response.data)
     // 适配新的响应数据结构
-    if (response.code === "200" && response.data?.token) {
-      const token = response.data.token
-      
-      // 存储到localStorage
+    if (response.data.success) {
+      localStorage.setItem('token', response.data.data.token)
       localStorage.setItem('username', username.value)
-      localStorage.setItem('token', token)
-      
-      store.commit('setUser', {
-        user: { username: username.value },
-        token: token
-      })
+      userStore.updateLoginStatus()
       setTimeout(() => {
         router.push('/admin/coupon-template')
       })
@@ -94,14 +87,13 @@ const handleLogin = async () => {
       errorMessage.value = response.data?.message || '登录失败，请检查用户名和密码'
     }
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || 
-      error.message || 
-      '网络错误，请检查连接'
+    errorMessage.value = error?.data?.message || '网络错误，请检查连接'
     console.error('登录错误详情:', error)
   } finally {
     isLoading.value = false
   }
 }
+
 </script>
 
 <style scoped>
@@ -135,6 +127,7 @@ const handleLogin = async () => {
 .back-btn i {
   font-size: 0.9rem;
 }
+
 .container {
   position: relative;
   min-height: 100vh;
@@ -321,14 +314,32 @@ const handleLogin = async () => {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes blob {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 </style>

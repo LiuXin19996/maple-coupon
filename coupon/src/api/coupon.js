@@ -1,132 +1,144 @@
 import axios from 'axios'
-
+import { isNotEmpty } from '@/utils/plugins.js'
+const VITE_API_BASE_URL = '/api/auth'
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  withCredentials: true
+  baseURL: VITE_API_BASE_URL,
+  timeout: 2000,
 })
-
 // 请求拦截器
 apiClient.interceptors.request.use(config => {
+  console.log('请求:', config)
+  // 获取认证信息
   const token = localStorage.getItem('token')
   const username = localStorage.getItem('username')
-  if (token) {
-    config.headers['token'] = token
-  }
-  if (username) {
-    config.headers['username'] = username
-  }
+  config.headers.token = isNotEmpty(token) ? token : ''
+  config.headers.username = isNotEmpty(username) ? username : ''
+  config.headers.Authorization = `Bearer ${token}`
   return config
-}, error => Promise.reject(error))
-
+}, error => {
+  return Promise.reject(error)
+})
 // 响应拦截器
 apiClient.interceptors.response.use(
-  response => {
-    if (response.data && response.data.success) {
-      return response.data
+  (res) => {
+    if (res.data.success) {
+      // 请求成功对响应数据做处理，此处返回的数据是axios.then(res)中接收的数据
+      // code值为 0 或 200 时视为成功
+      return Promise.resolve(res)
     }
-    return Promise.reject(response.data || response)
+    return Promise.reject(res)
   },
-  async error => {
-    const originalRequest = error.config
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          if (!originalRequest._retry) {
-            originalRequest._retry = true
-            try {
-                localStorage.setItem('token', data.token)
-                originalRequest.headers.Authorization = `Bearer ${data.token}`
-                return apiClient(originalRequest)
-            } catch (refreshError) {
-              localStorage.removeItem('token')
-              localStorage.removeItem('username')
-              if (window.location.pathname !== '/login') {
-                window.$message.error('登录已过期，请重新登录')
-                window.location.href = '/login'
-              }
-              return Promise.reject(refreshError)
-            }
-          }
-          break
-        case 403:
-          error.message = '拒绝访问'
-          break
-        case 404:
-          error.message = '请求地址出错'
-          break
-        case 500:
-          error.message = '服务器内部错误'
-          break
-        default:
-          error.message = `连接错误${error.response.status}`
-      }
-    } else if (error.request) {
-      error.message = '服务器未响应'
-    } else {
-      error.message = '连接服务器失败'
+  (err) => {
+    // 在请求错误时要做的事儿
+    // 此处返回的数据是axios.catch(err)中接收的数据
+    console.log(err)
+    if (err.data.status === 401) {
+      // 清除本地存储
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      // 更新状态
+      this.userStore.updateLoginStatus();
+      router.push('/login')
     }
-    return Promise.reject(error)
+    return Promise.reject(err)
   }
 )
 
 export const couponAPI = {
-  login: (credentials) => apiClient.post('/api/auth/user/login', credentials),
-  register: (data) => apiClient.post('/api/auth/user/register', data),
-  getCouponTemplate: (couponTemplateId) => 
-    apiClient.get('/api/merchant-admin/coupon-template/find', {
-      params: { couponTemplateId }
-    }),
-  findCouponTemplate: (queryParams) =>
-    apiClient.get('/api/merchant-admin/coupon-template/find', {
-      params: queryParams
-    }),
+  // 登录
+  login: (credentials) => apiClient.post('user/login', credentials),
+  // 注册
+  register: (data) => apiClient.post('user/register', data),
+  // 用户查询优惠券
   findEngineCouponTemplate: (queryParams) =>
-    apiClient.get('/api/auth/engine/coupon-template/query', {
+    apiClient.get('engine/coupon-template/query', {
       params: queryParams
     }),
-  getCouponTemplateRemindList: () => 
-    apiClient.get('/api/engine/coupon-template-remind/list'),
+  // 用户查询优惠券兑换提醒
+  getCouponTemplateRemindList: () =>
+    apiClient.get('engine/coupon-template-remind/list'),
+  // 用户取消优惠券兑换提醒
   cancelCouponTemplateRemind: (data) =>
-    apiClient.post('/api/engine/coupon-template-remind/cancel', data),
+    apiClient.post('engine/coupon-template-remind/cancel', data),
+  // 增加发行量
   increaseNumberCouponTemplate: (data) => {
     if (!data?.couponTemplateId || !data?.number) {
       return Promise.reject(new Error('必要参数缺失'));
     }
-    return apiClient.post('/api/merchant-admin/coupon-template/increase-number', {
+    return apiClient.post('merchant-admin/coupon-template/increase-number', {
       couponTemplateId: data.couponTemplateId,
       number: Number(data.number)
     });
   },
+  // 用户创建提醒
   createCouponTemplateRemind: (data) => {
     if (!data?.couponTemplateId) {
       return Promise.reject(new Error('必要参数缺失'));
     }
-    return apiClient.post('/api/engine/coupon-template-remind/create', {
+    return apiClient.post('engine/coupon-template-remind/create', {
       couponTemplateId: data.couponTemplateId,
       shopNumber: data.shopNumber,
       type: data.type,
       remindTime: data.remindTime
     });
   },
+  // 用户兑换优惠券
   redeemCoupon: (data) => {
-    return apiClient.post('/api/engine/user-coupon/redeem', {
+    return apiClient.post('engine/user-coupon/redeem', {
       source: data.source,
       shopNumber: data.shopNumber,
       couponTemplateId: data.couponTemplateId
     });
   },
+  // 结算优惠券
   settlementCouponQuery: (data) => {
-    return apiClient.post('/api/auth/settlement/coupon-query', {
+    return apiClient.post('settlement/coupon-query', {
       orderAmount: data.orderAmount,
       shopNumber: data.shopNumber,
       goodsList: data.goodsList
     });
-  }
+  },
+  // 创建优惠券
+  createCouponTemplate: (data) => {
+    return apiClient.post('merchant-admin/coupon-template/create', data);
+  },
+  // 获取优惠券列表
+  getCouponTemplatePage: (params) =>
+    apiClient.get('merchant-admin/coupon-template/page', { params }),
+
+  // 终止优惠券
+  terminateCouponTemplate: (couponTemplateId) =>
+    apiClient.post('merchant-admin/coupon-template/terminate', { couponTemplateId }),
+
+  // 删除优惠券
+  deleteCouponTemplate: (couponTemplateId) =>
+    apiClient.delete('merchant-admin/coupon-template/delete', {
+      params: { couponTemplateId }
+    }),
+
+  // 获取优惠券详情
+  getCouponTemplateDetail: (couponTemplateId) =>
+    apiClient.get('merchant-admin/coupon-template/find', {
+      params: { couponTemplateId }
+    }),
+
+  // 获取用户信息
+  getUserInfo: (username) =>
+    apiClient.get(`actual/user/${username}`),
+
+  // 更新用户信息
+  updateUserInfo: (data) => {
+    const token = localStorage.getItem('token')
+    return apiClient.put('user', data, {
+      params: { token }
+    })
+  },
+
+  // 用户登出
+  logout: (username, token) =>
+     apiClient.delete(`user/logout`, {
+      params: { username, token }
+    })
 }
 
 export default apiClient

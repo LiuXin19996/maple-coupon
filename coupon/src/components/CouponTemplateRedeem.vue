@@ -167,13 +167,13 @@ const handleQuery = async () => {
       shopNumber,
       couponTemplateId
     })
-    templateData.value = response.data
+    templateData.value = response.data.data
   } catch (error) {
     console.error('查询失败:', error)
-    if (error.response?.status === 401) {
+    if (error?.data.status === 401) {
       ElMessage.error('登录已过期，请重新登录')
     } else {
-      ElMessage.error(error.message || '查询失败')
+      ElMessage.error(error.data.message || '查询失败')
     }
   } finally {
     loading.value = false
@@ -189,22 +189,16 @@ const handleRedeem = async () => {
       couponTemplateId: templateData.value.id
     })
 
-    console.log('兑换响应:', response)
+    console.log('兑换响应:', response.data)
 
-    if (!response) {
-      ElMessage.error('兑换失败：服务器未响应')
-      return
-    }
-
-    if (response.success) {
+    if (response.data.success) {
       ElMessage.success('兑换成功，请到个人中心查看')
     } else {
-      console.error('兑换失败:', response)
       ElMessage.error(response.data.message || '兑换失败')
     }
   } catch (error) {
     console.error('兑换失败:', error)
-    ElMessage.error(error)
+    ElMessage.error(error.data.message)
   } finally {
     loading.value = false
   }
@@ -220,14 +214,14 @@ const handleRemind = async () => {
       remindTime: remindForm.value.remindTime
     })
 
-    if (response.success) {
+    if (response.data.success) {
       ElMessage.success('设置成功')
     } else {
-      ElMessage.error(response.message || '设置失败')
+      ElMessage.error(response.data.message || '设置失败')
     }
   } catch (error) {
     console.error('设置提醒失败:', error)
-    ElMessage.error(error)
+    ElMessage.error(error.data.message)
   } finally {
     loading.value = false
   }

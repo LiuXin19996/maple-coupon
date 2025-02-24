@@ -159,6 +159,7 @@
 <script>
 import { ElDatePicker } from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { couponAPI } from '@/api/coupon'
 
 export default {
   components: {
@@ -237,32 +238,23 @@ export default {
     async submitForm() {
       try {
         await this.$refs.formRef.validate()
-
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
-
         // 准备提交数据
         const submitData = {
           ...this.form,
           validStartTime: this.form.validTimeRange[0],
           validEndTime: this.form.validTimeRange[1],
           receiveRule: JSON.stringify(this.form.receiveRule),
-          consumeRule: JSON.stringify(this.form.consumeRule)
+          consumeRule: JSON.stringify(this.form.consumeRule),
         }
-
-        const response = await this.$axios.post('/api/merchant-admin/coupon-template/create', submitData, {
-          headers: {
-            'token': token,
-            'username': username
-          }
-        })
-
+        const response = await couponAPI.createCouponTemplate(submitData)
+        console.log('创建优惠券模板响应:', response.data)
         if (response.data.success) {
           this.$message.success('创建成功')
           this.$router.push('/admin/coupon-template')
         }
       } catch (error) {
-        this.$message.error('创建失败：' + (error.response?.data?.message || error.message))
+        console.error('Error creating coupon template:', error)
+        this.$message.error(error?.data?.message || '创建失败')
       }
     },
     resetForm() {

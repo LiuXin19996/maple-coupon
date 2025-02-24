@@ -110,8 +110,9 @@ export default {
       this.loading = true
       try {
         const res = await couponAPI.getCouponTemplateRemindList()
-        if (res.code === '200') {
-          this.remindList = res.data || []
+        console.log('获取提醒列表响应:', res.data)
+        if (res.data.success) {
+          this.remindList = res.data.data || []
           // 展平数据，为每个提醒时间创建独立的行
           this.flattenedRemindList = this.remindList.reduce((acc, coupon) => {
             const remindTimes = Array.isArray(coupon.remindTime) ? coupon.remindTime : [coupon.remindTime]
@@ -125,7 +126,7 @@ export default {
             )
           }, [])
         } else {
-          this.$message.error(res.message || '获取数据失败')
+          this.$message.error(res.data.message || '获取数据失败')
         }
       } catch (error) {
         this.$message.error('请求失败')
@@ -178,7 +179,7 @@ export default {
         this.fetchData()
       } catch (error) {
         if (error !== 'cancel') {
-          this.$message.error(error.message || '取消失败')
+          this.$message.error(error.data.message || '取消失败')
           console.error(error)
         }
       }

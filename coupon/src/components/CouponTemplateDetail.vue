@@ -11,7 +11,7 @@
       <div class="page-header">
         <div class="back-button" @click="goBack">
           <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           返回列表
         </div>
@@ -67,21 +67,13 @@
 
         <!-- 操作按钮区 -->
         <div class="actions-section">
-          <el-button 
-            v-if="detailData.status === 0"
-            type="danger"
-            class="action-button terminate-button"
-            @click="openTerminateDialog"
-          >
+          <el-button v-if="detailData.status === 0" type="danger" class="action-button terminate-button"
+            @click="openTerminateDialog">
             <i class="el-icon-close"></i>
             终止优惠券
           </el-button>
-          <el-button 
-            type="success"
-            class="action-button increase-button"
-            :disabled="detailData.status !== 0"
-            @click="openIncreaseDialog"
-          >
+          <el-button type="success" class="action-button increase-button" :disabled="detailData.status !== 0"
+            @click="openIncreaseDialog">
             <i class="el-icon-plus"></i>
             增加发行量
           </el-button>
@@ -90,11 +82,7 @@
     </div>
 
     <!-- 弹窗部分 -->
-    <el-dialog
-      title="终止优惠券"
-      v-model="terminateDialogVisible"
-      width="30%"
-    >
+    <el-dialog title="终止优惠券" v-model="terminateDialogVisible" width="30%">
       <span>确定要终止该优惠券吗？此操作不可撤销。</span>
       <template #footer>
         <span class="dialog-footer">
@@ -105,24 +93,10 @@
     </el-dialog>
 
     <!-- 增加发行量弹窗 -->
-    <el-dialog
-      title="增加发行量"
-      v-model="increaseDialogVisible"
-      width="30%"
-    >
-      <el-form
-        :model="increaseForm"
-        label-width="120px"
-        :rules="increaseRules"
-        ref="increaseFormRef"
-      >
+    <el-dialog title="增加发行量" v-model="increaseDialogVisible" width="30%">
+      <el-form :model="increaseForm" label-width="120px" :rules="increaseRules" ref="increaseFormRef">
         <el-form-item label="增加数量" prop="number">
-          <el-input-number
-            v-model="increaseForm.number"
-            :min="1"
-            :max="10000"
-            controls-position="right"
-          />
+          <el-input-number v-model="increaseForm.number" :min="1" :max="10000" controls-position="right" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -186,16 +160,7 @@ export default {
       }
 
       try {
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
-        const response = await this.$axios.get('/api/merchant-admin/coupon-template/find', {
-          params: { couponTemplateId: couponTemplateId },
-          headers: {
-            'token': token,
-            'username': username
-          }
-        })
-
+        const response = await this.$api.getCouponTemplateDetail(couponTemplateId)
         if (response.data.success) {
           this.detailData = response.data.data
         } else {
@@ -203,7 +168,7 @@ export default {
           this.goBack()
         }
       } catch (error) {
-        this.$message.error('获取详情失败：' + (error.response?.data?.message || error.message))
+        this.$message.error('获取详情失败：' + (error?.data?.message || error.message))
         this.goBack()
       }
     },
@@ -223,26 +188,16 @@ export default {
         return rule
       }
     },
-    
+
     // 打开终止弹窗
     openTerminateDialog() {
       this.terminateDialogVisible = true
     },
-    
+
     // 终止优惠券
     async terminateCoupon() {
       try {
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
-        const response = await this.$axios.post('/api/merchant-admin/coupon-template/terminate', {
-          couponTemplateId: this.detailData.id
-        }, {
-          headers: {
-            'token': token,
-            'username': username
-          }
-        })
-
+        const response = await this.$api.terminateCouponTemplate(this.detailData.id)
         if (response.data.success) {
           this.$message.success('终止优惠券成功')
           this.terminateDialogVisible = false
@@ -251,42 +206,34 @@ export default {
           this.$message.error(response.data.message || '终止失败')
         }
       } catch (error) {
-        this.$message.error('终止优惠券失败：' + (error.response?.data?.message || error.message))
+        this.$message.error('终止优惠券失败：' + (error?.data?.message || error.message))
       }
     },
-    
+
     // 打开增加发行量弹窗
     openIncreaseDialog() {
       this.increaseForm.couponTemplateId = this.detailData.id
       this.increaseDialogVisible = true
     },
-    
+
     // 增加发行量
     async increaseNumber() {
       try {
         await this.$refs.increaseFormRef.validate()
-        
-        const token = localStorage.getItem('token')
-        const username = localStorage.getItem('username')
         const response = await this.$api.increaseNumberCouponTemplate({
           couponTemplateId: this.increaseForm.couponTemplateId,
           number: this.increaseForm.number
-        }, {
-          headers: {
-            'token': token,
-            'username': username
-          }
         })
-        
-        if (response.success) {
+
+        if (response.data.success) {
           this.$message.success('增加发行量成功')
           this.increaseDialogVisible = false
           this.fetchDetail() // 刷新详情数据
         } else {
-          this.$message.error(response.message || '增加发行量失败')
+          this.$message.error(response.data.message || '增加发行量失败')
         }
       } catch (error) {
-        this.$message.error('增加发行量失败：' + (error.response?.data?.message || error.message))
+        this.$message.error('增加发行量失败：' + (error?.data?.message || error.message))
       }
     }
   },
@@ -500,29 +447,40 @@ export default {
 }
 
 @keyframes blob {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @media (max-width: 768px) {
   .container {
     padding: 16px;
   }
-  
+
   .detail-card {
     padding: 20px;
   }
-  
+
   .rules-section {
     grid-template-columns: 1fr;
   }
-  
+
   .actions-section {
     flex-direction: column;
   }
-  
+
   .action-button {
     width: 100%;
   }
