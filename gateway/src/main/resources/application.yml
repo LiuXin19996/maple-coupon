@@ -3,11 +3,8 @@ server:
 spring:
   application:
     name: MapleCoupon-gateway
-  data:
-    redis:
-      host: 122.51.165.51
-      port: 6379
-      password: xWfhdsajklfh@@991
+  profiles:
+    active: prod
   cloud:
     nacos:
       discovery:
@@ -20,8 +17,6 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
             allowCredentials: true
-        # 解决options请求被拦截的问题
-        add-to-simple-url-handler-mapping: true
       routes:
         - id: MapleCoupon-merchant-admin
           uri: lb://MapleCoupon-merchant-admin/api/merchant-admin/**
@@ -69,6 +64,7 @@ spring:
                   - /api/auth/user/register
                   - /api/auth/user/has-username
                   - /api/auth/user/login
+
 management:
   endpoints:
     web:

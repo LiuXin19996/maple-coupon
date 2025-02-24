@@ -1,0 +1,14 @@
+spring:
+  data:
+    redis:
+      host: 122.51.165.51
+      port: 6379
+      password: xWfhdsajklfh@@991
+      database: 2
+rocketmq:
+  name-server: 122.51.165.51:9876
+  producer:
+    group: prod_mapleCoupon_engine-message-execute-producer
+    send-message-timeout: 2000 # 发送超时时间
+    retry-times-when-send-failed: 1 # 同步发送重试次数
+    retry-times-when-send-async-failed: 1 # 异步发送重试次数

@@ -5,37 +5,18 @@ spring:
     name: MapleCoupon-auth
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
-  data:
-    redis:
-      host: 122.51.165.51
-      port: 6379
-      password: xWfhdsajklfh@@991
+    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:prod}.yaml
   cloud:
     nacos:
       discovery:
         server-addr: 122.51.165.51:8848
+  profiles:
+    active: prod
 
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-springdoc:
-  default-flat-param-object: true
-  swagger-ui:
-    path: /swagger-ui.html
-    tags-sorter: alpha
-    operations-sorter: alpha
-  api-docs:
-    path: /v3/api-docs
-  group-configs:
-    - group: 'default'
-      paths-to-match: '/**'
-      packages-to-scan: com.fengxin
-knife4j:
-  enable: true
-  setting:
-    language: zh_cn
 one-coupon:
   db-config:
     db-count: 2

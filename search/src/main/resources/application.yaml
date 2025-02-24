@@ -1,9 +1,0 @@
-server:
-  port: 10050
-spring:
-  application:
-    name: MapleCoupon-search
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 122.51.165.51:8848

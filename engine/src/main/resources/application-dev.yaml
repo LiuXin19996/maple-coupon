@@ -1,0 +1,33 @@
+spring:
+  data:
+    redis:
+      host: 122.51.165.51
+      port: 6379
+      password: xWfhdsajklfh@@991
+      database: 1
+
+rocketmq:
+  name-server: 122.51.165.51:9876
+  producer:
+    group: dev_mapleCoupon_engine-message-execute-producer
+    send-message-timeout: 2000 # 发送超时时间
+    retry-times-when-send-failed: 1 # 同步发送重试次数
+    retry-times-when-send-async-failed: 1 # 异步发送重试次数
+
+springdoc:
+  default-flat-param-object: true
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.fengxin
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
