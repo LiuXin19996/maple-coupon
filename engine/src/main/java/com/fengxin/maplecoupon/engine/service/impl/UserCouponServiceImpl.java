@@ -321,7 +321,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                 .eq (CouponTemplateRemindDO::getCouponTemplateId,requestParam.getCouponTemplateId ());
         CouponTemplateRemindDO couponTemplateRemindDO = couponTemplateRemindDOMapper.selectOne (couponTemplateRemindLambdaQueryWrapper);
         if (ObjectUtil.isNull (couponTemplateRemindDO)){
-            throw new ClientException ("优惠券模板预约不存在");
+            throw new ClientException ("没有此预约信息");
         }
         Long information = couponTemplateRemindDO.getInformation ();
         // 计算bitmap

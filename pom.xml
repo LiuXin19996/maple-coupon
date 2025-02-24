@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fengxin</groupId>
     <artifactId>maple-coupon</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>feng-coupon</name>
-    <description>枫券</description>
+    <description>MapleCoupon</description>
     <developers>
         <developer>
             <name>冯鑫</name>
             <email>fx20031215@163.com</email>
-            <url>https://github.com/FENGXIN-FENG003</url>
+            <url>https://github.com/mapleplus</url>
         </developer>
     </developers>
     <modules>
@@ -20,7 +20,7 @@
         <!-- 基础架构模块：仅包含公共内容，不涉及SpringBean定义 -->
         <module>framework</module>
         <!-- 搜索模块：提供用户优惠券搜索功能 -->
-        <module>search</module>
+<!--        <module>search</module>-->
         <!-- 结算模块：负责用户下单时订单金额计算功能 -->
         <module>settlement</module>
         <!-- 后管模块：创建优惠券、店家查看以及管理优惠券、创建优惠券发放批次 -->
@@ -179,8 +179,6 @@
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
             </dependency>
-
-
         </dependencies>
     </dependencyManagement>
 
