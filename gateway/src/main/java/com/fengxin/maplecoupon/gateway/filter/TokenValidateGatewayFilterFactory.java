@@ -1,9 +1,9 @@
-package com.fengxin.filter;
+package com.fengxin.maplecoupon.gateway.filter;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.fengxin.common.GatewayErrorResult;
-import com.fengxin.config.Config;
+import com.fengxin.maplecoupon.gateway.common.GatewayErrorResult;
+import com.fengxin.maplecoupon.gateway.config.Config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static com.fengxin.common.RedisConstantEnum.USER_LOGIN_KEY;
+import static com.fengxin.maplecoupon.gateway.common.RedisConstantEnum.USER_LOGIN_KEY;
 
 /**
  * SpringCloud Gateway Token 拦截器

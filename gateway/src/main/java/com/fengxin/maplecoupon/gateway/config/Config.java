@@ -1,4 +1,4 @@
-package com.fengxin.config;
+package com.fengxin.maplecoupon.gateway.config;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.fengxin.common;
+package com.fengxin.maplecoupon.gateway.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
