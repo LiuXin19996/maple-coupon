@@ -89,7 +89,7 @@ export default {
   },
   data() {
     return {
-      userAvatar: '../../public/avatar.jpg',  // 修改为相对路径
+      userAvatar: '/avatar.png', 
       username: localStorage.getItem('username') || '淘风'
     }
   },
