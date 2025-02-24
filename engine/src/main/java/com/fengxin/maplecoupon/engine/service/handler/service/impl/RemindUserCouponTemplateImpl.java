@@ -2,7 +2,11 @@ package com.fengxin.maplecoupon.engine.service.handler.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fengxin.exception.ClientException;
 import com.fengxin.maplecoupon.engine.common.enums.CouponRemindTypeEnum;
+import com.fengxin.maplecoupon.engine.dao.entity.CouponTemplateRemindDO;
+import com.fengxin.maplecoupon.engine.dao.mapper.CouponTemplateRemindMapper;
 import com.fengxin.maplecoupon.engine.mq.design.UserCouponRemindEvent;
 import com.fengxin.maplecoupon.engine.mq.producer.UserCouponRemindProducer;
 import com.fengxin.maplecoupon.engine.service.UserCouponService;
@@ -38,6 +42,7 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
     private final SendAppMessageRemindCouponTemplate sendAppMessageRemindCouponTemplate;
     private final SendSMSMessageRemindCouponTemplate sendSMSMessageRemindCouponTemplate;
     private final UserCouponService userCouponService;
+    private final CouponTemplateRemindMapper couponTemplateRemindDOMapper;
     // 线程池并行处理 提高效率
     private final ExecutorService executorService = new ThreadPoolExecutor(
             Runtime.getRuntime ().availableProcessors () << 1 ,
@@ -74,6 +79,18 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
             }
             // 消费完后删除提醒key
             stringRedisTemplate.delete (key);
+            String remindJson = stringRedisTemplate.opsForValue ().get (key);
+            if (Objects.isNull (remindJson)){
+                LambdaQueryWrapper<CouponTemplateRemindDO> couponTemplateRemindLambdaQueryWrapper = new LambdaQueryWrapper<CouponTemplateRemindDO> ()
+                        .eq (CouponTemplateRemindDO::getShopNumber, couponTemplateRemindDTO.getShopNumber ())
+                        .eq (CouponTemplateRemindDO::getCouponTemplateId, couponTemplateRemindDTO.getCouponTemplateId ())
+                        .eq (CouponTemplateRemindDO::getUserId, couponTemplateRemindDTO.getUserId ());
+                // 已经取消了全部提醒 删除提醒模板
+                if (couponTemplateRemindDOMapper.delete (couponTemplateRemindLambdaQueryWrapper) == 0){
+                    throw new ClientException ("取消预约提醒失败，请重试");
+                    // TODO 延时重试
+                }
+            }
         });
     }
     
