@@ -11,34 +11,24 @@
       <div class="card">
         <div class="header">
           <div class="logo-wrapper">
-            <img src="/logo.png" alt="MapleCoupon Logo" class="logo"/>
+            <img src="/logo.png" alt="MapleCoupon Logo" class="logo" />
             <div class="logo-glow"></div>
           </div>
           <h1 class="title">个人信息</h1>
           <p class="subtitle">管理您的账户信息</p>
         </div>
 
-        <el-form 
-          :model="userForm" 
-          label-position="top"
-          :rules="rules"
-          ref="userForm"
-          class="form-wrapper"
-        >
+        <el-form :model="userForm" label-position="top" :rules="rules" ref="userForm" class="form-wrapper">
           <div class="form-grid">
             <el-form-item label="用户名" prop="username">
               <div class="input-wrapper">
                 <div class="input-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clip-rule="evenodd" />
                   </svg>
                 </div>
-                <el-input 
-                  v-model="userForm.username" 
-                  disabled 
-                  class="custom-input"
-                  placeholder="用户名"
-                />
+                <el-input v-model="userForm.username" disabled class="custom-input" placeholder="用户名" />
               </div>
             </el-form-item>
 
@@ -46,14 +36,12 @@
               <div class="input-wrapper">
                 <div class="input-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 1a1 1 0 011 1v1.323l3.954 1.582 1.599.8a1 1 0 01.547.892v6.834a1 1 0 01-.547.892l-1.599.8L11 16.323V18a1 1 0 11-2 0v-1.677l-3.954-1.582-1.599-.8A1 1 0 013 13.235V6.4a1 1 0 01.547-.892l1.599-.8L9 3.323V2a1 1 0 011-1zM5 7.62v4.76l3.954 1.582 1.599.8a1 1 0 00.894 0l1.599-.8L17 12.38V7.62l-3.954-1.582-1.599-.8a1 1 0 00-.894 0l-1.599.8L5 7.62z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd"
+                      d="M10 1a1 1 0 011 1v1.323l3.954 1.582 1.599.8a1 1 0 01.547.892v6.834a1 1 0 01-.547.892l-1.599.8L11 16.323V18a1 1 0 11-2 0v-1.677l-3.954-1.582-1.599-.8A1 1 0 013 13.235V6.4a1 1 0 01.547-.892l1.599-.8L9 3.323V2a1 1 0 011-1zM5 7.62v4.76l3.954 1.582 1.599.8a1 1 0 00.894 0l1.599-.8L17 12.38V7.62l-3.954-1.582-1.599-.8a1 1 0 00-.894 0l-1.599.8L5 7.62z"
+                      clip-rule="evenodd" />
                   </svg>
                 </div>
-                <el-input 
-                  v-model="userForm.shopName" 
-                  class="custom-input"
-                  placeholder="请输入店铺名称"
-                />
+                <el-input v-model="userForm.shopName" class="custom-input" placeholder="请输入店铺名称" />
               </div>
             </el-form-item>
 
@@ -61,14 +49,11 @@
               <div class="input-wrapper">
                 <div class="input-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                    <path
+                      d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                 </div>
-                <el-input 
-                  v-model="userForm.realName" 
-                  class="custom-input"
-                  placeholder="请输入真实姓名"
-                />
+                <el-input v-model="userForm.realName" class="custom-input" placeholder="请输入真实姓名" />
               </div>
             </el-form-item>
 
@@ -76,14 +61,11 @@
               <div class="input-wrapper">
                 <div class="input-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                    <path
+                      d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
                 </div>
-                <el-input 
-                  v-model="userForm.phone" 
-                  class="custom-input"
-                  placeholder="请输入电话号码"
-                />
+                <el-input v-model="userForm.phone" class="custom-input" placeholder="请输入电话号码" />
               </div>
             </el-form-item>
 
@@ -91,36 +73,23 @@
               <div class="input-wrapper">
                 <div class="input-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
                 </div>
-                <el-input 
-                  v-model="userForm.mail" 
-                  class="custom-input"
-                  placeholder="请输入邮箱地址"
-                />
+                <el-input v-model="userForm.mail" class="custom-input" placeholder="请输入邮箱地址" />
               </div>
             </el-form-item>
           </div>
 
           <div class="button-group">
-            <el-button 
-              type="primary" 
-              @click="updateProfile"
-              :loading="loading"
-              class="update-btn"
-            >
+            <el-button type="primary" @click="updateProfile" :loading="loading" class="update-btn">
               <span class="button-content">
                 <i class="el-icon-check"></i>
                 更新信息
               </span>
             </el-button>
-            <el-button 
-              type="danger" 
-              @click="logout"
-              class="logout-btn"
-            >
+            <el-button type="danger" @click="logout" class="logout-btn">
               <span class="button-content">
                 <i class="el-icon-switch-button"></i>
                 退出登录
@@ -134,6 +103,9 @@
 </template>
 
 <script>
+import { useUserStore } from '../store/userStore'
+import { couponAPI } from '../api/coupon'  // 添加这行
+
 export default {
   data() {
     return {
@@ -143,7 +115,7 @@ export default {
         shopName: '',
         realName: '',
         phone: '',
-          mail: ''
+        mail: ''
       },
       rules: {
         shopName: [
@@ -155,11 +127,20 @@ export default {
         phone: [
           { required: true, message: '请输入电话号码', trigger: 'blur' }
         ],
-          mail: [
-            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-            { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
-          ]
+        mail: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
+        ]
       }
+    }
+  },
+  setup() {
+    const userStore = useUserStore()
+    const api = couponAPI
+
+    return {
+      userStore,
+      api
     }
   },
   async created() {
@@ -169,65 +150,56 @@ export default {
     async fetchUserInfo() {
       try {
         const username = localStorage.getItem('username');
-        const token = localStorage.getItem('token');
-        
-        const response = await this.$axios.get(`/api/auth/actual/user/${username}`, {
-          headers: { 
-            username: username,
-            token: token
-          }
-        });
-        
-        this.userForm = {
-          ...response.data.data,
-          username
-        };
+
+        const response = await this.api.getUserInfo(username);
+
+        if (response.data.success) {
+          this.userForm = {
+            ...response.data.data,
+            username
+          };
+        } else {
+          throw new Error('获取用户信息失败');
+        }
       } catch (error) {
-        this.$message.error('获取用户信息失败');
+        console.error('获取用户信息失败:', error);
+        this.$message.error(error?.data?.message || '获取用户信息失败');
       }
     },
+
     async updateProfile() {
-      const username = localStorage.getItem('username');
-      const token = localStorage.getItem('token');
       try {
         this.loading = true;
-        
-        const response = await this.$axios.put(`/api/auth/user?token=${token}`, this.userForm, {
-          headers: { 
-            username: username,
-            token: token
-          }
-        });
-        if ( response.data.success ){
+        const response = await this.api.updateUserInfo(this.userForm);
+        if (response.data.success) {
           this.$message.success('用户信息更新成功');
         } else {
           this.$message.error(response.data.message || '更新失败');
         }
-        
       } catch (error) {
-        this.$message.error(error.response?.data?.message || '更新失败');
+        this.$message.error(error?.data?.message || '更新失败');
       } finally {
         this.loading = false;
       }
     },
+
     async logout() {
       try {
         const username = localStorage.getItem('username');
         const token = localStorage.getItem('token');
-        
-        await this.$axios.delete(`/api/auth/user/logout?username=${username}&token=${token}`, {
-          headers: { 
-            username: username,
-            token: token
-          }
-        });
-        
+        await this.api.logout(username, token);
+
+        // 清除本地存储
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+
+        // 更新状态
+        this.userStore.updateLoginStatus();
+
         this.$router.push('/');
         this.$message.success('退出登录成功');
       } catch (error) {
-        this.$message.error(error.response?.data?.message || '退出登录失败');
+        this.$message.error(error?.data?.message || '退出登录失败');
       }
     }
   }
@@ -384,7 +356,8 @@ export default {
   justify-content: center;
 }
 
-.update-btn, .logout-btn {
+.update-btn,
+.logout-btn {
   padding: 12px 32px;
   border-radius: 12px;
   font-size: 1rem;
@@ -420,15 +393,33 @@ export default {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes blob {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 .input-wrapper {
