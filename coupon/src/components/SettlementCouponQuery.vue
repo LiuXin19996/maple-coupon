@@ -183,6 +183,7 @@
 import { ref, reactive } from 'vue'
 import { couponAPI } from '@/api/coupon'
 import { Search, Wallet } from '@element-plus/icons-vue'
+// import { th } from 'element-plus/es/locale';
 
 const queryForm = reactive({
   orderAmount: 0,
@@ -239,12 +240,18 @@ const removeGoods = (index) => {
 const handleQuery = async () => {
   try {
     const res = await couponAPI.settlementCouponQuery(queryForm)
-    availableCoupons.value = res.data.availableCouponList
-    unavailableCoupons.value = res.data.notAvailableCouponList
+    availableCoupons.value = res.data.data.availableCouponList
+    unavailableCoupons.value = res.data.data.notAvailableCouponList
     // 如果查询后要切回可用优惠券页签，可以手动设置
     activeTab.value = 'available'
+    if (res.data.success) {
+      this.$message.success('查询成功')
+    } else {
+      this.$message.error(res.data.message || '查询失败')
+    }
   } catch (error) {
     console.error(error)
+    this.$message.error(error?.data?.message || '查询失败')
   }
 }
 

@@ -64,63 +64,55 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import { couponAPI } from '../api/coupon'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../store/userStore'
 
-export default {
-  data() {
-    return {
-      formData: {
-        username: '',
-        password: '',
-        shopName: '',
-        realName: '',
-        phone: '',
-        mail: ''
-      },
-      isLoading: false,
-      errorMessage: ''
+const router = useRouter()
+const userStore = useUserStore()
+const formData = ref({
+  username: '',
+  password: '',
+  shopName: '',
+  realName: '',
+  phone: '',
+  mail: ''
+})
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+const handleRegister = async () => {
+  isLoading.value = true
+  errorMessage.value = ''
+  try {
+    const response = await couponAPI.register(formData.value)
+    console.log('注册响应:', response)
+    // 检查注册是否成功
+    if (!response.data.success) {
+      errorMessage.value = response.data.message || '注册失败'
+      return
     }
-  },
-  methods: {
-    async handleRegister() {
-      this.isLoading = true
-      this.errorMessage = ''
-      try {
-        const { data: registerRes } = await couponAPI.register(this.formData)
-        if (!registerRes.success) {
-          this.errorMessage = registerRes.message || '注册失败'
-          return
-        }
+    // 注册成功后进行登录
+    const loginRes = await couponAPI.login({
+      username: formData.value.username,
+      password: formData.value.password
+    })
 
-        // 自动登录
-        // 使用统一的API模块进行登录
-        const { data: loginRes } = await couponAPI.login({
-          username: this.formData.username,
-          password: this.formData.password
-        })
-
-        if (loginRes.success) {
-          localStorage.setItem('token', loginRes.data.token)
-          localStorage.setItem('username', this.formData.username)
-          // 更新Vuex状态
-          this.$store.commit('setUser', loginRes.data)
-          // 路由跳转增加catch处理
-          this.$router.push({ name: 'Home' }).catch(() => {})
-          this.$notify({
-            type: 'success',
-            title: '注册成功',
-            message: `欢迎 ${this.formData.username}`
-          })
-        } else {
-          this.errorMessage = loginRes.message || '自动登录失败，请手动登录'
-        }
-      } catch (error) {
-        this.errorMessage = error.response?.data?.message || '请求失败，请检查网络'
-      } finally {
-        this.isLoading = false
-      }
+    if (loginRes.data.success) {
+      localStorage.setItem('token', res.data.data.token)
+      localStorage.setItem('username', formData.value.username)
+      userStore.updateLoginStatus()
+      router.push('/')
+    } else {
+      errorMessage.value = loginRes.data.message || '自动登录失败，请手动登录'
     }
+  } catch (error) {
+    console.error('Registration error:', error)
+    errorMessage.value = error.data.message || '注册失败'
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -156,6 +148,7 @@ export default {
 .back-btn i {
   font-size: 0.9rem;
 }
+
 .container {
   position: relative;
   min-height: 100vh;
@@ -353,21 +346,39 @@ export default {
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .card {
     padding: 24px;
   }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes blob {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 </style>
