@@ -80,12 +80,12 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
             // 消费完后删除提醒key
             stringRedisTemplate.delete (key);
             String remindJson = stringRedisTemplate.opsForValue ().get (key);
+            // 已经取消了全部提醒 删除提醒模板
             if (Objects.isNull (remindJson)){
                 LambdaQueryWrapper<CouponTemplateRemindDO> couponTemplateRemindLambdaQueryWrapper = new LambdaQueryWrapper<CouponTemplateRemindDO> ()
                         .eq (CouponTemplateRemindDO::getShopNumber, couponTemplateRemindDTO.getShopNumber ())
                         .eq (CouponTemplateRemindDO::getCouponTemplateId, couponTemplateRemindDTO.getCouponTemplateId ())
                         .eq (CouponTemplateRemindDO::getUserId, couponTemplateRemindDTO.getUserId ());
-                // 已经取消了全部提醒 删除提醒模板
                 if (couponTemplateRemindDOMapper.delete (couponTemplateRemindLambdaQueryWrapper) == 0){
                     throw new ClientException ("取消预约提醒失败，请重试");
                     // TODO 延时重试
@@ -119,7 +119,6 @@ public class RemindUserCouponTemplateImpl implements RemindUserCouponTemplate {
                         // key存在 说明消费失败 重新投递消息消费
                         if (stringRedisTemplate.hasKey (key)){
                             log.info("检查用户发送的通知消息Key：{} 未消费完成，开启重新投递", key);
-                            
                             // Redis 中还存在该 Key，说明任务没被消费完，则可能是消费机器宕机了，重新投递消息
                             UserCouponRemindEvent userCouponRemindEvent = JSONUtil.toBean (stringRedisTemplate.opsForValue ().get (key) , UserCouponRemindEvent.class);
                             userCouponRemindProducer.sendMessage(userCouponRemindEvent);
