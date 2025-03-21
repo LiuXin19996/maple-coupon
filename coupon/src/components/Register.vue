@@ -101,7 +101,7 @@ const handleRegister = async () => {
     })
 
     if (loginRes.data.success) {
-      localStorage.setItem('token', res.data.data.token)
+      localStorage.setItem('token', loginRes.data.data.token)
       localStorage.setItem('username', formData.value.username)
       userStore.updateLoginStatus()
       router.push('/')
