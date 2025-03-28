@@ -27,10 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static com.fengxin.maplecoupon.merchantadmin.common.constant.RocketMQConstant.COUPON_TASK_SEND_NUM_FLUSH_EXCEL_DELAY_QUEUE;
 
@@ -53,8 +50,17 @@ public class CouponTaskServiceImpl extends ServiceImpl<CouponTaskMapper, CouponT
             Runtime.getRuntime ().availableProcessors () << 1,
             60,
             TimeUnit.SECONDS,
-            new SynchronousQueue<> (),
-            new ThreadPoolExecutor.DiscardPolicy ()
+            new ArrayBlockingQueue<> (200),
+            new ThreadPoolExecutor.AbortPolicy() {
+                @Override
+                public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                    // 1. 记录日志（任务ID、时间戳等）
+                    log.error("线程池任务被拒绝，将延后20秒重新执行");
+                    
+                    // 2. 触发告警（邮件、短信、钉钉等）
+                    // sendAlert("CouponTask线程池满载，任务被拒绝，将延后20秒重新执行");
+                }
+            }
     );
     
     /**

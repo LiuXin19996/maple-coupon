@@ -72,13 +72,13 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
     private final CouponTaskMapper couponTaskMapper;
     
     private static final String BATCH_SAVE_USER_COUPON_LUA_PATH = "lua/batch_save_user_coupon.lua";
-    private static final Integer BATCH_SAVE_USER_COUPON_SIZE = 5000;
+    private static final Integer BATCH_SAVE_USER_COUPON_SIZE = 100000;
     private final String excelPath = Paths.get("").toAbsolutePath() + "/tmp";
     @Override
     public void onMessage (MessageWrapper<CouponTemplateDistributionEvent> message) {
         log.info ("[消费者] 分发优惠券执行 消息体:{}",message.getMessage ());
         CouponTemplateDistributionEvent couponTemplateDistributionEvent = message.getMessage ();
-        // 1. 如果消息体没有结束 且满足5000的整数倍
+        // 1. 如果消息体没有结束 且满足100000的整数倍
         if (BooleanUtil.isFalse (couponTemplateDistributionEvent.getDistributionEndFlag ())) {
             try {
                 decrementCouponTemplateStockAndSaveUserCouponList(couponTemplateDistributionEvent);

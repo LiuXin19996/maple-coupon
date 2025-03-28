@@ -12,6 +12,7 @@ import com.fengxin.maplecoupon.distribution.dao.mapper.CouponTaskFailMapper;
 import com.fengxin.maplecoupon.distribution.mq.design.CouponTemplateDistributionEvent;
 import com.fengxin.maplecoupon.distribution.mq.producer.CouponExecuteDistributionProducer;
 import com.fengxin.maplecoupon.distribution.util.StockDecrementReturnCombinedUtil;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -41,19 +42,24 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
     private final CouponExecuteDistributionProducer couponExecuteDistributionProducer;
     
     private int rowCount = 1;
+    private int lastSavedRowCount = 0;
+    private static final int BATCH_SAVE_PROGRESS_SIZE = 100000;
     private final static String STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH = "lua/stock_decrement_and_batch_save_user_record.lua";
-    private final static int BATCH_USER_COUPON_SIZE = 5000;
+    private final static int BATCH_USER_COUPON_SIZE = 100000;
+    
+    @PostConstruct
+    public void init() {
+        // 初始化时读取Redis进度
+        String progressKey = String.format(TEMPLATE_TASK_EXECUTE_PROGRESS_KEY, couponTaskDO.getId());
+        String progress = stringRedisTemplate.opsForValue().get(progressKey);
+        lastSavedRowCount = StrUtil.isNotBlank(progress) ? Integer.parseInt(progress) : 0;
+        // 设置EasyExcel从lastSavedRowCount + 1行开始读取 跳过已经执行过的行数
+        rowCount = lastSavedRowCount + 1;
+    }
     
     @Override
     public void invoke (CouponTaskExcelObject couponTaskExcelObject , AnalysisContext analysisContext) {
         Long couponTaskId = couponTaskDO.getId ();
-        // 获取进度 如果已经执行过就跳过
-        String progressKey = String.format (TEMPLATE_TASK_EXECUTE_PROGRESS_KEY , couponTaskId);
-        String progress = stringRedisTemplate.opsForValue ().get (progressKey);
-        if (StrUtil.isNotBlank (progress) && Integer.parseInt(progress) >= rowCount) {
-            ++rowCount;
-            return;
-        }
         // 获取lua脚本 将脚本保存到Hutool单例容器 减少获取脚本耗时
         DefaultRedisScript<Long> luaScript = Singleton.get (STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH , () -> {
             DefaultRedisScript<Long> redisScript = new DefaultRedisScript<> ();
@@ -62,7 +68,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
             return redisScript;
         });
         // 执行 LUA 脚本进行扣减库存以及增加 Redis 用户领券记录
-        String couponTemplateIdKey = String.format ("maple-plus:" + COUPON_TEMPLATE_KEY , couponTemplateDO.getId ());
+        String couponTemplateIdKey = String.format (COUPON_TEMPLATE_KEY , couponTemplateDO.getId ());
         String userSetKey = String.format (TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY , couponTaskId);
         Map<Object, Object> userRowNumMap = MapUtil.builder ()
                 .put ("userId" , couponTaskExcelObject.getUserId ())
@@ -72,8 +78,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
         // firstField 为 false 说明优惠券已经没有库存了
         if (!StockDecrementReturnCombinedUtil.extractFirstField (executeResult)){
             // 保存进度到缓存
-            stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
-            ++rowCount;
+            saveProgressWithBatch(rowCount);
             // 保存失败原因到数据库
             Map<Object, Object> failMap = MapUtil.builder ()
                     .put ("rowNum" , rowCount)
@@ -89,8 +94,7 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
         // 获取执行后的用户set行数 未达到分发数量则保存进度到缓存 继续下一条记录执行
         int batchSize = StockDecrementReturnCombinedUtil.extractSecondField ((executeResult.intValue ()));
         if (batchSize % BATCH_USER_COUPON_SIZE != 0){
-            stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
-            ++rowCount;
+            saveProgressWithBatch(rowCount);
             return;
         }
         // 分发
@@ -110,13 +114,16 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
                 .build ();
         couponExecuteDistributionProducer.sendMessage (couponTemplateDistributionEvent);
         // 保存进度
-        stringRedisTemplate.opsForValue ().set (progressKey, String.valueOf (rowCount));
-        ++rowCount;
+        saveProgressWithBatch(rowCount);
     }
     
     @Override
     public void doAfterAllAnalysed (AnalysisContext analysisContext) {
-        //  Excel 读取到最后可能没满足 5000 批量也需要发送消息队列
+        // 处理结束时强制保存进度
+        if (rowCount - 1 > lastSavedRowCount) {
+            saveProgressImmediately(rowCount - 1);
+        }
+        //  Excel 读取到最后可能没满足 100000 批量也需要发送消息队列
         CouponTemplateDistributionEvent couponTemplateDistributionEvent = CouponTemplateDistributionEvent.builder ()
                 .couponTemplateId (couponTemplateDO.getId ())
                 .shopNumber (couponTaskDO.getShopNumber ())
@@ -128,5 +135,27 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
                 .distributionEndFlag (Boolean.TRUE)
                 .build ();
         couponExecuteDistributionProducer.sendMessage (couponTemplateDistributionEvent);
+    }
+    
+    /**
+     * 保存进度到本地缓存和Redis
+     * @param currentRow 当前进度
+     */
+    private void saveProgressImmediately(int currentRow) {
+        String progressKey = String.format(TEMPLATE_TASK_EXECUTE_PROGRESS_KEY, couponTaskDO.getId());
+        stringRedisTemplate.opsForValue().set(progressKey, String.valueOf(currentRow));
+        lastSavedRowCount = currentRow;
+    }
+    
+    /**
+     * 批量保存进度到本地缓存
+     * @param currentRow 当前进度
+     */
+    private void saveProgressWithBatch(int currentRow) {
+        // 达到批量阈值或结束时保存
+        if (currentRow - lastSavedRowCount >= BATCH_SAVE_PROGRESS_SIZE) {
+            saveProgressImmediately(currentRow);
+        }
+        ++rowCount;
     }
 }

@@ -7,5 +7,8 @@ package com.fengxin.maplecoupon.gateway.common;
  * @date 2024-12-31
  */
 public final class RedisConstantEnum {
-    public static final String USER_LOGIN_KEY = "maple-coupon_auth:user:login:";
+    /**
+     * 用户登录信息缓存key
+     */
+    public static final String USER_LOGIN_KEY = "MapleCoupon-maple-coupon_auth:user:login:";
 }

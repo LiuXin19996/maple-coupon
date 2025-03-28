@@ -13,6 +13,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import static com.fengxin.maplecoupon.distribution.common.constant.RocketMQConstant.COUPON_EXECUTE_DISTRIBUTION_TOPIC;
+
 /**
  * @author FENGXIN
  * @date 2024/10/25
@@ -32,7 +34,7 @@ public class CouponExecuteDistributionProducer extends AbstractCommonSendProduce
         return BaseSendExtendDTO.builder()
                 .eventName ("优惠券发放执行")
                 .keys (String.valueOf (messageSendEvent.getCouponTaskId ()))
-                .topic ("coupon_template_distribution_execute_topic")
+                .topic (COUPON_EXECUTE_DISTRIBUTION_TOPIC)
                 .sentTimeout (2000L)
                 .build();
     }

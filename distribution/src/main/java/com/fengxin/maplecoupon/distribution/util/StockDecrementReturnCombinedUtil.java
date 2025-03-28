@@ -8,9 +8,9 @@ package com.fengxin.maplecoupon.distribution.util;
  **/
 public class StockDecrementReturnCombinedUtil {
     /**
-     * 2^13 > 5000, 所以用 13 位来表示第二个字段
+     * 2^17 > 100000, 所以用 13 位来表示第二个字段
      */
-    private static final int SECOND_FIELD_BITS = 13;
+    private static final int SECOND_FIELD_BITS = 17;
     
     /**
      * 将两个字段组合成一个int

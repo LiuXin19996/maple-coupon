@@ -1,5 +1,5 @@
 -- 定义最大值和位数
-local SECOND_FIELD_BITS = 13
+local SECOND_FIELD_BITS = 17
 
 -- 将两个字段组合成一个int
 local function combineFields(firstField, secondField)
