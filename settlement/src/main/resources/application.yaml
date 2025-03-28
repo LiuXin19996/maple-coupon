@@ -4,14 +4,10 @@ spring:
   application:
     name: MapleCoupon-settlement
   profiles:
-    active: prod
+    active: dev
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:prod}.yaml
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 122.51.165.51:8848
+    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:dev}.yaml
 
 mybatis-plus:
   configuration:

@@ -1,13 +1,17 @@
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.187.101:8848
   data:
     redis:
-      host: 122.51.165.51
+      host: 192.168.187.101
       port: 6379
-      password: xWfhdsajklfh@@991
+      password: 51213002
       database: 1
     
 rocketmq:
-  name-server: 122.51.165.51:9876
+  name-server: 192.168.187.101:9876
   producer:
     group: dev_mapleCoupon_distribution-message-execute-producer
     send-message-timeout: 2000 # 发送超时时间

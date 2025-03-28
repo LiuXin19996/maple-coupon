@@ -5,3 +5,7 @@ spring:
       port: 6379
       password: xWfhdsajklfh@@991
       database: 2
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 122.51.165.51:8848

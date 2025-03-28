@@ -1,4 +1,8 @@
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 122.51.165.51:8848
   data:
     redis:
       host: 122.51.165.51

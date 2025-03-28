@@ -4,11 +4,8 @@ spring:
   application:
     name: MapleCoupon-gateway
   profiles:
-    active: prod
+    active: dev
   cloud:
-    nacos:
-      discovery:
-        server-addr: 122.51.165.51:8848
     gateway:
       globalcors:
         cors-configurations:
