@@ -123,21 +123,16 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
             }
             // 将失败的记录放入Excel 这里应该上传云 OSS 或者 MinIO 等存储平台，但是增加部署成本就仅写入本地
             Long initId = 0L;
-            boolean isFirstInit = true;
             String userCouponFailPath = excelPath + "/用户分发失败记录-" + couponTemplateDistributionEvent.getCouponTaskBatchId () +".xlsx";
             try (ExcelWriter excelWriter = EasyExcel.write(userCouponFailPath, CouponTaskFailExcelObject.class).build()) {
                 WriteSheet writeSheet = EasyExcel.writerSheet("用户分发失败sheet").build();
                 while (true){
                     List<CouponTaskFailDO> couponTaskFailList = getCouponTaskFailDOList (initId , couponTemplateDistributionEvent.getCouponTaskBatchId ());
-                    // 第一次且空集合时不创建无效的Excel空文件 不再进行后续逻辑
-                    // 如果非第一次 集合为空 则文件路径不能清除
+                    // 空集合时不创建无效的Excel空文件 不再进行后续逻辑
                     if (CollUtil.isEmpty (couponTaskFailList)){
-                        if (isFirstInit){
-                            userCouponFailPath = null;
-                        }
+                        userCouponFailPath = null;
                         break;
                     }
-                    isFirstInit = false;
                     List<CouponTaskFailExcelObject> couponTaskFailExcelObjectList = couponTaskFailList.stream ()
                             .map (each -> JSON.parseObject (each.getJsonObject () , CouponTaskFailExcelObject.class))
                             .toList ();
@@ -291,7 +286,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                         if (executeTransaction.hasUserGetCoupon (each)){
                             MapBuilder<Object, Object> causeMap = MapUtil.builder ()
                                     .put ("rowNum" , each.getRowNum ())
-                                    .put ("cause" , "用户已获取该优惠券");
+                                    .put ("cause" , "用户已领取该优惠券");
                             CouponTaskFailDO couponTaskFailDO = CouponTaskFailDO.builder ()
                                     .batchId (couponTaskBatchId)
                                     .jsonObject (JSON.toJSONString (causeMap))
