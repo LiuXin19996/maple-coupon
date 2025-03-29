@@ -59,6 +59,10 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
     
     @Override
     public void invoke (CouponTaskExcelObject couponTaskExcelObject , AnalysisContext analysisContext) {
+        if (lastSavedRowCount >= rowCount) {
+            ++rowCount;
+            return;
+        }
         Long couponTaskId = couponTaskDO.getId ();
         // 获取lua脚本 将脚本保存到Hutool单例容器 减少获取脚本耗时
         DefaultRedisScript<Long> luaScript = Singleton.get (STOCK_DECREMENT_AND_BATCH_SAVE_USER_RECORD_LUA_PATH , () -> {
