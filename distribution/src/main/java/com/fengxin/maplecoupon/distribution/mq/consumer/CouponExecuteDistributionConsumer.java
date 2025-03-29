@@ -82,9 +82,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
         if (BooleanUtil.isFalse (couponTemplateDistributionEvent.getDistributionEndFlag ())) {
             try {
                 decrementCouponTemplateStockAndSaveUserCouponList(couponTemplateDistributionEvent);
-            } catch (JsonProcessingException e) {
-                log.error ("JSON数据异常{}",e.getMessage ());
-            } catch (Exception e) {
+            }catch (Exception e) {
                 log.error("处理优惠券模板分发事件时发生异常: {}", e.getMessage(), e);
             }
             return;
@@ -98,8 +96,8 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 couponTemplateDistributionEvent.setBatchUserSetSize (userSetSize.intValue ());
                 try {
                     decrementCouponTemplateStockAndSaveUserCouponList(couponTemplateDistributionEvent);
-                } catch (JsonProcessingException e) {
-                    log.error ("JSON数据异常{}",e.getMessage ());
+                } catch (Exception e) {
+                    log.error ("扣减优惠券库存-保存用户优惠券发生异常: {}",e.getMessage ());
                 }
                 // 弹出所有缓存的待发放用户
                 List<String> userIdAndRowNumList = stringRedisTemplate.opsForSet ().pop (userSetKey , Integer.MAX_VALUE);
@@ -128,7 +126,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 WriteSheet writeSheet = EasyExcel.writerSheet("用户分发失败sheet").build();
                 while (true){
                     List<CouponTaskFailDO> couponTaskFailList = getCouponTaskFailDOList (initId , couponTemplateDistributionEvent.getCouponTaskBatchId ());
-                    // 空集合时不创建无效的Excel空文件 不再进行后续逻辑
+                    // 首次循环，空集合时不创建无效的Excel空文件 不再进行后续逻辑
                     if (CollUtil.isEmpty (couponTaskFailList)){
                         userCouponFailPath = null;
                         break;
@@ -147,7 +145,6 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                             .max (Comparator.naturalOrder ())
                             .orElse (initId);
                 }
-                
             }
             // 用户都已经接收到优惠券 设置结束时间
             CouponTaskDO couponTaskDO = CouponTaskDO.builder ()
@@ -173,7 +170,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
             return;
         }
         // 2. 保存用户优惠券到数据库
-        // 清楚缓存的待发放用户
+        // 清除缓存的待发放用户
         String userSetKey = String.format (TEMPLATE_TASK_EXECUTE_BATCH_USER_KEY , couponTemplateDistributionEvent.getCouponTaskId ());
         List<String> userIdAndRowNumList = stringRedisTemplate.opsForSet ().pop (userSetKey , decremented);
         // 用户优惠券集合
