@@ -17,12 +17,16 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 优惠券推送示例 Excel 生成器
+ * @author maple
+ */
 public final class ExcelGenerateTests {
 
     /**
      * 写入优惠券推送示例 Excel 的数据，自行控制即可
      */
-    private final int writeNum = 100000;
+    private static final int WRITE_NUM = 5000;
     private final Faker faker = new Faker(Locale.CHINA);
     private final String excelPath = Paths.get("").toAbsolutePath().getParent() + "/tmp";
 
@@ -37,7 +41,7 @@ public final class ExcelGenerateTests {
 
     private List<ExcelGenerateDemoData> data() {
         List<ExcelGenerateDemoData> list = ListUtils.newArrayList();
-        for (int i = 0; i < writeNum; i++) {
+        for (int i = 0 ; i < WRITE_NUM ; i++) {
             ExcelGenerateDemoData data = ExcelGenerateDemoData.builder()
                     .mail(faker.number().digits(10) + "@163.com")
                     .phone(faker.phoneNumber().cellPhone())
