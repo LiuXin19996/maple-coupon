@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fengxin.maplecoupon.distribution.common.constant.EngineRedisConstant;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponSourceEnum;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponStatusEnum;
 import com.fengxin.maplecoupon.distribution.common.enums.CouponTaskStatusEnum;
@@ -117,6 +118,9 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                     });
                     // 持久化
                     couponTaskFailMapper.insertBatch (couponTaskFailDOList);
+                    // Redis优惠券库存恢复
+                    String couponTemplateCacheKey = String.format(EngineRedisConstant.COUPON_TEMPLATE_KEY, couponTemplateDistributionEvent.getCouponTemplateId ());
+                    stringRedisTemplate.opsForHash ().increment (couponTemplateCacheKey, "stock", userIdAndRowNumList.size ());
                 }
             }
             // 将失败的记录放入Excel 这里应该上传云 OSS 或者 MinIO 等存储平台，但是增加部署成本就仅写入本地
