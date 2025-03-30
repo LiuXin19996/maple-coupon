@@ -157,6 +157,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                     .status (CouponTaskStatusEnum.SUCCESS.getStatus ())
                     .build ();
             couponTaskMapper.updateById (couponTaskDO);
+            // TODO 发送消息执行邮箱/短信/站内信通知商家或平台人员
         }
     }
     
