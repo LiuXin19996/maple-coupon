@@ -112,6 +112,8 @@ public class ReadExcelDistributionListener extends AnalysisEventListener<CouponT
                 .mail (couponTaskExcelObject.getMail ())
                 .userId (couponTaskExcelObject.getUserId ())
                 .batchUserSetSize (batchSize)
+                .validStartTime (couponTemplateDO.getValidStartTime ())
+                .validEndTime (couponTemplateDO.getValidEndTime ())
                 .couponTemplateConsumeRule (couponTemplateDO.getConsumeRule ())
                 // 分发未到最后一批
                 .distributionEndFlag (Boolean.FALSE)

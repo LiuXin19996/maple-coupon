@@ -1,9 +1,12 @@
 package com.fengxin.maplecoupon.distribution.mq.design;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * @author FENGXIN
@@ -40,6 +43,18 @@ public class CouponTemplateDistributionEvent {
      * 优惠券模板id
      */
     private Long couponTemplateId;
+    
+    /**
+     * 有效期开始时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date validStartTime;
+    
+    /**
+     * 有效期结束时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date validEndTime;
     
     /**
      * 消耗规则

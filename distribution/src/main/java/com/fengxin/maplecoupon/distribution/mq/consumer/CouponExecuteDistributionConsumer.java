@@ -228,7 +228,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 .toList ();
         String couponIdAndCouUserIdString = new ObjectMapper ().writeValueAsString (couponIdAndCouUserIdList);
         List<String> key = List.of (USER_COUPON_TEMPLATE_LIST_KEY);
-        List<String> args = List.of (userIdListString , couponIdAndCouUserIdString , String.valueOf (now.getTime ()));
+        List<String> args = List.of (userIdListString , couponIdAndCouUserIdString , String.valueOf (now.getTime ()) , String.valueOf (DateUtil.second (couponTemplateDistributionEvent.getValidEndTime ())));
         // 获取 LUA 脚本，并保存到 Hutool 的单例管理容器，下次直接获取不需要加载
         DefaultRedisScript<Void> buildLuaScript = Singleton.get(BATCH_SAVE_USER_COUPON_LUA_PATH, () -> {
             DefaultRedisScript<Void> redisScript = new DefaultRedisScript<>();

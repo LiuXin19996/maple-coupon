@@ -10,5 +10,6 @@ for i, userId in ipairs(userIds) do
     local couponId = couponIds[i]  -- 获取对应的优惠券 ID
     if couponId then
         redis.call('ZADD', key, currentTime, couponId)  -- 添加优惠券 ID 到 ZSet 中
+        redis.call('EXPIREAT', key, expireTimestamp)  -- 设置键在指定时间戳过期（秒级）
     end
 end
