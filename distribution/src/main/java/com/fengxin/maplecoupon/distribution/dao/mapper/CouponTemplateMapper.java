@@ -13,14 +13,26 @@ import org.apache.ibatis.annotations.Param;
  **/
 public interface CouponTemplateMapper extends BaseMapper<CouponTemplateDO> {
     /**
-     * 扣减优惠券模板发行量
+     * 扣减优惠券模板库存
      *
      * @param shopNumber       店铺编号
      * @param couponTemplateId 优惠券模板 ID
-     * @param decrementStock           扣减优惠券模板发行量
+     * @param decrementStock           扣减优惠券模板库存
      */
     int decrementCouponTemplateStock(@Param("shopNumber") Long shopNumber
             , @Param("couponTemplateId") Long couponTemplateId
             , @Param("decrementStock") Integer decrementStock);
+    
+    
+    /**
+     * 恢复优惠券模板库存
+     *
+     * @param shopNumber       店铺编号
+     * @param couponTemplateId 优惠券模板 ID
+     * @param incrementStock           恢复优惠券模板库存
+     */
+    int incrementCouponTemplateStock(@Param("shopNumber") Long shopNumber
+            , @Param("couponTemplateId") Long couponTemplateId
+            , @Param("incrementStock") Integer incrementStock);
     
 }

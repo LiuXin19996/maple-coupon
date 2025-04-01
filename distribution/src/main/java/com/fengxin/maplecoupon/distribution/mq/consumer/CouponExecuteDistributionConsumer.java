@@ -17,6 +17,7 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -180,7 +181,9 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
         List<String> userIdAndRowNumList = stringRedisTemplate.opsForSet ().pop (userSetKey , decremented);
         // 用户优惠券集合
         if (CollUtil.isEmpty (userIdAndRowNumList)){
-            log.info("Redis缓存待发放用户为空");
+            log.warn ("Redis缓存待发放用户为空，恢复当前扣减的库存中......");
+            couponTemplateMapper.incrementCouponTemplateStock (couponTemplateDistributionEvent.getShopNumber () , couponTemplateDistributionEvent.getCouponTemplateId () , decremented);
+            log.info ("优惠券 {} 库存已经恢复：{}", couponTemplateDistributionEvent.getCouponTemplateId () , decremented);
             return;
         }
         ArrayList<UserCouponDO> userCouponList = new ArrayList<> (userIdAndRowNumList.size ());
@@ -209,8 +212,8 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 userCouponList.add (userCouponDO);
             }
         }
-        // 平台优惠券每个用户限领一次 批量新增用户优惠券记录，底层通过递归方式直到全部新增结束并记录失败日志
-        batchSaveUserCouponList(couponTemplateDistributionEvent.getCouponTemplateId (),couponTemplateDistributionEvent.getCouponTaskBatchId (), userCouponList);
+        // 平台优惠券每个用户限领x次 批量新增用户优惠券记录，底层通过递归方式直到全部新增结束并记录失败日志
+        batchSaveUserCouponList(couponTemplateDistributionEvent.getCouponTaskBatchId (), userCouponList);
         // 将用户id 和 优惠券模板id-用户优惠券id 匹配放入缓存 记录用户优惠券
         List<String> userIdList = userCouponList.stream ()
                 .map (UserCouponDO::getUserId)
@@ -266,11 +269,10 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
     /**
      * 批量保存用户优惠券列表
      *
-     * @param couponTemplateId  优惠券模板 ID
      * @param couponTaskBatchId Coupon 任务批处理 ID
      * @param userCouponList 用户优惠券实体集合
      */
-    private void batchSaveUserCouponList(Long couponTemplateId,Long couponTaskBatchId,List<UserCouponDO> userCouponList) {
+    private void batchSaveUserCouponList(Long couponTaskBatchId,List<UserCouponDO> userCouponList) {
         try {
             userCouponMapper.batchSaveUserCouponList (userCouponList);
         } catch (Exception e) {
