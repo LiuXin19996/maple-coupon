@@ -269,7 +269,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
     /**
      * 批量保存用户优惠券列表
      *
-     * @param couponTaskBatchId Coupon 任务批处理 ID
+     * @param couponTemplateDistributionEvent 优惠券模板分发事件
      * @param userCouponList 用户优惠券实体集合
      */
     private void batchSaveUserCouponList(CouponTemplateDistributionEvent couponTemplateDistributionEvent,List<UserCouponDO> userCouponList) {
@@ -307,6 +307,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 userCouponList.removeAll (removeList);
                 // 恢复重复扣减的库存
                 couponTemplateMapper.incrementCouponTemplateStock (couponTemplateDistributionEvent.getShopNumber () , couponTemplateDistributionEvent.getCouponTemplateId () , removeList.size ());
+                log.info ("恢复重复扣减优惠券 {} 库存：{}", couponTemplateDistributionEvent.getCouponTemplateId (), removeList.size ());
                 return;
             }
             log.error ("批量插入用户优惠券实体失败 error:{}", cause.getMessage());
