@@ -213,7 +213,7 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
             }
         }
         // 平台优惠券每个用户限领x次 批量新增用户优惠券记录，底层通过递归方式直到全部新增结束并记录失败日志
-        batchSaveUserCouponList(couponTemplateDistributionEvent.getCouponTaskBatchId (), userCouponList);
+        batchSaveUserCouponList(couponTemplateDistributionEvent, userCouponList);
         // 将用户id 和 优惠券模板id-用户优惠券id 匹配放入缓存 记录用户优惠券
         List<String> userIdList = userCouponList.stream ()
                 .map (UserCouponDO::getUserId)
@@ -272,7 +272,8 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
      * @param couponTaskBatchId Coupon 任务批处理 ID
      * @param userCouponList 用户优惠券实体集合
      */
-    private void batchSaveUserCouponList(Long couponTaskBatchId,List<UserCouponDO> userCouponList) {
+    private void batchSaveUserCouponList(CouponTemplateDistributionEvent couponTemplateDistributionEvent,List<UserCouponDO> userCouponList) {
+        Long couponTaskBatchId = couponTemplateDistributionEvent.getCouponTaskBatchId ();
         try {
             userCouponMapper.batchSaveUserCouponList (userCouponList);
         } catch (Exception e) {
@@ -304,6 +305,8 @@ public class CouponExecuteDistributionConsumer implements RocketMQListener<Messa
                 couponTaskFailMapper.insertBatch (couponTaskFailDOList);
                 // 仅保留成功分发的用户
                 userCouponList.removeAll (removeList);
+                // 恢复重复扣减的库存
+                couponTemplateMapper.incrementCouponTemplateStock (couponTemplateDistributionEvent.getShopNumber () , couponTemplateDistributionEvent.getCouponTemplateId () , removeList.size ());
                 return;
             }
             log.error ("批量插入用户优惠券实体失败 error:{}", cause.getMessage());
