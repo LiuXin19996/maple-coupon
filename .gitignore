@@ -36,4 +36,4 @@ build/
 ### VS Code ###
 .vscode/
 /.log/
-/coupon/dist.zip
+/maple-coupon-ui/dist.zip

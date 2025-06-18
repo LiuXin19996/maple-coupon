@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fengxin.maplecoupon.engine.dao.mapper.TCouponSettlement0Mapper">
+<mapper namespace="com.fengxin.maplecoupon.engine.dao.mapper.CouponSettlementMapper">
   <resultMap id="BaseResultMap" type="com.fengxin.maplecoupon.engine.dao.entity.CouponSettlementDO">
     <!--@mbg.generated-->
     <!--@Table t_coupon_settlement_0-->
