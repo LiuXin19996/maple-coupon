@@ -1,3 +1,0 @@
-com.fengxin.config.WebAutoConfiguration
-com.fengxin.config.IdempotentConfiguration
-com.fengxin.config.CacheConfiguration
